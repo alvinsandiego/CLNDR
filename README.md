@@ -16,7 +16,7 @@ CSE 110 project. A web app that allows people to create and host events at UCSD,
 
 ## How to run this project:
 0. There are a couple things to note here:
-   * React will communicate with Express by requesting endpoints to an API that we will program in Express.
+   * React will communicate with Express by requesting endpoints of an API that we will program in Express.
    * As for MVC: Firebase is the Model, React is the View, and Express is the Controller.
    * React has a proxy configured so that all fetches get routed to Express properly (If you want to see how that is configured, go to `client/package.json` and look at the line labeled `proxy`).
 0. Now that that's out of the way, open a terminal of some sort and navigate to the `CLNDR` directory.
