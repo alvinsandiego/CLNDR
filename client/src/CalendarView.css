@@ -1,0 +1,27 @@
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.calendar {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.weekdays {
+    font-weight: bold;
+}
+
+.date {
+    text-align: left;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.event {
+    margin-top: 0.25em;
+}

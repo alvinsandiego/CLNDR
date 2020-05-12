@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CalendarView from './CalendarView';
 
 class App extends Component {
   state = {
@@ -32,6 +33,7 @@ class App extends Component {
         </header>
 
         <p className="App-intro">{this.state.data}</p>
+        <CalendarView referenceDate={new Date()} />
       </div>
     );
   }
