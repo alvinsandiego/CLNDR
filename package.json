@@ -1,0 +1,22 @@
+{
+  "name": "clndr",
+  "version": "1.0.0",
+  "description": "A web app that allows people to create and host events at UCSD.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvinsandiego/CLNDR.git"
+  },
+  "author": "Team Pro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alvinsandiego/CLNDR/issues"
+  },
+  "homepage": "https://github.com/alvinsandiego/CLNDR#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
