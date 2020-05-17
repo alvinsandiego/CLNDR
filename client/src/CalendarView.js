@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import "./CalendarView.css";
 
+const maxEvents = 1;
+const linkEvents = true;
+const moreEventsLink = true;
+
 /** A Calendar. Pass the following props:
  * "referenceDate" is usually the current date, this component will use the reference date to determine what month to render and get events for.
  */
@@ -11,7 +15,7 @@ class CalendarView extends Component {
         // create some test data
         var testArray = []
         for (var i = 0; i < 31; i++) {
-            testArray.push([{name: "Event 1 on day " + i}, {name: "Test2!"}]);
+            testArray.push([{name: "Event 1 on day " + i, id: (i * 2)}, {name: "Test2!", id: ((i * 2) + 1)}]);
         }
         this.state = {
             events: testArray
@@ -47,8 +51,7 @@ class CalendarView extends Component {
         // Here, we have a row for the weekday headings. Then, we know each month will occupy at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month could potentially occupy, only render them conditionally.
         return (
             <div class="calendar">
-                <p>{this.props.referenceDate.toString()}</p>
-                <h2 class="calendar_heading">{header}</h2>
+                <div class="calendar_heading"><span class="calendar_heading_text">{header}</span><CreateEventButton /></div>
                 <table>
                     <tr class="weekdays">
                         <td>Sunday</td>
@@ -59,15 +62,15 @@ class CalendarView extends Component {
                         <td>Friday</td>
                         <td>Saturday</td>
                     </tr>
-                    <CalendarRow rowStart={weekdayOfStart} rowEnd={7} arrayStart={0} day={1} events={this.state.events}/>
-                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={7 - weekdayOfStart} day={7 - weekdayOfStart + 1} events={this.state.events}/>
-                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={14 - weekdayOfStart} day={14 - weekdayOfStart + 1} events={this.state.events}/>
-                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={21 - weekdayOfStart} day={21 - weekdayOfStart + 1} events={this.state.events}/>
+                    <CalendarRow rowStart={weekdayOfStart} rowEnd={7} arrayStart={0} day={1} events={this.state.events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.props.referenceDate}/>
+                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={7 - weekdayOfStart} day={7 - weekdayOfStart + 1} events={this.state.events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.props.referenceDate}/>
+                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={14 - weekdayOfStart} day={14 - weekdayOfStart + 1} events={this.state.events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.props.referenceDate}/>
+                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={21 - weekdayOfStart} day={21 - weekdayOfStart + 1} events={this.state.events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.props.referenceDate}/>
                     {(28 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
-                        <CalendarRow rowStart={0} rowEnd={((35 - weekdayOfStart + 1) <= endOfMonth.getDate()) ? 7 : weekdayAfterEnd} arrayStart={28 - weekdayOfStart} day={28 - weekdayOfStart + 1} events={this.state.events}/>
+                        <CalendarRow rowStart={0} rowEnd={((35 - weekdayOfStart + 1) <= endOfMonth.getDate()) ? 7 : weekdayAfterEnd} arrayStart={28 - weekdayOfStart} day={28 - weekdayOfStart + 1} events={this.state.events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.props.referenceDate}/>
                     }
                     {(35 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
-                        <CalendarRow rowStart={0} rowEnd={weekdayAfterEnd} arrayStart={35 - weekdayOfStart} day={35 - weekdayOfStart + 1} events={this.state.events}/>
+                        <CalendarRow rowStart={0} rowEnd={weekdayAfterEnd} arrayStart={35 - weekdayOfStart} day={35 - weekdayOfStart + 1} events={this.state.events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.props.referenceDate}/>
                     }
                     
                 </table>
@@ -82,6 +85,10 @@ class CalendarView extends Component {
  * "arrayStart" to specify the index into the events array where we should start pulling events
  * "day" to specify what day of the month we start numbering this row from (1 based)
  * "events" is the array of events for the whole month
+ * "maxEvents" is the max number of events to display per day, -1 for no limit
+ * "linkEvents" whether to make each event a link or just plain text
+ * "moreEventsLink" if we have a max number of events, controls whether or not we want to show a "more events" link
+ * "referenceDate" used only to generate the more events link, can pass null if you have this disabled
  */
 class CalendarRow extends Component {
     constructor(props) {
@@ -105,9 +112,13 @@ class CalendarRow extends Component {
         };
     }
 
+    calculateDate(index) {
+        return index + this.props.day - this.props.rowStart;
+    }
+
     render() {
         return (
-            <tr>
+            <tr class="calendar_row">
                 {
                     // form the cells by mapping the events array (from state, not props, so it is the one with 7 elements)
                     this.state.events.map((item, index) => {
@@ -117,16 +128,72 @@ class CalendarRow extends Component {
                         }
                         else {
                             // otherwise, we put the current day, and map all events taking place that day to divs
-                            return <td><div class="date">{(index + this.props.day - this.props.rowStart)}</div>{
-                                item.map(event => {
-                                    return (<div class="event">{event.name}</div>);
+                            return <td><div class="date">{this.calculateDate(index)}</div>{
+                                item.map((event, index) => {
+                                    if (this.props.maxEvents === -1 || index < this.props.maxEvents) {
+                                        if (this.props.linkEvents) {
+                                            return (<div class="event"><a href={"/viewEvent?id=" + event.id}>{event.name}</a></div>)
+                                        }
+                                        else {
+                                            return (<div class="event">{event.name}</div>)
+                                        }
+                                    }
+                                    else {
+                                        return null;
+                                    }
                                 })
-                            }</td>;
+                            }
+                            {this.props.maxEvents !== -1 && item.length > this.props.maxEvents &&
+                                <a class="bold" href={"/viewEvents?year=" + this.props.referenceDate.toLocaleString('default', { year: 'numeric'}) + "&month=" + this.props.referenceDate.toLocaleString('default', { month: 'numeric'}) + "&day=" + this.calculateDate(index)}>View All></a>
+                            }
+                            </td>;
                         }
                     })
                 }
             </tr>
         );
+    }
+}
+
+class CreateEventButton extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            doRender: true
+        };
+    }
+
+    componentDidMount() {
+        // call fetch
+        this.callBackendAPI().then(res => this.setState({ doRender: true /* res.isHost */ })).catch(err => console.log(err));
+    }
+    
+    // TODO: we will have it send a request to the API, to check if we are host
+    // if we are, then we will actually render something, otherwise no
+    // TODO: Consider security vulnerability, it might be possible for someone to force the button to
+    // render, we will need additional backend checks on event creation page to ensure non-hosts can't
+    // actually create events
+    callBackendAPI = async() => {
+        const response = await fetch('/currentUserStatus');
+        const body = await response.json();
+
+        if (response.status !== 200) {
+            throw Error(body.message);
+        }
+
+        return body;
+    };
+
+    render() {
+        if (this.state.doRender) {
+            return (
+                <a class="create_event_button" href="createEvent">+ Create an Event</a>
+            );
+        }
+        else {
+            return null;
+        }
     }
 }
 
