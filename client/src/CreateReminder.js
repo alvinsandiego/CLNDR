@@ -31,8 +31,8 @@ class CreateReminder extends Component {
     return (
       <form onSubmit={ this.onFormSubmit }>
        
-        <div className="form-group">
-        <p>Time & Date:</p>
+        <div className="center">
+        <p>Date-Time:</p>
           <DatePicker className="datePicker"
               selected={ this.state.startDate }
               onChange={ this.handleChange }
@@ -45,10 +45,11 @@ class CreateReminder extends Component {
           <div>
           <p>Description:</p>
                 <form>
-                    <textarea class="textAreaDescrip" placeholder='Description'/>
+                    <textarea rows="5" cols="50"class="textAreaDescrip" placeholder='Description'/>
                 </form>
           </div>
-                <button>Submit</button>
+                <input type="submit" value="Submit"/>
+                <input type="submit" value="Cancel"/>
 
         </div>
       </form>
