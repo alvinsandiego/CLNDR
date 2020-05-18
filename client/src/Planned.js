@@ -25,3 +25,5 @@ class Planned extends Component {
         );
     }
 }
+
+export default Planned
