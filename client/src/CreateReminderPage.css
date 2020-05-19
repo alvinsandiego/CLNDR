@@ -1,0 +1,15 @@
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.datePicker{
+   margin-bottom: 10pt;
+   resize: none;
+}
+
+textarea {
+    display: table-cell;
+    margin-bottom: 10px;
+}

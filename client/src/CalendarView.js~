@@ -188,7 +188,7 @@ class CreateEventButton extends Component {
     render() {
         if (this.state.doRender) {
             return (
-                <a class="create_event_button" href="createEvent">+ Create an Event</a>
+		<button>yoyo</button>
             );
         }
         else {
