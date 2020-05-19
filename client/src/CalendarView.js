@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CreateEventButton from './CreateEventButton';
-import "./CalendarView.css";
+import "./styles/CalendarView.css";
 
 const maxEvents = 1;
 const linkEvents = true;

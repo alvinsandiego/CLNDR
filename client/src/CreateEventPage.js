@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./CreateEventPage.css"
+import "./styles/CreateEventPage.css"
 
 class CreateEvent extends Component {
     render(){

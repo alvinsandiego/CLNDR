@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Hosts.css'
+import './styles/Hosts.css'
 
 class Muted extends Component {
 
