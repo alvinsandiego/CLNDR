@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg'
+import logo from './img/Logo-Transparent.png';
 import CalendarView from './CalendarView';
 import Account from './Account';
 import CreateEventPage from './CreateEventPage';
