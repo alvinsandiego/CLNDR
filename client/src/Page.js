@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './img/Logo-Transparent.png';
+import logo from './img/Logo-Semitransparent.png';
 import CalendarView from './CalendarView';
 import Account from './Account';
 import CreateEventPage from './CreateEventPage';
@@ -26,14 +26,14 @@ class Page extends Component {
 	// component to render depending on the state
 	change() { 
 		switch(this.state.page) {
-			case 'calendarV': return <CalendarView referenceDate= {new Date()} />;
+			case 'calendarV': return <CalendarView initialReferenceDate={new Date()} />;
 			case 'planned': return <Planned/>;
 			case 'following': return <Following/>;
 			case 'reminders': return <Reminders/>;
 			case 'muted': return <Muted/>;
 			case 'account': return <Account />;
 			case 'create': return <CreateEventPage />;
-			default: return <CalendarView referenceDate= {new Date()} />;
+			default: return <CalendarView initialReferenceDate= {new Date()} />;
 		}
 	}
 	// render calendar view
@@ -87,7 +87,7 @@ class Page extends Component {
 					<img src={logo} style= {{width: 100, height: 100}}/>
 					<h1 style={{width: 500}}>CLNDR</h1>
 					<input type= "text" style= {{width: 180}}/>
-					<button style= {{width: 95}}>search</button>
+					<button style= {{width: 95}}>Search</button>
 				</div>
 				<div style= {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 					<button style= {{height: 40, width: 140}} onClick= {this.setCal.bind(this)}>View Calendar</button>

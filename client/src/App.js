@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './img/Logo-Transparent.png';
+import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import CalendarView from './CalendarView';
 import Page from './Page';

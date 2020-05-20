@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import './styles/CreateReminderPage.css'
  
 import "react-datepicker/dist/react-datepicker.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 class CreateReminderPage extends Component {
 

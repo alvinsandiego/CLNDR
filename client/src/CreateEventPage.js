@@ -10,10 +10,10 @@ class CreateEvent extends Component {
                 <label>Event Title:</label>
                 <input type="text" id="title" placeholder="Event Title"/><br/>
 
-                <label>Time:</label>
+                <label>Start Time:</label>
                 <input type="time" id="Time" /><br/>
 
-                <label>date:</label>
+                <label>Start Date:</label>
                 <input type="date" id="Date" /><br/>
 
                 <label>Details:</label>
@@ -25,7 +25,7 @@ class CreateEvent extends Component {
                 <label>Co-Hosts:</label>
                 <textarea rows = "1" cols = "50" id="details"></textarea><br/>
 
-                <label>pictures or videos</label>
+                <label>Pictures or Videos</label>
                 <button type="button">Upload</button>
 
                 <br/><br/>
