@@ -4,6 +4,13 @@ import './styles/App.css';
 import CalendarView from './CalendarView';
 import Page from './Page';
 
+import firebase from './firebase'
+
+firebase.firestore().collection('events').add({
+	title: 'party time',
+	description: 'forever'
+})
+
 class App extends Component {
 	state = {
    	data: null,
