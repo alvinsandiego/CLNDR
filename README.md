@@ -10,7 +10,7 @@ CSE 110 project. A web app that allows people to create and host events at UCSD,
 0. Notice a few things:
     * The root of the project is the server, based on Express (ideally it would be in a subfolder, but Node was giving me a hard time with that)
     * There is a directory called `client`, inside which there is a React app, that will serve as the frontend.
-0. In the CLNDR directory, run `npm install` and `npm i -S reactstrap` and `npm install react-datepicker --save` and `npm install bootstrap --save` to pull the project dependencies.
+0. In the CLNDR directory, run `npm install` and `npm i -S reactstrap` and `npm install react-datepicker --save` and `npm install bootstrap --save` and `npm install react-router-dom` and `npm install firebase` to pull the project dependencies.
 0. Go to the `client` directory (`cd client`), and again run `npm install` and `npm i -S reactstrap` to pull the dependencies for the React project.
 0. You are done!
 
