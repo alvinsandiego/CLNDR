@@ -30,7 +30,8 @@ class CalendarView extends Component {
 
         this.state = {
             eventsDict: eventsDict,
-            referenceDate: this.props.initialReferenceDate
+            referenceDate: this.props.initialReferenceDate,
+            viewWeek: false
         };
     }
 
@@ -50,24 +51,67 @@ class CalendarView extends Component {
         // return body;
     };
 
-    incrementMonth() {
+    incrementView() {
         var copyOfRef = new Date(this.state.referenceDate);
-        copyOfRef.setMonth(copyOfRef.getMonth() + 1);
+
+        if (this.state.viewWeek) {
+            copyOfRef.setDate(copyOfRef.getDate() + 7);
+        }
+        else {
+            copyOfRef.setMonth(copyOfRef.getMonth() + 1);
+        }
+        
         this.setState({
             referenceDate: copyOfRef
         });
     }
 
-    decrementMonth() {
+    decrementView() {
         var copyOfRef = new Date(this.state.referenceDate);
-        copyOfRef.setMonth(copyOfRef.getMonth() - 1);
+        
+        if (this.state.viewWeek) {
+            copyOfRef.setDate(copyOfRef.getDate() - 7);
+        }
+        else {
+            copyOfRef.setMonth(copyOfRef.getMonth() - 1);
+        }
+
         this.setState({
             referenceDate: copyOfRef
+        });
+    }
+
+    viewMonth() {
+        this.setState({
+            viewWeek: false
+        });
+    }
+
+    viewWeek() {
+        this.setState({
+            viewWeek: true
         });
     }
 
     static getMonthIdentifier(date) {
         return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
+
+    calendarHeading(header) {
+        return (
+            <div class="calendar_heading">
+                        <span class="button_box left_justify">
+                            <a class="control_button" href="#" onClick={this.decrementView.bind(this)}>{"<"}</a>
+                            <a class="control_button" href="#" onClick={this.incrementView.bind(this)}>{">"}</a>
+                        </span>
+                        <span class="calendar_heading_text">{header}</span>
+                        <span class="button_box right_justify">
+                            <span class="view_text">View:</span>
+                            <a class="control_button" href="#" onClick={this.viewMonth.bind(this)}>Month</a>
+                            <a class="control_button" href="#" onClick={this.viewWeek.bind(this)}>Week</a>
+                        </span>
+            </div>
+        );
     }
 
     render() {
@@ -76,59 +120,123 @@ class CalendarView extends Component {
         const endOfMonth = new Date(this.state.referenceDate.getFullYear(), this.state.referenceDate.getMonth() + 1, 0);
         const weekdayOfStart = begOfMonth.getDay();
         const weekdayAfterEnd = endOfMonth.getDay() + 1;
-        
-        // generate a header
-        const header = CalendarView.getMonthIdentifier(this.state.referenceDate);
 
-        // grab the list of events from the current month
-        var events = this.state.eventsDict[header];
+        if (this.state.viewWeek == false) {        
+            // generate a header
+            const header = CalendarView.getMonthIdentifier(begOfMonth);
 
-        if (events === undefined) {
-            events = emptyArrayOfArrays;
-            console.log("Empty array of events: ");
-            console.log(JSON.stringify(emptyArrayOfArrays));
-        }
-        console.log("guhjhsgdhnugdsf");
-        console.log(JSON.stringify(this.state.eventsDict));
+            // grab the list of events from the current month
+            var events = this.state.eventsDict[header];
 
-        console.log("fifdas");
-        console.log(JSON.stringify(events));
+            if (events === undefined) {
+                events = emptyArrayOfArrays;
+            }
 
-        // Here, we have a row for the weekday headings. Then, we know each month will occupy at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month could potentially occupy, only render them conditionally.
-        return (
-            <div class="calendar">
-                <div class="calendar_heading">
-                    <span class="arrow_buttons">
-                        <a class="arrow_button" href="#" onClick={this.decrementMonth.bind(this)}>{"<"}</a>
-                        <a class="arrow_button" href="#" onClick={this.incrementMonth.bind(this)}>{">"}</a>
-                    </span>
-                    <span class="calendar_heading_text">{header}</span>
-                    <CreateEventButton />
+            // Here, we have a row for the weekday headings. Then, we know each month will occupy at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month could potentially occupy, only render them conditionally.
+            return (
+                <div class="calendar">
+                    {this.calendarHeading(header)}
+                    <table>
+                        <tr class="weekdays">
+                            <td>Sunday</td>
+                            <td>Monday</td>
+                            <td>Tuesday</td>
+                            <td>Wednesday</td>
+                            <td>Thursday</td>
+                            <td>Friday</td>
+                            <td>Saturday</td>
+                        </tr>
+                        <CalendarRow rowStart={weekdayOfStart} rowEnd={7} arrayStart={0} day={1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={7 - weekdayOfStart} day={7 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={14 - weekdayOfStart} day={14 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={21 - weekdayOfStart} day={21 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        {(28 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
+                            <CalendarRow rowStart={0} rowEnd={((35 - weekdayOfStart + 1) <= endOfMonth.getDate()) ? 7 : weekdayAfterEnd} arrayStart={28 - weekdayOfStart} day={28 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        }
+                        {(35 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
+                            <CalendarRow rowStart={0} rowEnd={weekdayAfterEnd} arrayStart={35 - weekdayOfStart} day={35 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        }
+                        
+                    </table>
                 </div>
-                <table>
-                    <tr class="weekdays">
-                        <td>Sunday</td>
-                        <td>Monday</td>
-                        <td>Tuesday</td>
-                        <td>Wednesday</td>
-                        <td>Thursday</td>
-                        <td>Friday</td>
-                        <td>Saturday</td>
-                    </tr>
-                    <CalendarRow rowStart={weekdayOfStart} rowEnd={7} arrayStart={0} day={1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.state.referenceDate}/>
-                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={7 - weekdayOfStart} day={7 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.state.referenceDate}/>
-                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={14 - weekdayOfStart} day={14 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.state.referenceDate}/>
-                    <CalendarRow rowStart={0} rowEnd={7} arrayStart={21 - weekdayOfStart} day={21 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.state.referenceDate}/>
-                    {(28 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
-                        <CalendarRow rowStart={0} rowEnd={((35 - weekdayOfStart + 1) <= endOfMonth.getDate()) ? 7 : weekdayAfterEnd} arrayStart={28 - weekdayOfStart} day={28 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.state.referenceDate}/>
+            );
+        }
+        else {
+            const weekdayOfRef = this.state.referenceDate.getDay();
+            const beginningOfWeek = new Date(this.state.referenceDate.getFullYear(), this.state.referenceDate.getMonth(), this.state.referenceDate.getDate() - weekdayOfRef);
+            const endOfWeek = new Date(beginningOfWeek.getFullYear(), beginningOfWeek.getMonth(), beginningOfWeek.getDate() + 6);
+
+            // build the list of events for the week and generate header
+            var header = "";
+            var events = [];
+            if (beginningOfWeek.getMonth() != endOfWeek.getMonth()) {
+                // generate header based on which month occupies the majority
+                const beginningOfWeekHeader = CalendarView.getMonthIdentifier(beginningOfWeek);
+                const endOfWeekHeader = CalendarView.getMonthIdentifier(endOfWeek);
+                header = (endOfWeek.getDate() >= 4) ? endOfWeekHeader : beginningOfWeekHeader;
+
+                const begMonthEvents = this.state.eventsDict[beginningOfWeekHeader];
+                const endMonthEvents = this.state.eventsDict[endOfWeekHeader];
+
+                if (begMonthEvents === undefined) {
+                    for (var i = beginningOfWeek.getDate() - 1; i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
+                        events.push([]);
                     }
-                    {(35 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
-                        <CalendarRow rowStart={0} rowEnd={weekdayAfterEnd} arrayStart={35 - weekdayOfStart} day={35 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} referenceDate={this.state.referenceDate}/>
+                }
+                else {
+                    for (var i = beginningOfWeek.getDate() - 1; i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
+                        events.push(begMonthEvents[i]);
                     }
-                    
-                </table>
-            </div>
-        );
+                }
+
+                if (endMonthEvents === undefined) {
+                    for (var i = 0; i < endOfWeek.getDate(); i++) {
+                        events.push([]);
+                    }
+                }
+                else {
+                    for (var i = 0; i < endOfWeek.getDate(); i++) {
+                        events.push(endMonthEvents[i]);
+                    }
+                }
+            }
+            else {
+                // generate the header
+                header = CalendarView.getMonthIdentifier(beginningOfWeek);
+
+                // grab the list of events from the current month
+                const monthEvents = this.state.eventsDict[header];
+
+                if (monthEvents === undefined) {
+                    for (var i = 0; i < 7; i++) {
+                        events.push([]);
+                    }
+                }
+                else {
+                    for (var i = beginningOfWeek.getDate() - 1; i < endOfWeek.getDate(); i++) {
+                        events.push(monthEvents[i]);
+                    }
+                }
+            }         
+            
+            return (
+                <div class="calendar">
+                    {this.calendarHeading(header)}
+                    <table>
+                        <tr class="weekdays">
+                            <td>Sunday</td>
+                            <td>Monday</td>
+                            <td>Tuesday</td>
+                            <td>Wednesday</td>
+                            <td>Thursday</td>
+                            <td>Friday</td>
+                            <td>Saturday</td>
+                        </tr>
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={0} day={beginningOfWeek.getDate()} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
+                    </table>
+                </div>
+            );
+        }
     }
 }
 
@@ -141,7 +249,8 @@ class CalendarView extends Component {
  * "maxEvents" is the max number of events to display per day, -1 for no limit
  * "linkEvents" whether to make each event a link or just plain text
  * "moreEventsLink" if we have a max number of events, controls whether or not we want to show a "more events" link
- * "referenceDate" used only to generate the more events link, can pass null if you have this disabled
+ * "beginningOfPeriod" used as a reference to the beginning of the calendar itself (what is being viewed)
+ * "viewWeek" specified to style long or normal cells
  */
 class CalendarRow extends Component {
     constructor(props) {
@@ -149,12 +258,18 @@ class CalendarRow extends Component {
     }
 
     calculateDate(index) {
-        return index + this.props.day - this.props.rowStart;
+        if (this.props.viewWeek) {
+            const endOfMonth = new Date(this.props.beginningOfPeriod.getFullYear(), this.props.beginningOfPeriod.getMonth() + 1, 0);
+            return ((index + this.props.day - this.props.rowStart - 1) % (endOfMonth.getDate())) + 1;
+        }
+        else {
+            return (index + this.props.day - this.props.rowStart);
+        }
     }
 
     render() {
         // pick the events that we will use in this row
-        var eventsArray = []
+        var eventsArray = [];
         for (var i = 0; i < 7; i++) {
             // we copy the events from the events prop iff rowStart <= i < rowEnd, otherwise push an empty array
             if (i >= this.props.rowStart && i < this.props.rowEnd) {
@@ -177,7 +292,7 @@ class CalendarRow extends Component {
                         }
                         else {
                             // otherwise, we put the current day, and map all events taking place that day to divs
-                            return <td class="calendar-cell"><div class="date">{this.calculateDate(index)}</div>{
+                            return <td class={(this.props.viewWeek) ? "calendar-cell-long" : "calendar-cell"}><div class="date">{this.calculateDate(index)}</div>{
                                 item.map((event, index) => {
                                     if (this.props.maxEvents === -1 || index < this.props.maxEvents) {
                                         if (this.props.linkEvents) {
@@ -193,7 +308,7 @@ class CalendarRow extends Component {
                                 })
                             }
                             {this.props.maxEvents !== -1 && item.length > this.props.maxEvents && this.props.moreEventsLink &&
-                                <a class="bold" href={"/viewEvents?year=" + this.props.referenceDate.toLocaleString('default', { year: 'numeric'}) + "&month=" + this.props.referenceDate.toLocaleString('default', { month: 'numeric'}) + "&day=" + this.calculateDate(index)}>View All></a>
+                                <a class="bold" href={"/viewEvents?year=" + this.props.beginningOfPeriod.toLocaleString('default', { year: 'numeric'}) + "&month=" + this.props.beginningOfPeriod.toLocaleString('default', { month: 'numeric'}) + "&day=" + this.calculateDate(index)}>View All></a>
                             }
                             </td>;
                         }
@@ -204,5 +319,11 @@ class CalendarRow extends Component {
     }
 }
 
+CalendarRow.defaultProps = {
+    maxEvents: maxEvents,
+    linkEvents: linkEvents,
+    moreEventsLink: moreEventsLink,
+    viewWeek: false
+};
 CalendarView.defaultProps = {initialReferenceDate: new Date()};
 export default CalendarView;
