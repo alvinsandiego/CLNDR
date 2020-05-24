@@ -91,7 +91,7 @@ class App extends Component {
 		}
 		else if(login) {
 			return (
-				<ForgotPassword/>
+				<Page/>
 			);
 		}
   }
