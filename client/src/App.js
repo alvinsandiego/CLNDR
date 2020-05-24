@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
-import CalendarView from './CalendarView';
 import Page from './Page';
+import ForgotPassword from './ForgotPassword';
+import CreateAccount from './CreateAccount';
+
 
 import firebase from './firebase'
-
-firebase.firestore().collection('events').add({
-	title: 'party time',
-	description: 'forever'
-})
 
 class App extends Component {
 	state = {
    	data: null,
-		signin: true
+		signin: false,
 	};
 
    componentDidMount() {
@@ -36,72 +33,80 @@ class App extends Component {
 	//change state 
 	goIn() {
 		this.setState({
-			signin: false
+			signin: true
 		})	
 	}
-	
-
-
   	render() {
 		const login = this.state.signin
-
-		if(login) {
+		if(!login) {
     		return (
 				<div style={{backgroundColor: '#cccccc', height: 1000}}>
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+					<div style= {styles.centerDiv}>
 						<img src={logo} style= {{width: 100, height: 100}}/>
         				<h1>Login</h1>
 					</div>
             	<br />
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+					<div style= {styles.centerDiv}>
       	     		<h3>Returning Member</h3>
 					</div>					
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+					<div style= {styles.centerDiv}>
 						<label>Username</label>
         	   		<input />
         	   	</div>
 					<br />
-        	   	<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        	   	<div style= {styles.centerDiv}>
 						<label>Password</label>
         	   		<input />
 					</div>
 					<br /> 
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+					<div style= {styles.centerDiv}>
 						<button style= {{width: 130}} >Login</button>
-       				<button style= {{width: 130}} >Forgot Password</button>
+       				<button style= {{width: 130}}>Forgot Password</button>
         	   	</div>
 				   <br />
             	<br />
-     		    	<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+     		    	<div style= {styles.centerDiv}>
 						<h3>Prospective Member</h3>	            
 					</div>
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+					<div style= {styles.centerDiv}>
 						<p>To enjoy full personalized benefits of CLNDR, sign up for an account.</p>
 	            </div>
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-						<button>Create Account</button>
+					<div style= {styles.centerDiv}>
+						<button >Create Account</button>
                </div>
 					<br />
                <br />
-	            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+	            <div style= {styles.centerDiv}>
 						<h3>Guest</h3>
 					</div>
-	            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+	            <div style= {styles.centerDiv}>
 						<p>To simply explore scheduled events, continue as guest.</p>
 	            </div>
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+					<div style= {styles.centerDiv}>
 						<button onClick= {this.goIn.bind(this)}>Continue as Guest</button>
 				   </div>
 					<br />
          	</div>
  	   	);
 		}
-		else {
+		else if(login) {
 			return (
-				<Page/>
+				<ForgotPassword/>
 			);
 		}
   }
 }
+
+const styles = {
+  centerDiv: {
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  allButton: {
+    height: 40, 
+    width: 175
+  }
+};
 
 export default App;
