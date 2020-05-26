@@ -5,17 +5,39 @@ class Account extends Component {
         super(props);
 
         this.state = {
-            viewForm: false
+            viewForm: false,
+            username: "user1",
+            accountLevel: "Verified",
+            hostid: "h17264",
+            email: "user1@gmail.com"
         };
     }
 
     render() {
+        var hostId = ""
+
+        if(this.state.accountLevel == "Verified"){
+            hostId = "Host ID: "+this.state.hostid
+        }
+
+
         return (
 		<div>
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 		<h1>Account Page</h1>
+
 		</div>
-                <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div class='profileInfo'>
+            <p>Username: {this.state.username}</p><br/>
+            <p>Email: {this.state.email}</p><br/>
+            <p>Account Level: {this.state.accountLevel}</p><br/>
+            <p>{hostId}</p><br/>
+
+            <button className="control_button">Edit Account Info</button>
+
+        </div>
+            <br />
+            <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <button class = "control_button"> Log Out</button>{' '}
                 </div>
 		<br />	
