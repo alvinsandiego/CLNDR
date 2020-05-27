@@ -25,7 +25,7 @@ function updateEvent(title, dateStart, timeStart, dateEnd,
 }
 
 function deleteEvent(eventId){
-
+	
 }
 
 function createAccount(username, password, securityQ, securityA) {
@@ -40,11 +40,34 @@ function deleteAccount(accountId) {
 
 }
 
-function planEvent(eventId, accountId) {
-
+/*
+planEvent and unplanEvent, for the time-being, does not have accountID yet.
+Thus it is temporarily deleted as needed. Also added description and title
+as needed into planEvent
+*/
+function planEvent(eventId, Description, Title) {
+	
+    //Most likely going to work like that; haven't found a use for accountID yet
+    db.collection('events').doc(eventID).set({
+        description: Description,
+        title: Title
+    })
+    .then(function() {
+        console.log("Event successfully planned/overwritten");
+    })
+    .catch(function(error) {
+        console.error("Error writing document: ", error);
+    });
 }
 
-function unplanEvent(eventId, accountId) {
+function unplanEvent(eventId) {
+    //I think this is how it goes. Else, just stop at "delete();"
+    db.collection('events').doc(eventID).delete().then(function() {
+        console.log("Event successfully unplanned");
+    })
+    .catch(function(error) {
+        console.log("Error removing document: ", error);
+    }
 
 }
 
