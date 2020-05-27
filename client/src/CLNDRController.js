@@ -40,7 +40,13 @@ router.post('./AccountPage', (req,res) => {
 
 // plan event
 router.post('./EventPage', (req,res) => {
+    /*
+    For now, I will do:
 
+    planEvent(req.body.eventID, req.body.
+    
+
+    */
 })
 
 // unplan event
