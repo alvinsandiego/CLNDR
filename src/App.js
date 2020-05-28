@@ -6,7 +6,7 @@ import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
 
 
-import firebase from './firebase'
+// import firebase from './firebase'
 
 class App extends Component {
 	state = {

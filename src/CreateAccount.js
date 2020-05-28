@@ -3,12 +3,12 @@ import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import App from './App.js';
 
-import firebase from './firebase'
+// import firebase from './firebase'
 
-class ForgotPassword extends Component {
+class CreateAccount extends Component {
 	state = {
    	data: null,
-		changeDone: false
+		accMade: false
 	};
 
    componentDidMount() {
@@ -26,11 +26,26 @@ class ForgotPassword extends Component {
 
     	return body;
   	};
+
+	//change state 
+	made() {
+		this.setState({
+			accMade: true
+		})	
+	}
 	
 
 
   	render() {
-	    return (
+		const login = this.state.accMade
+
+		if(login) {
+      return (
+			  <App/>	
+ 	   	);
+		}
+		else {
+			return (
 				<div style={{backgroundColor: '#cccccc', height: 1000}}>
           <div style= {styles.centerDiv}>
 						<img src={logo} style= {{width: 100, height: 100}}/>
@@ -39,9 +54,22 @@ class ForgotPassword extends Component {
 
           <div style={styles.centerDiv}>
             <label>Username:</label>
+            <input type="text"/>
           </div>
+
+          <div style={styles.centerDiv}>
+            <label>Password:</label>
+            <input type="text"/>
+          </div>
+
+          <div style={styles.centerDiv}>
+            <label>Confirm Password:</label>
+            <input type="text"/>
+          </div>
+
           <div style={styles.centerDiv}>
             <label>Security Question:</label>
+            <input type="text"/>
           </div>
 
           <div style={styles.centerDiv}>
@@ -50,17 +78,7 @@ class ForgotPassword extends Component {
           </div>
           
           <div style={styles.centerDiv}>
-            <label>New Password:</label>
-            <input type="text"/>
-          </div>
-
-          <div style={styles.centerDiv}>
-            <label>Confirm New Password:</label>
-            <input type="text"/>
-          </div>
-
-          <div style={styles.centerDiv}>
-            <button style= {styles.allButton}>
+            <button style= {styles.allButton} onClick= {this.made.bind(this)}>
               Create Account
             </button>
           </div>
@@ -68,6 +86,7 @@ class ForgotPassword extends Component {
 			);
 		}
   }
+}
 
 const styles = {
   centerDiv: {
@@ -81,4 +100,4 @@ const styles = {
   }
 };
 
-export default ForgotPassword;
+export default CreateAccount;
