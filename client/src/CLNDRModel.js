@@ -49,11 +49,15 @@ function unplanEvent(eventId, accountId) {
 }
 
 function followHost(hostId, accountId) {
-
+	db.collection('user').doc(accountId).update({
+		following: admin.firestore.FieldValue.arrayUnion(hostId)
+	})
 }
 
 function unfollowHost(hostId, accountId) {
-
+	db.collection('user').doc(accountId).update({
+		following: admin.firestore.FieldValue.arrayRemove(hostId)
+	})
 }
 
 function getHost(hostId) {
