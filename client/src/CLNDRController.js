@@ -50,12 +50,12 @@ router.post('./EventPage', (req,res) => {
 
 // follow host
 router.post('./HostPage', (req,res) => {
-
+	followHost(req.body.hostId, req.body.accountId);
 })
 
 // unfollow host
 router.post('./HostPage', (req,res) => {
-
+	unfollowHost(req.body.hostId, req.body.accountId);
 })
 
 // display host details

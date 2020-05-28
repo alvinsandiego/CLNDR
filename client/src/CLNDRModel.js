@@ -96,11 +96,21 @@ function unplanEvent(eventId, accountId) {
 }
 
 function followHost(hostId, accountId) {
-
+	db.collection('user').doc(accountId).update({
+		following: admin.firestore.FieldValue.arrayUnion(hostId)
+	})
+	.then(function() {
+        	console.log("Successfully Followed!");
+    	})
 }
 
 function unfollowHost(hostId, accountId) {
-
+	db.collection('user').doc(accountId).update({
+		following: admin.firestore.FieldValue.arrayRemove(hostId)
+	})
+	.then(function() {
+        	console.log("Successfully Unfollowed!");
+    	})
 }
 
 function getHost(hostId) {
