@@ -38,24 +38,43 @@ router.post('./AccountPage', (req,res) => {
 
 })
 
+/*-------------------------------------------------------------------*/
+
+/*
+The code assumes that eventID, description, and title is part
+of the body. If this is not true, please revisit the code for the
+two methods
+
+*/
+
 // plan event
 router.post('./EventPage', (req,res) => {
 
+    /*
+    For now, I will do:
+    */
+    planEvent(req.body.eventId, req.body.Description, req.body.Title);
 })
 
 // unplan event
 router.post('./EventPage', (req,res) => {
-
+    /*
+    For now, I will do:
+    */
+    unplanEvent(req.body.eventId);
 })
+
+/*-------------------------------------------------------------------*/
+
 
 // follow host
 router.post('./HostPage', (req,res) => {
-
+	followHost(req.body.hostId, req.body.accountId);
 })
 
 // unfollow host
 router.post('./HostPage', (req,res) => {
-
+	unfollowHost(req.body.hostId, req.body.accountId);
 })
 
 // display host details
