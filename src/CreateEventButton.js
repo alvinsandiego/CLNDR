@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import "./styles/CreateEventButton.css";
-
+/*import "./styles/CreateEventButton.css";*/
+import './styles/App.css';
 class CreateEventButton extends Component {
     constructor(props) {
         super(props)

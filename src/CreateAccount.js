@@ -3,7 +3,7 @@ import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import App from './App.js';
 
-// import firebase from './firebase'
+import firebase from './firebase'
 
 class CreateAccount extends Component {
 	state = {

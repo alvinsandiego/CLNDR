@@ -4,9 +4,9 @@ import './styles/App.css';
 import Page from './Page';
 import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
+import EventPage from './EventPage.js'
 
-
-// import firebase from './firebase'
+//import firebase from './firebase'
 
 class App extends Component {
 	state = {
@@ -36,11 +36,12 @@ class App extends Component {
 			signin: true
 		})	
 	}
+
   	render() {
 		const login = this.state.signin
 		if(!login) {
     		return (
-				<div style={{backgroundColor: '#cccccc', height: 1000}}>
+				<div style={{backgroundColor: '#d6f3ff', height: 1000}}>
 					<div style= {styles.centerDiv}>
 						<img src={logo} style= {{width: 100, height: 100}}/>
         				<h1>Login</h1>
@@ -50,18 +51,18 @@ class App extends Component {
       	     		<h3>Returning Member</h3>
 					</div>					
 					<div style= {styles.centerDiv}>
-						<label>Username</label>
+						<label>Username &nbsp;</label>
         	   		<input />
         	   	</div>
 					<br />
         	   	<div style= {styles.centerDiv}>
-						<label>Password</label>
+						<label>Password &nbsp;</label>
         	   		<input />
 					</div>
 					<br /> 
 					<div style= {styles.centerDiv}>
-						<button style= {{width: 130}} >Login</button>
-       				<button style= {{width: 130}}>Forgot Password</button>
+						<button class= 'login_button' style= {{width: 130}} >Login</button>
+       				<button class= 'login_button' style= {{width: 130}}>Forgot Password</button>
         	   	</div>
 				   <br />
             	<br />
@@ -72,7 +73,7 @@ class App extends Component {
 						<p>To enjoy full personalized benefits of CLNDR, sign up for an account.</p>
 	            </div>
 					<div style= {styles.centerDiv}>
-						<button >Create Account</button>
+						<button class= 'login_button'>Create Account</button>
                </div>
 					<br />
                <br />
@@ -83,7 +84,7 @@ class App extends Component {
 						<p>To simply explore scheduled events, continue as guest.</p>
 	            </div>
 					<div style= {styles.centerDiv}>
-						<button onClick= {this.goIn.bind(this)}>Continue as Guest</button>
+						<button class= 'login_button' onClick= {this.goIn.bind(this)}>Continue as Guest</button>
 				   </div>
 					<br />
          	</div>

@@ -1,29 +1,62 @@
 import React, { Component } from 'react';
-import './styles/Hosts.css'
+import './styles/App.css';
+
 
 class Following extends Component {
 
+    constructor(props){
+        super(props)
+        this.state={
+            events: [
+                {id: 1, hostName: 'Host 1', hostEmail: 'Host1@gmail.com'},
+                {id: 2, hostName: 'Host 2', hostEmail: 'Host2@gmail.com'},
+                {id: 3, hostName: 'Host 3', hostEmail: 'Host3@gmail.com'},
+                {id: 4, hostName: 'Host 4', hostEmail: 'Host4@gmail.com'},
+
+            ]
+        }
+    }
+
+
+
+    renderTableData(){
+        return this.state.events.map((host, index) => {
+            const {id, hostName, hostEmail} = host
+            return (
+                <tr class="events" key={id}>
+                    <td>{id}</td>
+                    <td>{hostName}</td>
+                    <td>{hostEmail}</td>
+                </tr>
+            )
+        })
+    }
+
+
+
+
+
+
+
     render() {
 
-        const FollowedHostData = [
-            {Hosts: 'Host #1'},
-            {Hosts: 'Host #2'},
-            {Hosts: 'Host #3'},
-            {Hosts: 'Host #4'},
-            {Hosts: 'Host #5'}
-
-        ];
-        
         return (
-            <div>
-                <h1>Followed Hosts</h1>
-                <ul class="bulletedlist">
-                    {FollowedHostData.map((item, index) => {
-                        return <li>{item.Hosts}</li>;
-                    })}
-                </ul>
-            </div>
+            <body>
+            <h2>Followed Hosts</h2>
+
+            <table class="host">
+                <th>No.</th>
+                <th>Host</th>
+                <th>Email</th>
+                <tbody>
+                {this.renderTableData()}
+                </tbody>
+            </table>
+
+            </body>
         );
     }
 }
-export default Following;
+
+
+export default Following

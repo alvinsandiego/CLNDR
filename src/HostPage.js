@@ -1,17 +1,42 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
+import './styles/App.css';
+
 class HostPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            viewForm: false
+            viewForm: false,
+            followButtonColor: "#789ade",
+            followButtonText: "Follow"
         };
     }
+
+
+
+
+    //Handles the button to follow
+    handleFollow(){
+        if(this.state.followButtonColor != "#b8b8b8"){
+            this.setState({followButtonColor: "#b8b8b8"})
+            this.setState({followButtonText: "Unfollow"})
+        }
+        else{
+            this.setState({followButtonColor: "#789ade"})
+            this.setState({followButtonText: "Follow"})
+        }
+
+    }
+
+
+
+
 
     render() {
         return (
             <div>
+
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <h1>Host Page</h1>
             </div>
@@ -20,14 +45,12 @@ class HostPage extends Component {
             <h5>Host Details: This will be filled with details about the host.</h5>
             </div>
             <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Button style={{height: 50, width: 150}}> Follow</Button>{' '}
-            <Button style={{height: 50, width: 150}}> Unfollow</Button>{' '}
+                <button className={"button button1"}
+                        onClick={() => this.handleFollow()}
+                        style={{backgroundColor: this.state.followButtonColor}}>
+                    {this.state.followButtonText}
+                </button>
             </div>
-            <br />
-            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Button value="NoConfirm" style={{height: 50, width: 150}}>Mute</Button>{' '}
-            <Button value="NoConfirm" style={{height: 50, width: 150}}>Unmute</Button>{' '}
-             </div>
             <br />
             </div>
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import "./styles/CreateEventPage.css"
-
+import './styles/App.css';
 class CreateEvent extends Component {
     render(){
         return(
