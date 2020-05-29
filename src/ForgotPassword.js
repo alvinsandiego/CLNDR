@@ -51,12 +51,12 @@ class ForgotPassword extends Component {
           
           <div style={styles.centerDiv}>
             <label>New Password:</label>
-            <input type="text"/>
+            <input type="password"/>
           </div>
 
           <div style={styles.centerDiv}>
             <label>Confirm New Password:</label>
-            <input type="text"/>
+            <input type="password"/>
           </div>
 
           <div style={styles.centerDiv}>
