@@ -1,7 +1,7 @@
-const {createEvent, updateEvent, deleteEvent
+const (createEvent, updateEvent, deleteEvent
        createAccount, updateAccount, deleteAccount,
        planEvent, unplanEvent, followHost, unfollowHost} = require('./CLNDRModel');
-const express = require('express');
+const express = requie('express');
 const router = express.Router();
 
 // search bar
