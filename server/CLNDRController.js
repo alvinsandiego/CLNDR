@@ -1,4 +1,4 @@
-const (createEvent, updateEvent, deleteEvent
+const {createEvent, updateEvent, deleteEvent
        createAccount, updateAccount, deleteAccount,
        planEvent, unplanEvent, followHost, unfollowHost} = require('./CLNDRModel');
 const express = requie('express');
