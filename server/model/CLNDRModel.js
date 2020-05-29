@@ -114,8 +114,7 @@ function unplanEvent(eventId) {
     })
     .catch(function(error) {
         console.log("Error removing document: ", error);
-    }
-
+    })
 }
 
 function followHost(hostId, accountId) {
@@ -144,6 +143,6 @@ function getEvent(eventId) {
 
 }
 
-module.exports = (createEvent, updateEvent, deleteEvent,
+module.exports = {createEvent, updateEvent, deleteEvent,
                   createAccount, readAccount, updateAccountUsername, updateAccountVerifiedStatus, updateAccountSecurityQuestion, updateAccountPassword, updateAccountSecurityAnswer, deleteAccount,
-                  planEvent, unplanEvent, followHost, unfollowHost);
+                  planEvent, unplanEvent, followHost, unfollowHost};
