@@ -25,7 +25,7 @@ class Page extends Component {
   change() { 
     switch(this.state.page) {
       case 'calendarV': return <CalendarView initialReferenceDate={new Date()} />;
-      case 'planned': return <Planned/>;
+      case 'planned': return <HostPage/>;
       case 'following': return <Following/>;
       case 'account': return <Account />;
       case 'create': return <CreateEventPage />;

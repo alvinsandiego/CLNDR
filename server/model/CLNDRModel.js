@@ -114,7 +114,7 @@ function unplanEvent(eventId) {
     })
     .catch(function(error) {
         console.log("Error removing document: ", error);
-    }
+    })
 
 }
 
