@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./styles/CreateEventPage.css"
+import "./styles/App.css"
 import logo from './img/Logo-Semitransparent.png';
 
 class CreateEvent extends Component {
