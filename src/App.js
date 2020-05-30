@@ -62,9 +62,9 @@ class App extends Component {
 					</div>
 					<br /> 
 					<div style= {styles.centerDiv}>
-						<button class = "control_button" style= {{width: 130}} >Login</button>
+						<button class = "login_button" style= {{width: 130}} >Login</button>
 						<a href="/forgotpassword">
-       						<button class = "control_button" style= {{width: 130}}>Forgot Password</button>
+       						<button class = "login_button" style= {{width: 130}}>Forgot Password</button>
 						</a>
         	   	</div>
 				   <br />
@@ -77,7 +77,7 @@ class App extends Component {
 	            </div>
 					<div style= {styles.centerDiv}>
 						<a href="/createaccount">
-							<button class = "control_button" >Create Account</button>
+							<button class = "login_button" >Create Account</button>
 						</a>
                </div>
 					<br />
@@ -89,7 +89,7 @@ class App extends Component {
 						<p>To simply explore scheduled events, continue as guest.</p>
 	            </div>
 					<div style= {styles.centerDiv}>
-						<button class = "control_button" onClick= {this.goIn.bind(this)}>Continue as Guest</button>
+						<button class = "login_button" onClick= {this.goIn.bind(this)}>Continue as Guest</button>
 				   </div>
 					<br />
          	</div>
