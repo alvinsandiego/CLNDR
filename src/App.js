@@ -42,7 +42,7 @@ class App extends Component {
 		const login = this.state.signin
 		if(!login) {
     		return (
-				<div style={{backgroundColor: '#cccccc', height: 1000}}>
+				<div style={{backgroundColor: '#d6f3ff', height: 1000}}>
 					<div style= {styles.centerDiv}>
 						<img src={logo} style= {{width: 100, height: 100}}/>
         				<h1>Login</h1>
@@ -62,9 +62,9 @@ class App extends Component {
 					</div>
 					<br /> 
 					<div style= {styles.centerDiv}>
-						<button style= {{width: 130}} >Login</button>
+						<button class = "control_button" style= {{width: 130}} >Login</button>
 						<a href="/forgotpassword">
-       						<button style= {{width: 130}}>Forgot Password</button>
+       						<button class = "control_button" style= {{width: 130}}>Forgot Password</button>
 						</a>
         	   	</div>
 				   <br />
@@ -77,7 +77,7 @@ class App extends Component {
 	            </div>
 					<div style= {styles.centerDiv}>
 						<a href="/createaccount">
-							<button>Create Account</button>
+							<button class = "control_button" >Create Account</button>
 						</a>
                </div>
 					<br />
@@ -89,7 +89,7 @@ class App extends Component {
 						<p>To simply explore scheduled events, continue as guest.</p>
 	            </div>
 					<div style= {styles.centerDiv}>
-						<button onClick= {this.goIn.bind(this)}>Continue as Guest</button>
+						<button class = "control_button" onClick= {this.goIn.bind(this)}>Continue as Guest</button>
 				   </div>
 					<br />
          	</div>
