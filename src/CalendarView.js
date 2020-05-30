@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CreateEventButton from './CreateEventButton';
 import "./styles/CalendarView.css";
+import logo from './img/Logo-Semitransparent.png';
 
 const maxEvents = 1;
 const linkEvents = true;
@@ -121,6 +122,7 @@ class CalendarView extends Component {
         const weekdayOfStart = begOfMonth.getDay();
         const weekdayAfterEnd = endOfMonth.getDay() + 1;
 
+        
         if (this.state.viewWeek == false) {        
             // generate a header
             const header = CalendarView.getMonthIdentifier(begOfMonth);
@@ -282,6 +284,7 @@ class CalendarRow extends Component {
 
         // now, render
         return (
+
             <tr class="calendar_row">
                 {
                     // form the cells by mapping the events array (from state, not props, so it is the one with 7 elements)
@@ -315,10 +318,21 @@ class CalendarRow extends Component {
                     })
                 }
             </tr>
+
         );
     }
 }
-
+const styles = {
+    centerDiv: {
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
+    allButton: {
+      height: 40, 
+      width: 175
+    }
+  };
 CalendarRow.defaultProps = {
     maxEvents: maxEvents,
     linkEvents: linkEvents,
