@@ -1,10 +1,48 @@
 import React, { Component } from 'react';
-import './styles/App.css';
+import "./styles/CreateEventPage.css"
+import logo from './img/Logo-Semitransparent.png';
+
 class CreateEvent extends Component {
     render(){
         return(
         <div>
-            <h2 class="center">Create Event</h2>
+            <div style={{ backgroundColor: '#cccccc', height: 1500 }}>
+                    <div style={styles.centerDiv}>
+                        <a href="/calendar"><img src={logo} style={{ width: 100, height: 100 }} /></a>
+                        <a href="/calendar"><h1 style={{ width: 500 }}>CLNDR</h1></a>
+                        <input type="text" style={{ width: 180 }} />
+                        <button style={{ width: 95 }}>Search</button>
+                    </div>
+
+                    <div style={styles.centerDiv}>
+                        <a href="/calendar">
+                            <button style={styles.allButton}>
+                                View Calendar
+                            </button>
+                        </a>
+                        <a href="/planned">
+                            <button style={styles.allButton}>
+                                Planned Events
+                            </button>
+                        </a>
+                        <a href="/following">
+                            <button style={styles.allButton}>
+                                Following
+                            </button>
+                        </a>
+                        <a href="/account">
+                            <button style={styles.allButton}>
+                                Account
+                            </button>
+                        </a>
+                        <a href="/createevent">
+                            <button style={styles.allButton}>
+                                Create Event
+                            </button>
+                        </a>
+                    </div>
+                    <br />
+            <h1 class="center">Create Event</h1>
             <form class="center create-event-form">
                 <div class="form-input">
                     <label>Event Title:</label>
@@ -46,8 +84,20 @@ class CreateEvent extends Component {
                 <input type="submit" value="Cancel"/>
             </form>
         </div>
+        </div>
         );
     }
 }
-
+const styles = {
+    centerDiv: {
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
+    allButton: {
+      height: 40, 
+      width: 175
+    }
+  };
+  
 export default CreateEvent;

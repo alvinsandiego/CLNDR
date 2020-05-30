@@ -1,62 +1,78 @@
 import React, { Component } from 'react';
-import './styles/App.css';
-
+import './styles/Hosts.css'
+import logo from './img/Logo-Semitransparent.png';
 
 class Following extends Component {
 
-    constructor(props){
-        super(props)
-        this.state={
-            events: [
-                {id: 1, hostName: 'Host 1', hostEmail: 'Host1@gmail.com'},
-                {id: 2, hostName: 'Host 2', hostEmail: 'Host2@gmail.com'},
-                {id: 3, hostName: 'Host 3', hostEmail: 'Host3@gmail.com'},
-                {id: 4, hostName: 'Host 4', hostEmail: 'Host4@gmail.com'},
-
-            ]
-        }
-    }
-
-
-
-    renderTableData(){
-        return this.state.events.map((host, index) => {
-            const {id, hostName, hostEmail} = host
-            return (
-                <tr class="events" key={id}>
-                    <td>{id}</td>
-                    <td>{hostName}</td>
-                    <td>{hostEmail}</td>
-                </tr>
-            )
-        })
-    }
-
-
-
-
-
-
-
     render() {
 
+        const FollowedHostData = [
+            {Hosts: 'Host #1'},
+            {Hosts: 'Host #2'},
+            {Hosts: 'Host #3'},
+            {Hosts: 'Host #4'},
+            {Hosts: 'Host #5'}
+
+        ];
+        
         return (
-            <body>
-            <h2>Followed Hosts</h2>
+            <div>
+                <div style={{ backgroundColor: '#cccccc', height: 1500 }}>
+                    <div style={styles.centerDiv}>
+                        <a href="/calendar"><img src={logo} style={{ width: 100, height: 100 }} /></a>
+                        <a href="/calendar"><h1 style={{ width: 500 }}>CLNDR</h1></a>
+                        <input type="text" style={{ width: 180 }} />
+                        <button style={{ width: 95 }}>Search</button>
+                    </div>
 
-            <table class="host">
-                <th>No.</th>
-                <th>Host</th>
-                <th>Email</th>
-                <tbody>
-                {this.renderTableData()}
-                </tbody>
-            </table>
-
-            </body>
+                    <div style={styles.centerDiv}>
+                        <a href="/calendar">
+                            <button style={styles.allButton}>
+                                View Calendar
+                            </button>
+                        </a>
+                        <a href="/planned">
+                            <button style={styles.allButton}>
+                                Planned Events
+                            </button>
+                        </a>
+                        <a href="/following">
+                            <button style={styles.allButton}>
+                                Following
+                            </button>
+                        </a>
+                        <a href="/account">
+                            <button style={styles.allButton}>
+                                Account
+                            </button>
+                        </a>
+                        <a href="/createevent">
+                            <button style={styles.allButton}>
+                                Create Event
+                            </button>
+                        </a>
+                    </div>
+                    <br />
+                    <h1>Followed Hosts</h1>
+                    <ul class="bulletedlist">
+                        {FollowedHostData.map((item, index) => {
+                            return <li>{item.Hosts}</li>;
+                        })}
+                    </ul>
+                </div>
+            </div>
         );
     }
 }
-
-
-export default Following
+const styles = {
+    centerDiv: {
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
+    allButton: {
+      height: 40, 
+      width: 175
+    }
+  };
+export default Following;

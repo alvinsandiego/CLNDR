@@ -1,58 +1,85 @@
 import React, { Component } from 'react';
-import './styles/App.css';
+import { Button } from 'reactstrap';
+import logo from './img/Logo-Semitransparent.png';
+
 class Account extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            viewForm: false,
-            username: "user1",
-            accountLevel: "Verified",
-            hostid: "h17264",
-            email: "user1@gmail.com"
+            viewForm: false
         };
     }
 
     render() {
-        var hostId = ""
-
-        if(this.state.accountLevel == "Verified"){
-            hostId = "Host ID: "+this.state.hostid
-        }
-
-
         return (
-		<div>
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-		<h1>Account Page</h1>
+            <div>
+                <div style={{ backgroundColor: '#cccccc', height: 1500 }}>
+                    <div style={styles.centerDiv}>
+                        <a href="/calendar"><img src={logo} style={{ width: 100, height: 100 }} /></a>
+                        <a href="/calendar"><h1 style={{ width: 500 }}>CLNDR</h1></a>
+                        <input type="text" style={{ width: 180 }} />
+                        <button style={{ width: 95 }}>Search</button>
+                    </div>
 
-		</div>
-        <div class='profileInfo'>
-            <p>Username: {this.state.username}</p><br/>
-            <p>Email: {this.state.email}</p><br/>
-            <p>Account Level: {this.state.accountLevel}</p><br/>
-            <p>{hostId}</p><br/>
-
-            <button className="control_button">Edit Account Info</button>
-
-        </div>
-            <br />
-            <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button"> Log Out</button>{' '}
+                    <div style={styles.centerDiv}>
+                        <a href="/calendar">
+                            <button style={styles.allButton}>
+                                View Calendar
+                            </button>
+                        </a>
+                        <a href="/planned">
+                            <button style={styles.allButton}>
+                                Planned Events
+                            </button>
+                        </a>
+                        <a href="/following">
+                            <button style={styles.allButton}>
+                                Following
+                            </button>
+                        </a>
+                        <a href="/account">
+                            <button style={styles.allButton}>
+                                Account
+                            </button>
+                        </a>
+                        <a href="/createevent">
+                            <button style={styles.allButton}>
+                                Create Event
+                            </button>
+                        </a>
+                    </div>
+                    <br />
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <h1>Account Page</h1>
+                    </div>
+                    <div value="withConfirm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <a href="/"><Button color="#f194ff" style={{ height: 50, width: 150 }}> Log Out</Button>{' '}</a>
+                    </div>
+                    <br />
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Button value="NoConfirm" style={{ height: 50, width: 150 }}>Apply For Verification</Button>{' '}
+                    </div>
+                    <br />
+                    <div value="withConfirm2" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Button style={{ height: 50, width: 150 }}>Delete My Account</Button>{' '}
+                    </div>
                 </div>
-		<br />	
-		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button">Apply For Verification</button>{' '}
-		</div> 
-		<br />
-                <div value="withConfirm2"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button">Delete My Account</button>{' '}
-                </div>
-                </div>
+            </div>
 
                );
 
     }
 }
-
+const styles = {
+    centerDiv: {
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
+    allButton: {
+      height: 40, 
+      width: 175
+    }
+  };
 export default Account;
