@@ -3,17 +3,71 @@ import logo from './img/Logo-Semitransparent.png';
 
 class Planned extends Component {
 
-    render() {
+    constructor(props){
+        super(props)
+        this.state={
+            events: []
+        }
+    }
 
-        const PlannedEvents = [
-            {Events: 'Event #1 - MM/DD/YYYY'},
-            {Events: 'Event #2 - MM/DD/YYYY'},
-            {Events: 'Event #3 - MM/DD/YYYY'},
-            {Events: 'Event #4 - MM/DD/YYYY'},
-            {Events: 'Event #5 - MM/DD/YYYY'}
+    componentDidMount() {
+        this.setData();
+    }
 
-        ];
+    setData() {
+        /**
+         * Code for Complete Implementation :
+         * let newEvents = this.state.events.slice();
+         * let ids = getId();       // store ids in array
+         * 
+         * for (i = 0; i < ids.length; i += 1) {
+         *  let plEvent = getPlannedEvent(ids[i]);
+         *  newEvents.push({
+         * id: plEvent.id,
+         * eventName: plEvent.eventName,
+         * hostName: plEvent.hostName,
+         * eventDate: plEvent.eventDate,
+         * eventTime: plEvent.eventTime}) 
+         * }
+         */
+
+        // Place Holders
+        let ids = [0, 1, 2, 3, 4, 5]
+        let eventNames = ['Event #1', 'Event #2', 'Event #3', 'Event #4', 'Event #5', 'Event #6']
+        let hostNames = ['ab', 'bc', 'cd', 'de', 'ef', 'fg']
+        let dates = ['MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY']
+        let times = ['HH:MM', 'HH:MM', 'HH:MM', 'HH:MM', 'HH:MM', 'HH:MM']
         
+        // Implementation
+        let newEvents = this.state.events.slice();
+        for (let i = 0; i < 6; i += 1) {
+            newEvents.push({id: ids[i], 
+                    eventName: eventNames[i],
+                hostName: hostNames[i],
+            eventDate: dates[i],
+        eventTime: times[i]})
+        }
+
+        this.setState({events : newEvents});
+    }
+
+    renderTableData(){
+        return this.state.events.map((event, index) => {
+            const {id, eventName, hostName, eventDate, eventTime} = event
+            return (
+                <tr class="events" key={id}>
+                    <td>{id}</td>
+                    <td>{eventName}</td>
+                    <td>{hostName}</td>
+                    <td>{eventDate}</td>
+                    <td>{eventTime}</td>
+                </tr>
+            )
+        })
+    }
+
+
+    render() {
         return (
             <div>
                 <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
@@ -56,12 +110,21 @@ class Planned extends Component {
                     </div>
 
                     <br />
-                    <h1>Planned Events</h1>
-                    <ul class="bulletedlist">
-                        {PlannedEvents.map((item, index) => {
-                            return <li>{item.Events}</li>;
-                        })}
-                    </ul>
+                    <body>
+            <h2>Planned Events</h2>
+
+            <table class="events" id="events">
+                <th>No.</th>
+                <th>Event</th>
+                <th>Host</th>
+                <th>Date</th>
+                <th>Time</th>
+                <tbody>
+                    {this.renderTableData()}
+                </tbody>
+            </table>
+
+            </body>
                 </div>
             </div>
         );

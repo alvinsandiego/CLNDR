@@ -4,11 +4,11 @@ import './styles/index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './styles/App.css';
-
+import Root from './Root';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );

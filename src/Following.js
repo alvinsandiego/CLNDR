@@ -4,17 +4,65 @@ import logo from './img/Logo-Semitransparent.png';
 
 class Following extends Component {
 
-    render() {
+    constructor(props){
+        super(props)
+        this.state={
+            events: []
+        }
+    }
 
-        const FollowedHostData = [
-            {Hosts: 'Host #1'},
-            {Hosts: 'Host #2'},
-            {Hosts: 'Host #3'},
-            {Hosts: 'Host #4'},
-            {Hosts: 'Host #5'}
 
-        ];
+
+    componentDidMount() {
+        this.setData();
+    }
+
+    setData() {
+        /**
+         * Code for Complete Implementation :
+         * let newEvents = this.state.events.slice();
+         * let ids = getId();       // store ids in array
+         * 
+         * for (i = 0; i < ids.length; i += 1) {
+         *  let host = getFollowedHost(ids[i]);
+         *  newEvents.push({
+         * id: plEvent.id,
+         * hostName: plEvent.hostName,
+         * hostEmail: plEvent.hostEmail}) 
+         * }
+         */
+
+         // Place Holders
+        let ids = [0, 1, 2, 3, 4, 5]
+        let hostNames = ['Donald J. Trump', 'Vladimir Putin', 'Emmanuel Macron', 'Kim Jong Un', 'Boris Johnson', 'Xi Jinping']
+        let hostEmails = ['dTrump@usaNumber1.us', 'vPutin@motherRussia.ru', 'kUn@DPRK.com', 'bJohnson@brit.br', 'xJinping@china.cn', 'host6@ucsd.edu']
         
+        // Implementation
+        let newEvents = this.state.events.slice();
+        for (let i = 0; i < 6; i += 1) {
+            newEvents.push({id: ids[i], 
+                hostName: hostNames[i],
+        hostEmail: hostEmails[i]})
+        }
+
+        this.setState({events : newEvents});
+    }
+
+    renderTableData(){
+        return this.state.events.map((host, index) => {
+            const {id, hostName, hostEmail} = host
+            return (
+                <tr class="events" key={id}>
+                    <td>{id}</td>
+                    <td>{hostName}</td>
+                    <td>{hostEmail}</td>
+                </tr>
+            )
+        })
+    }
+
+
+    render() {
         return (
             <div>
                 <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
@@ -56,12 +104,19 @@ class Following extends Component {
                         </a>
                     </div>
                     <br />
-                    <h1>Followed Hosts</h1>
-                    <ul class="bulletedlist">
-                        {FollowedHostData.map((item, index) => {
-                            return <li>{item.Hosts}</li>;
-                        })}
-                    </ul>
+                    <body>
+            <h2>Followed Hosts</h2>
+
+            <table class="host">
+                <th>No.</th>
+                <th>Host</th>
+                <th>Email</th>
+                <tbody>
+                {this.renderTableData()}
+                </tbody>
+            </table>
+
+            </body>
                 </div>
             </div>
         );
