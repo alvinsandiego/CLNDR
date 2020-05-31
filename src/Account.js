@@ -110,7 +110,6 @@ class Account extends Component {
                 <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}</button>{' '}
                 </div>
                 </div>
-            </div>
 
                );
 
