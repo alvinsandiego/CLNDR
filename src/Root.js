@@ -9,6 +9,7 @@ import Planned from "./Planned";
 import Following from "./Following";
 import Account from "./Account";
 import CreateEvent from "./CreateEventPage"
+import EditAccountInfo from "./EditAccountInfo";
 import Page from "./Page";
 
 const Root = () => {
@@ -23,6 +24,7 @@ const Root = () => {
                     <Route component={Following} path="/following" />
                     <Route component={Account} path="/account" />
                     <Route component={CreateEvent} path="/createevent" />
+                    <Route component={EditAccountInfo} path="/editaccountinfo" />
                     <Route component={App} path="/" />
                 </Switch>
             </div>
