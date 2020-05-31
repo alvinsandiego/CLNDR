@@ -397,3 +397,11 @@ header {
 .events tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+
+/*Forgot password*/
+.left{
+  text-align: left;
+  padding: 12px;
+
+}

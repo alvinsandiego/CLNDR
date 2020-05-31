@@ -13,6 +13,7 @@ import CreateAccount from './CreateAccount'
 
 import './styles/App.css';
 import EditAccountInfo from "./EditAccountInfo";
+import ForgotPassword from "./ForgotPassword";
 // This file contains the main page of the app that allows the user
 // to navigate to all the other pages
 
@@ -29,7 +30,7 @@ class Page extends Component {
   change() { 
     switch(this.state.page) {
       case 'calendarV': return <CalendarView initialReferenceDate={new Date()} />;
-      case 'planned': return <EventPage/>;
+      case 'planned': return <ForgotPassword/>;
       case 'following': return <Following/>;
       case 'account': return <Account />;
       case 'create': return <CreateEventPage />;

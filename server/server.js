@@ -27,3 +27,7 @@ app.get('/', (req,res) => {
 app.get('/EventPage', (req,res) => {
     res.send({eventName: "Event 1000", eventDate: "10/10/10"});
 })
+
+app.post('/login', (req,res) => {
+
+})

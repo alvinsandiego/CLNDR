@@ -2,16 +2,23 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Page from './Page';
+import axios from "axios";
+
 import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
 import EventPage from './EventPage.js'
 
 //import firebase from './firebase'
 
+var user;
+var pass;
+
+
 class App extends Component {
 	state = {
    	data: null,
 		signin: false,
+
 	};
 
    componentDidMount() {
@@ -37,6 +44,29 @@ class App extends Component {
 		})	
 	}
 
+
+	handleLogin(){
+		user = document.getElementById('userN').value;
+		pass = document.getElementById( 'passW').value;
+
+		axios.post("http://localhost:5000/login",
+			{
+				userName: user,
+				password: pass
+			})
+
+
+	}
+
+
+	handleForgotPassword(){
+		user = document.getElementById('userN').value;
+	}
+
+
+
+
+
   	render() {
 		const login = this.state.signin
 		if(!login) {
@@ -52,17 +82,17 @@ class App extends Component {
 					</div>					
 					<div style= {styles.centerDiv}>
 						<label>Username &nbsp;</label>
-        	   		<input />
+						<input type="text" name='userName' id="userN"/>
         	   	</div>
 					<br />
         	   	<div style= {styles.centerDiv}>
 						<label>Password &nbsp;</label>
-        	   		<input />
+						<input type="password" name='passWord' id="passW"/>
 					</div>
 					<br /> 
 					<div style= {styles.centerDiv}>
-						<button class= 'login_button' style= {{width: 130}} >Login</button>
-       				<button class= 'login_button' style= {{width: 130}}>Forgot Password</button>
+						<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleLogin()}>Login</button>
+       				<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgotPassword()}>Forgot Password</button>
         	   	</div>
 				   <br />
             	<br />

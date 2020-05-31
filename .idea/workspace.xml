@@ -4,13 +4,9 @@
     <list default="true" id="8fb60b38-5d50-4d86-a354-d4f5ef54fa39" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CreateAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/CreateAccount.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Following.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Following.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HostPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/HostPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ForgotPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ForgotPassword.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planned.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planned.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +50,7 @@
       <option name="presentableId" value="Default" />
       <updated>1590814584841</updated>
       <workItem from="1590814586466" duration="365000" />
-      <workItem from="1590814961345" duration="25144000" />
+      <workItem from="1590814961345" duration="29286000" />
     </task>
     <servers />
   </component>
