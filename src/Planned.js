@@ -41,7 +41,7 @@ class Planned extends Component {
 
 
             newEvents.push({
-                id: eventInfo.ID,
+                id: i,
                 eventName: eventInfo.eventName,
                 hostName: eventInfo.hostName,
                 eventDate: eventInfo.eventDate,

@@ -20,6 +20,7 @@ class HostPage extends Component {
             hostID: "H1234",
             hostName: "Host1",
             hostEmail:"Host1@gmail.com",
+
             hostedEventsList: [],
             events: []
 
@@ -46,7 +47,7 @@ class HostPage extends Component {
 
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/AccountPage?hostID=" + this.state.hostID).then(response => {
+        axios.get("http://localhost:5000/userInfo?hostID=" + this.state.hostID).then(response => {
             this.setState({
                 hostName: response.data.username,
                 hostEmail: response.data.email,
@@ -54,6 +55,7 @@ class HostPage extends Component {
             })
         });
     };
+
 
 
 

@@ -63,21 +63,6 @@ class EventPage extends Component {
 
     }
 
-    //Handles the button to add reminder
-    handleAddReminder(){
-        if(this.state.reminderButtonColor != "#b8b8b8"){
-            this.setState({reminderButtonColor: "#b8b8b8"})
-            this.setState({reminderButtonText: "Remove reminder"})
-        }
-        else{
-            this.setState({reminderButtonColor: "#789ade"})
-            this.setState({reminderButtonText: "Add reminder"})
-        }
-
-    }
-
-
-
 
     render() {
 
@@ -112,12 +97,6 @@ class EventPage extends Component {
                                                     style={{backgroundColor: this.state.planEventButtonColor}}>
                                                 {this.state.planEventButtonText}
                                             </button>
-                                            <button className={"button button1"}
-                                                    onClick={() => this.handleAddReminder()}
-                                                    style={{backgroundColor: this.state.reminderButtonColor}}>
-                                                {this.state.reminderButtonText}
-                                            </button>
-
 
                                         </p>
                                         <a href="#" className="fa fa-facebook"></a>

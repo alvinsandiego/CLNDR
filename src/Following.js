@@ -40,11 +40,11 @@ class Following extends Component {
         let newHosts = this.state.hostArray.slice();
         for (var i = 0; i < this.state.hostIDs.size(); i++) {
 
-            var hostInfo = axios.get("http://localhost:5000/AccountPage?userID=" + this.state.hostIDs[i])
+            var hostInfo = axios.get("http://localhost:5000/userInfo?userID=" + this.state.hostIDs[i])
 
 
             newHosts.push({
-                id: hostInfo.id,
+                id: i,
                 hostName: hostInfo.username,
                 hostEmail: hostInfo.email
             })

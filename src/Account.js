@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import axios from "axios";
 import EventPage from "./EventPage";
+import CreateEventPage from "./CreateEventPage";
+import EditAccountInfo from "./EditAccountInfo";
 
 class Account extends Component {
     constructor(props) {
@@ -16,14 +18,17 @@ class Account extends Component {
             viewForm: false,
             username: "user1",
             accountLevel: "User",
-            email: "user1@gmail.com"
+            email: "user1@gmail.com",
+
+            deleteText: "Delete My Account",
+            editAccount: "false"
         };
     }
 
 
     /*Get Account Details*/
     componentDidMount = () =>{
-        axios.get("http://localhost:5000/AccountPage?userID="+this.state.userID).then(response => {
+        axios.get("http://localhost:5000/userInfoe?userID="+this.state.userID).then(response => {
             this.setState({
                 username: response.data.username,
                 email: response.data.email,
@@ -41,15 +46,24 @@ class Account extends Component {
 
 
     handleDeleteAccount(){
+        if(this.state.deleteText == "Delete My Account"){
+            this.setState({deleteText: "Confirm Delete Account"})
+        }
+        else{
+            axios.post("http://localhost:5000/DeleteAccount?userID="+this.state.userID)
+        }
 
     }
+
 
     handleLogout(){
-
+        localStorage.clear()
+        /* Redirect to login*/
     }
 
-    handleEditAccountInfo(){
 
+    handleApplyForVerification(){
+        axios.post("http://localhost:5000/applyForVerification?userID="+this.state.userID)
 
     }
 
@@ -73,20 +87,20 @@ class Account extends Component {
             <p>Email: {this.state.email}</p><br/>
             <p>Account Level: {this.state.accountLevel}</p><br/>
 
-            <button className="control_button">Edit Account Info</button>
+            <button className="control_button" onClick = {() => this.handleEditAccountInfo()}>Edit Account Info</button>
 
         </div>
             <br />
             <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button">Log Out</button>{' '}
+                <button class = "control_button" onClick = {() => this.handleLogout()}>Log Out</button>{' '}
                 </div>
 		<br />	
 		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button">Apply For Verification</button>{' '}
+                <button class = "control_button" onClick = {() => this.handleApplyForVerification()}>Apply For Verification</button>{' '}
 		</div> 
 		<br />
                 <div value="withConfirm2"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button">Delete My Account</button>{' '}
+                <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}</button>{' '}
                 </div>
                 </div>
 

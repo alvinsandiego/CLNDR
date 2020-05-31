@@ -25,5 +25,5 @@ app.get('/', (req,res) => {
 
 
 app.get('/EventPage', (req,res) => {
-    res.send({eventName: "TestEvent", eventDate: "10/10/10"});
+    res.send({eventName: "Event 1000", eventDate: "10/10/10"});
 })
