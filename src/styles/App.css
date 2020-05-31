@@ -152,9 +152,10 @@ table {
 
 .center {
   margin: auto;
-  width: 50%;
+  width: 25%;
   padding: 10px;
   text-align: center;
+  align-content: center;
 }
 
 .form-input {
@@ -375,7 +376,8 @@ header {
 .events table {
   border-collapse: collapse;
   border: 1px solid black;
-  width: 100%;
+  width: 75%;
+
 }
 
 .events td, th {
@@ -397,6 +399,28 @@ header {
 .events tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.events div {
+  width: 50%;
+  align-content: center;
+  text-align: center;
+  margin: 0 auto
+}
+
+.events2 div {
+  width: 100%;
+  align-content: center;
+  margin: 0 auto
+}
+
+
+.events3 div {
+  width: 75%;
+  align-content: left;
+  margin: 0 auto
+}
+
+
 
 
 /*Forgot password*/

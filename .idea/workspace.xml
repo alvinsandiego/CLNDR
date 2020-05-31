@@ -3,6 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8fb60b38-5d50-4d86-a354-d4f5ef54fa39" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CreateAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/CreateAccount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Following.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Following.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ForgotPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ForgotPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Planned.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planned.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +37,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CLNDR-alex" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CLNDR - Alex" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -46,7 +54,8 @@
       <option name="presentableId" value="Default" />
       <updated>1590814584841</updated>
       <workItem from="1590814586466" duration="365000" />
-      <workItem from="1590814961345" duration="30349000" />
+      <workItem from="1590814961345" duration="31099000" />
+      <workItem from="1590907690712" duration="5832000" />
     </task>
     <servers />
   </component>
@@ -54,9 +63,9 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1060" y="455" key="FileChooserDialogImpl" timestamp="1590834231607">
+    <state x="1060" y="455" key="FileChooserDialogImpl" timestamp="1590908306510">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400/2560.350.1920.1040@0.0.2560.1400" timestamp="1590834231607" />
+    <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400/2560.350.1920.1040@0.0.2560.1400" timestamp="1590908306510" />
   </component>
 </project>

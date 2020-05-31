@@ -12,7 +12,13 @@ class Planned extends Component {
 
         this.state = {
             userID: "user1",
-            events: [],
+            events: [{
+                id: "10",
+                eventName: "asdfasdfasdf",
+                hostName: "adfsasdf",
+                eventDate: "adfsasdf",
+                eventTime: "xxxxx"
+            }],
             eventIDs: []
         }
     }
@@ -85,7 +91,7 @@ class Planned extends Component {
                         <button style= {{width: 95}}>Search</button>
                     </div>
 
-                    <div style={styles.centerDiv}>
+                    <div style={{backgroundColor: "#004d6e", textAlign: "center"}}>
                         <a href="/calendar">
                             <button class = "control_button" style={styles.allButton}>
                                 View Calendar
@@ -114,6 +120,8 @@ class Planned extends Component {
                     </div>
 
                     <br />
+                    <div class="events">
+                        <div class = "events2">
                     <body>
                     <h2>Planned Events</h2>
 
@@ -129,6 +137,8 @@ class Planned extends Component {
                     </table>
 
                     </body>
+                    </div>
+                    </div>
                 </div>
             </div>
         );

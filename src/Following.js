@@ -107,6 +107,9 @@ class Following extends Component {
                         </a>
                     </div>
                     <br />
+                    <div className="events">
+                        <div className="events2">
+
                     <body>
 
                     <h2>Followed Hosts</h2>
@@ -121,6 +124,8 @@ class Following extends Component {
                     </table>
 
                     </body>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
