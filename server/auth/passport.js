@@ -23,7 +23,7 @@ passport.use(
                 Accounts.readAccountByUsername(username).then(querySnapshot => {
                     if (!querySnapshot.empty) {
                         // user exists
-                        return done(null, false, {message: 'Username already taken.'});
+                        return done(null, false, {message: 'This username is already taken.'});
                     }
                     else {
                         console.log(JSON.stringify(req.body));

@@ -9,11 +9,11 @@ module.exports = function(app) {
     
             if (info != undefined) {
                 console.log(info.message);
-                res.send(info.message);
+                res.send({message: info.message, success: false});
             }
             else {
                 req.logIn(user, err => {
-                    res.status(200).send({message: 'User created successfully.'});
+                    res.status(200).send({message: 'User created successfully.', success: true});
                 });
             }
         })(req, res, next);

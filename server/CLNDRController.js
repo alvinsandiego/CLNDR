@@ -3,6 +3,7 @@ const {createEvent, updateEvent, deleteEvent,
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 
 const router = express.Router();
@@ -12,6 +13,7 @@ const server = app.listen(port, () => console.log('Listening on port', port));
 
 require('./auth/passport');
 
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize());

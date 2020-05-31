@@ -127,9 +127,9 @@ class App extends Component {
 					    <p>To simply explore scheduled events, continue as guest.</p>
 	          </div>
 				    <div style= {styles.centerDiv}>
-					    <button class= 'login_button' style= {{width: 130}} onClick= {this.goIn.bind(this)}>
+					    <a href="/calendar"><button class= 'login_button' style= {{width: 130}}>
                 Continue as Guest
-              </button>
+              </button></a>
 				    </div>
 				    <br />
           </div>
