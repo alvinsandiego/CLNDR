@@ -2,7 +2,7 @@ const {db} = require('./firebase');
 
 // app functions
 function createEvent(title, dateStart, timeStart, dateEnd, 
-                     timeEnd, description, keywords, cohosts) {
+                     timeEnd, description, keywords, cohosts, image) {
      const id = db.collection('events').doc().id                  
      db.collection('events').doc(id).set({
      //sortId: to implement
@@ -14,7 +14,8 @@ function createEvent(title, dateStart, timeStart, dateEnd,
      endTime: timeEnd,
      eventDescription: description,
      eventKeywords: keywords,
-     eventCohots: cohosts
+     eventCohots: cohosts,
+     imgUrl: image
     });  
     console.log(title);
 }
