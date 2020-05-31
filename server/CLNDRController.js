@@ -27,7 +27,7 @@ app.get('/Page', (req,res) => {
 
 app.post('/CreateEventPage', (req,res) => {
     createEvent(req.body.title, req.body.dateStart,req.body.startTime, req.body.endDate,
-        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts);
+        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts,req.body.image);
 })
 
 // update event
