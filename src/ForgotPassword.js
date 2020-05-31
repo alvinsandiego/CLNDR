@@ -164,6 +164,11 @@ class ForgotPassword extends Component {
                         <button class='control_button' onClick={this.handleForgotPass.bind(this)}>
                             Confirm
                         </button>
+			<a href= "/">
+				<button class='control_button'>
+					Go Back
+				</button>
+			</a>
                     </div>
 
 

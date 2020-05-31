@@ -111,8 +111,8 @@ class CreateEvent extends Component {
                 </div>
 
                 <br/><br/>
-                <input type="submit" onClick={this.handleClick} value="Submit"/>
-                <input type="submit" value="Cancel"/>
+                <input style={styles.allButton} type="submit" onClick={this.handleClick} value="Submit"/>
+	
             </form>
         </div>
         </div>
@@ -128,7 +128,7 @@ const styles = {
     },
     allButton: {
       height: 40, 
-      width: 175
+      width: 100
     }
   };
   

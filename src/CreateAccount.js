@@ -173,6 +173,11 @@ class CreateAccount extends Component {
                     <button class= 'login_button' style={styles.allButton} onClick={this.made.bind(this)}>
                         Create Account
                     </button>
+		<a href="/">
+			<button class= 'login_button' style={styles.allButton}>
+				Go Back
+			</button>
+		</a>
                 </div>
 
                 <div style={styles.centerDiv}>

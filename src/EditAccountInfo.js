@@ -173,6 +173,11 @@ class EditAccountInfo extends Component {
                     <button class= 'login_button' style={styles.allButton} onClick={this.made.bind(this)}>
                         Confirm Changes
                     </button>
+                    <a href="./account">
+                      <button class= 'login_button' style={styles.allButton}>
+                        Go Back
+                      </button>
+                    </a>
                 </div>
 
                 <div style={styles.centerDiv}>

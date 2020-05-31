@@ -81,15 +81,17 @@ class Following extends Component {
                     <body>
 
                     <h2>Followed Hosts</h2>
-
-                    <table class="host">
-                        <th>No.</th>
-                        <th>Host</th>
-                        <th>Email</th>
-                        <tbody>
-                        {this.renderTableData()}
-                        </tbody>
-                    </table>
+                    
+                    <div style={styles.centerDiv}>
+                      <table class="host">
+                          <th>No.</th>
+                          <th>Host</th>
+                          <th>Email</th>
+                          <tbody>
+                          {this.renderTableData()}
+                          </tbody>
+                      </table>
+                    </div>
 
                     </body>
                         </div>
