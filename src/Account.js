@@ -1,79 +1,141 @@
 import React, { Component } from 'react';
+
+import './styles/App.css';
+import axios from "axios";
+import EventPage from "./EventPage";
+import CreateEventPage from "./CreateEventPage";
+import EditAccountInfo from "./EditAccountInfo";
+
 import { Button } from 'reactstrap';
 import logo from './img/Logo-Semitransparent.png';
+import NavBar from "./NavBar";
+import Root from "./Root";
 
 class Account extends Component {
     constructor(props) {
         super(props);
 
+
+
+        const userID = this.props.userID;
+
         this.state = {
-            viewForm: false
+
+         
+            userID: "user1",
+            viewForm: false,
+            username: "user1",
+            accountLevel: "User",
+            email: "user1@gmail.com",
+
+            deleteText: "Delete My Account",
+            editAccount: "false"
         };
     }
 
-    render() {
-        return (
-            <div>
-                <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
-                    <div style= {{display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'white'}}>
-                      <img src={logo} style= {{width: 100, height: 100} }/>
-                      <h1 style={{width: 500}}>CLN<span className="goldText">DR</span></h1>
-                      <input type= "text" style= {{width: 180}}/>
-                      <button style= {{width: 95}}>Search</button>
-                    </div>
 
-                    <div style={styles.centerDiv}>
-                        <a href="/calendar">
-                            <button class = "control_button" style={styles.allButton}>
-                                View Calendar
-                            </button>
-                        </a>
-                        <a href="/planned">
-                            <button class = "control_button" style={styles.allButton}>
-                                Planned Events
-                            </button>
-                        </a>
-                        <a href="/following">
-                            <button class = "control_button" style={styles.allButton}>
-                                Following
-                            </button>
-                        </a>
-                        <a href="/account">
-                            <button class = "control_button" style={styles.allButton}>
-                                Account
-                            </button>
-                        </a>
-                        <a href="/createevent">
-                            <button class = "control_button" style={styles.allButton}>
-                                Create Event
-                            </button>
-                        </a>
-                    </div>
-                    <br />
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <h1>Account Page</h1>
-                    </div>
-                    <div value="withConfirm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <a href="/"><Button color="#f194ff" style={{ height: 50, width: 150 }}> Log Out</Button>{' '}</a>
-                    </div>
-                    <br />
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Button value="NoConfirm" style={{ height: 50, width: 150 }}>Apply For Verification</Button>{' '}
-                    </div>
-                    <br />
-                    <div value="withConfirm2" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Button style={{ height: 50, width: 150 }}>Delete My Account</Button>{' '}
-                    </div>
+    /*Get Account Details*/
+    componentDidMount = () =>{
+        axios.get("http://localhost:5000/userInfoe?userID="+this.state.userID).then(response => {
+            this.setState({
+                username: response.data.username,
+                email: response.data.email,
+            })
+        });
+
+        /*Check if user is verified*/
+        axios.get("http://localhost:5000/Verified?userID="+this.state.userID).then(response => {
+            if(response.data==true){
+                this.setState({accountLevel: "Verified"})
+            }
+        });
+    };
+
+
+
+    handleDeleteAccount(){
+        if(this.state.deleteText == "Delete My Account"){
+            this.setState({deleteText: "Confirm Delete Account"})
+        }
+        else{
+            axios.post("http://localhost:5000/DeleteAccount?userID="+this.state.userID)
+        }
+
+    }
+
+
+    handleLogout(){
+        localStorage.clear()
+        /* Redirect to login*/
+    }
+
+
+    handleApplyForVerification(){
+        axios.post("http://localhost:5000/applyForVerification?userID="+this.state.userID)
+
+    }
+
+
+
+
+
+
+    render() {
+
+
+
+        return (
+		<div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+
+                <NavBar/>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+
+
+
+
+
+		<h1>Account Page</h1>
+
+		</div>
+        <div class='profileInfo'>
+            <p>Username: {this.state.username}</p><br/>
+            <p>Email: {this.state.email}</p><br/>
+            <p>Account Level: {this.state.accountLevel}</p><br/>
+            
+            <a href="/editaccountinfo">
+            <button className="control_button" onClick = {() => this.handleEditAccountInfo()}>Edit Account Info</button>
+            </a>
+
+        </div>
+            <br />
+            <div value="withConfirm"style={styles.centerDiv}>
+                <a href="/">
+                <button class = "control_button" onClick = {() => this.handleLogout()}>
+                  Log Out
+                </button>{' '}
+                </a>
                 </div>
-            </div>
+		<br />	
+		<div style={styles.centerDiv}>
+                <button class = "control_button" onClick = {() => this.handleApplyForVerification()}>
+                  Apply For Verification
+                </button>{' '}
+		</div> 
+		<br />
+                <div value="withConfirm2"style={styles.centerDiv}>
+                <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}
+                </button>{' '}
+                </div>
+                </div>
 
                );
 
     }
 }
+
+
+
+
 const styles = {
     centerDiv: {
       display: 'flex', 
