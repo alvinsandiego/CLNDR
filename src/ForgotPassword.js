@@ -73,15 +73,14 @@ class ForgotPassword extends Component {
             <label>Security Question Answer:&nbsp;</label>
             <input type="text"/>
           </div>
-          
-          <div class='left'>
-            <label>New Password:&nbsp;</label>
-            <input type="password"/>
+          <div style={styles.centerDiv}>
+            <label>New Password:</label>
+            <input type="text"/>
           </div>
 
-          <div class='left'>
-            <label>Confirm New Password:&nbsp;</label>
-            <input type="password"/>
+          <div style={styles.centerDiv}>
+            <label>Confirm New Password:</label>
+            <input type="text"/>
           </div>
 
           <div style={styles.centerDiv}>

@@ -1,4 +1,4 @@
-const (createEvent, updateEvent, deleteEvent
+const {createEvent, updateEvent, deleteEvent,
        createAccount, updateAccount, deleteAccount,
        planEvent, unplanEvent, followHost, unfollowHost} = require('./CLNDRModel');
 const express = require('express');
@@ -10,8 +10,9 @@ router.get('./Page', (req,res) => {
 
 })
 // create event
-router.post('./CreateEventPage', (req,res) => {
-
+router.post('/CreateEventPage', (req,res) => {
+    createEvent(req.body.title, req.body.dateStart,req.body.startTime, req.body.endDate,
+        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts);
 })
 
 // update event

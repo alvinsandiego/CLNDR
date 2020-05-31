@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+
 import './styles/App.css';
 import axios from "axios";
 import EventPage from "./EventPage";
 import CreateEventPage from "./CreateEventPage";
 import EditAccountInfo from "./EditAccountInfo";
+
+import { Button } from 'reactstrap';
+import logo from './img/Logo-Semitransparent.png';
+
 
 class Account extends Component {
     constructor(props) {
@@ -14,6 +19,8 @@ class Account extends Component {
         const userID = this.props.userID;
 
         this.state = {
+
+         
             userID: "user1",
             viewForm: false,
             username: "user1",
@@ -103,6 +110,7 @@ class Account extends Component {
                 <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}</button>{' '}
                 </div>
                 </div>
+            </div>
 
                );
 
@@ -112,4 +120,15 @@ class Account extends Component {
 
 Account.defaultProps = {UserID: new String}
 
+const styles = {
+    centerDiv: {
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
+    allButton: {
+      height: 40, 
+      width: 175
+    }
+  };
 export default Account;

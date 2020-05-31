@@ -17,9 +17,6 @@ class Following extends Component {
         }
     }
 
-
-
-
     componentDidMount = () => {
         axios.get("http://localhost:5000/Following?userID=" + this.state.userID).then(response => {
             this.setState({
@@ -27,8 +24,6 @@ class Following extends Component {
             })
         });
     };
-
-
 
 
     componentDidMount() {
@@ -54,9 +49,6 @@ class Following extends Component {
         this.setState({hostArray: newHosts});
     }
 
-
-
-
     renderTableData(){
         return this.state.hostArray.map((host, index) => {
             const {id, hostName, hostEmail} = host
@@ -76,6 +68,7 @@ class Following extends Component {
             <div>
                 <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
                     <div style= {{display: 'flex',
+
                         justifyContent: 'center',
                         alignItems: 'center',
                         backgroundColor: 'white'}}>
@@ -83,6 +76,7 @@ class Following extends Component {
                         <h1 style={{width: 500}}>CLN<span className="goldText">DR</span></h1>
                         <input type= "text" style= {{width: 180}}/>
                         <button style= {{width: 95}}>Search</button>
+
                     </div>
 
                     <div style={styles.centerDiv}>
@@ -114,6 +108,7 @@ class Following extends Component {
                     </div>
                     <br />
                     <body>
+
                     <h2>Followed Hosts</h2>
 
                     <table class="host">
@@ -133,6 +128,7 @@ class Following extends Component {
 }
 const styles = {
     centerDiv: {
+
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'

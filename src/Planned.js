@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import Account from "./Account";
 import axios from "axios";
+import './styles/App.css';
 
 class Planned extends Component {
 
