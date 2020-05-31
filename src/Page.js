@@ -82,7 +82,7 @@ class Page extends Component {
                       <button style= {{width: 95}}>Search</button>
                     </div>
 
-                    <div style={styles.centerDiv}>
+                    <div style={{backgroundColor: "#004d6e", textAlign:"center"}}>
                         <a href="/calendar">
                             <button class = "control_button" style={styles.allButton}>
                                 View Calendar

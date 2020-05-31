@@ -139,6 +139,9 @@ table {
 .profileInfo{
   background-color: white;
   min-width: 500px;
+  max-width: 50%;
+  align-items: center;
+  margin: auto;
   text-align: left;
   border: 1px solid black;
   padding: 12px;
@@ -376,7 +379,9 @@ header {
 .events table {
   border-collapse: collapse;
   border: 1px solid black;
-  width: 75%;
+  width: 50%;
+  margin-left:auto;
+  margin-right:auto;
 
 }
 
@@ -404,20 +409,23 @@ header {
   width: 50%;
   align-content: center;
   text-align: center;
-  margin: 0 auto
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .events2 div {
   width: 100%;
   align-content: center;
-  margin: 0 auto
+  margin-left:auto;
+  margin-right:auto;
 }
 
 
 .events3 div {
   width: 75%;
   align-content: left;
-  margin: 0 auto
+  margin-left:auto;
+  margin-right:auto;
 }
 
 
