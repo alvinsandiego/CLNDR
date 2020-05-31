@@ -6,6 +6,11 @@ import App from './App.js';
 import firebase from './firebase'
 import axios from "axios";
 
+
+var user,pass,pCon,ques,answ
+
+
+
 class CreateAccount extends Component {
 
     state = {

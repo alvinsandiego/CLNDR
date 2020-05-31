@@ -139,6 +139,9 @@ table {
 .profileInfo{
   background-color: white;
   min-width: 500px;
+  max-width: 50%;
+  align-items: center;
+  margin: auto;
   text-align: left;
   border: 1px solid black;
   padding: 12px;
@@ -152,9 +155,10 @@ table {
 
 .center {
   margin: auto;
-  width: 50%;
+  width: 25%;
   padding: 10px;
   text-align: center;
+  align-content: center;
 }
 
 .form-input {
@@ -375,7 +379,10 @@ header {
 .events table {
   border-collapse: collapse;
   border: 1px solid black;
-  width: 100%;
+  width: 50%;
+  margin-left:auto;
+  margin-right:auto;
+
 }
 
 .events td, th {
@@ -397,6 +404,31 @@ header {
 .events tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.events div {
+  width: 50%;
+  align-content: center;
+  text-align: center;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.events2 div {
+  width: 100%;
+  align-content: center;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+
+.events3 div {
+  width: 75%;
+  align-content: left;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+
 
 
 /*Forgot password*/

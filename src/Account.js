@@ -8,7 +8,7 @@ import EditAccountInfo from "./EditAccountInfo";
 
 import { Button } from 'reactstrap';
 import logo from './img/Logo-Semitransparent.png';
-
+import NavBar from "./NavBar";
 
 class Account extends Component {
     constructor(props) {
@@ -84,8 +84,15 @@ class Account extends Component {
 
 
         return (
-		<div>
+		<div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+
+                <NavBar/>
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+
+
+
+
+
 		<h1>Account Page</h1>
 
 		</div>
@@ -117,7 +124,7 @@ class Account extends Component {
 }
 
 
-Account.defaultProps = {UserID: new String}
+
 
 const styles = {
     centerDiv: {
