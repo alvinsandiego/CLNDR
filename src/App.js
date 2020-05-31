@@ -3,16 +3,23 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Page from './Page';
+import axios from "axios";
+
 import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
 
 
 import firebase from './firebase'
 
+var user;
+var pass;
+
+
 class App extends Component {
 	state = {
    	data: null,
 		signin: false,
+
 	};
 
    componentDidMount() {
@@ -38,6 +45,29 @@ class App extends Component {
 		})	
 	}
 
+
+	handleLogin(){
+		user = document.getElementById('userN').value;
+		pass = document.getElementById( 'passW').value;
+
+		axios.post("http://localhost:5000/login",
+			{
+				userName: user,
+				password: pass
+			})
+
+
+	}
+
+
+	handleForgotPassword(){
+		user = document.getElementById('userN').value;
+	}
+
+
+
+
+
   	render() {
 		const login = this.state.signin
 		if(!login) {
@@ -52,20 +82,19 @@ class App extends Component {
       	     		<h3>Returning Member</h3>
 					</div>					
 					<div style= {styles.centerDiv}>
-						<label>Username</label>
-        	   		<input />
+
+						<label>Username &nbsp;</label>
+						<input type="text" name='userName' id="userN"/>
         	   	</div>
 					<br />
         	   	<div style= {styles.centerDiv}>
-						<label>Password</label>
-        	   		<input />
+						<label>Password &nbsp;</label>
+						<input type="password" name='passWord' id="passW"/>
 					</div>
 					<br /> 
 					<div style= {styles.centerDiv}>
-						<button class= 'login_button' style= {{width: 130}}>Login</button>
-						<a href="/forgotpassword">
-       						<button class= 'login_button' style= {{width: 130}}>Forgot Password</button>
-						</a>
+						<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleLogin()}>Login</button>
+       				<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgotPassword()}>Forgot Password</button>
         	   	</div>
 				   <br />
             	<br />

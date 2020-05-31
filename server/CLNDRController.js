@@ -4,6 +4,7 @@ const (createEvent, updateEvent, deleteEvent
 const express = require('express');
 const router = express.Router();
 
+
 // search bar
 router.get('./Page', (req,res) => {
 
@@ -107,6 +108,9 @@ router.get('./Planned', (req,res) => {
 router.get('./CreateEventPage', (req,res) => {
 
 })
+
+
+
 
 
 module.exports = router;
