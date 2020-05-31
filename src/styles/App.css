@@ -34,6 +34,7 @@ table {
   }
 }
 
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -130,6 +131,18 @@ table {
 .create_event_button:active {
   background-color: darkgoldenrod;
   box-shadow: none;
+}
+
+
+/*Profile page*/
+
+.profileInfo{
+  background-color: white;
+  min-width: 500px;
+  text-align: left;
+  border: 1px solid black;
+  padding: 12px;
+  font-size: 15pt;
 }
 
 
@@ -383,4 +396,12 @@ header {
 
 .events tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+
+/*Forgot password*/
+.left{
+  text-align: left;
+  padding: 12px;
+
 }

@@ -16,13 +16,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
+
 // search bar
 app.get('/Page', (req,res) => {
 
 })
 // create event
-app.post('/CreateEventPage', (req,res) => {
 
+app.post('/CreateEventPage', (req,res) => {
+    createEvent(req.body.title, req.body.dateStart,req.body.startTime, req.body.endDate,
+        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts);
 })
 
 // update event
@@ -118,6 +121,5 @@ app.get('/Planned', (req,res) => {
 app.get('/CreateEventPage', (req,res) => {
 
 })
-
 
 module.exports = app;

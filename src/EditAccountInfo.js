@@ -6,8 +6,12 @@ import App from './App.js';
 import firebase from './firebase'
 import axios from "axios";
 
-class CreateAccount extends Component {
-
+var user;
+var pass;
+var pCon;
+var ques;
+var answ;
+class EditAccountInfo extends Component {
     state = {
         data     : null,
         userName : null,
@@ -102,7 +106,7 @@ class CreateAccount extends Component {
                 accMade: true
             })
 
-            axios.post("http://localhost:5000/createAccount",
+            axios.post("http://localhost:5000/updateAccount",
                 {
                     userName: user,
                     password: pass,
@@ -116,6 +120,7 @@ class CreateAccount extends Component {
 
     render() {
         const login = this.state.accMade
+
         if(login) {
             return (
                 <App/>
@@ -126,7 +131,7 @@ class CreateAccount extends Component {
             return <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
                 <div style={styles.centerDiv}>
                     <img src={logo} style={{width: 100, height: 100}}/>
-                    <h1>Create Account</h1>
+                    <h1>Edit Account Info</h1>
                 </div>
 
                 <div className='userName' style={styles.centerDiv}>
@@ -166,7 +171,7 @@ class CreateAccount extends Component {
 
                 <div style={styles.centerDiv}>
                     <button class= 'login_button' style={styles.allButton} onClick={this.made.bind(this)}>
-                        Create Account
+                        Confirm Changes
                     </button>
                 </div>
 
@@ -218,4 +223,4 @@ const styles = {
     }
 };
 
-export default CreateAccount;
+export default EditAccountInfo;
