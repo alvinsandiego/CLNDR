@@ -10,6 +10,7 @@ import Following from "./Following";
 import Account from "./Account";
 import CreateEvent from "./CreateEventPage"
 import EditAccountInfo from "./EditAccountInfo";
+import Page from "./Page";
 
 const Root = () => {
     return (
