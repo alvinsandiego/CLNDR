@@ -68,14 +68,45 @@ router.post('./EventPage', (req,res) => {
 
 
 // follow host
-router.post('./HostPage', (req,res) => {
-	followHost(req.body.hostId, req.body.accountId);
-})
+//router.post('./HostPage', (req,res) => {
+//	followHost(req.body.hostId, req.body.accountId);
+//})
+
+app.post('/HostPage', (req, res, next) => {
+        passport.authenticate('jwt', { session: false }, (err, user, info) => {
+            if (err) {
+                console.log(err);
+            }
+
+            if (info != undefined) {
+                console.log(info.message);
+                res.send(info.message);
+            }
+            else {
+                followHost(req.body.hostId, user.accountId)
+            }
+        })(req, res, next);
+    });
 
 // unfollow host
-router.post('./HostPage', (req,res) => {
-	unfollowHost(req.body.hostId, req.body.accountId);
-})
+//router.post('./HostPage', (req,res) => {
+//	unfollowHost(req.body.hostId, req.body.accountId);
+//})
+app.post('/HostPage', (req, res, next) => {
+        passport.authenticate('jwt', { session: false }, (err, user, info) => {
+            if (err) {
+                console.log(err);
+            }
+
+            if (info != undefined) {
+                console.log(info.message);
+                res.send(info.message);
+            }
+            else {
+                unfollowHost(req.body.hostId, user.accountId)
+            }
+        })(req, res, next);
+    });
 
 // display host details
 router.get('./HostPage', (req,res) => {
