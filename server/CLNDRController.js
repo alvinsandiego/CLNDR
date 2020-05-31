@@ -1,42 +1,53 @@
-const (createEvent, updateEvent, deleteEvent
-       createAccount, updateAccount, deleteAccount,
-       planEvent, unplanEvent, followHost, unfollowHost} = require('./CLNDRModel');
+const {createEvent, updateEvent, deleteEvent,
+       planEvent, unplanEvent, followHost, unfollowHost} = require('./model/CLNDRModel');
 const express = require('express');
+const passport = require('passport');
+const bodyParser = require('body-parser');
+
+
 const router = express.Router();
+const app = express();
+const port = process.env.PORT || 5000;
+const server = app.listen(port, () => console.log('Listening on port', port));
+
+require('./auth/passport');
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(passport.initialize());
 
 // search bar
-router.get('./Page', (req,res) => {
+app.get('/Page', (req,res) => {
 
 })
 // create event
-router.post('./CreateEventPage', (req,res) => {
+app.post('/CreateEventPage', (req,res) => {
 
 })
 
 // update event
-router.post('./EventPage', (req,res) => {
+app.post('/EventPage', (req,res) => {
 
 })
 
 // delete event
-router.post('./EventPage', (req,res) => {
+app.post('/EventPage', (req,res) => {
 
 })
+
+// log in
+require('./routes/login')(app);
+
+// log out
 
 // create account
-router.post('./CreateAccount', (req,res) => {
-
-})
+require('./routes/register')(app);
 
 // update account
-router.post('./AccountPage', (req,res) => {
-
-})
+require('./routes/updateAccount')(app);
 
 // delete account
-router.post('./AccountPage', (req,res) => {
-
-})
+require('./routes/deleteAccount')(app);
 
 /*-------------------------------------------------------------------*/
 
@@ -48,7 +59,7 @@ two methods
 */
 
 // plan event
-router.post('./EventPage', (req,res) => {
+app.post('/EventPage', (req,res) => {
 
     /*
     For now, I will do:
@@ -57,7 +68,7 @@ router.post('./EventPage', (req,res) => {
 })
 
 // unplan event
-router.post('./EventPage', (req,res) => {
+app.post('/EventPage', (req,res) => {
     /*
     For now, I will do:
     */
@@ -68,45 +79,45 @@ router.post('./EventPage', (req,res) => {
 
 
 // follow host
-router.post('./HostPage', (req,res) => {
+app.post('/HostPage', (req,res) => {
 	followHost(req.body.hostId, req.body.accountId);
 })
 
 // unfollow host
-router.post('./HostPage', (req,res) => {
+app.post('/HostPage', (req,res) => {
 	unfollowHost(req.body.hostId, req.body.accountId);
 })
 
 // display host details
-router.get('./HostPage', (req,res) => {
+app.get('/HostPage', (req,res) => {
 
 })
 
 // display list of hosts
-router.get('./Following', (req,res) => {
+app.get('/Following', (req,res) => {
 
 })
 
 // display event details
-router.get('./EventPage', (req,res) => {
+app.get('/EventPage', (req,res) => {
 
 })
 
 // display list of events by host
-router.get('./HostPage', (req,res) => {
+app.get('/HostPage', (req,res) => {
 
 })
 
 
 // display list of planned events
-router.get('./Planned', (req,res) => {
+app.get('/Planned', (req,res) => {
 
 })
 
 // check if user is verified
-router.get('./CreateEventPage', (req,res) => {
+app.get('/CreateEventPage', (req,res) => {
 
 })
 
 
-module.exports = router;
+module.exports = app;
