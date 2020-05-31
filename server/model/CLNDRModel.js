@@ -13,18 +13,40 @@ var db = admin.firestore();
 // app functions
 function createEvent(title, dateStart, timeStart, dateEnd, 
                      timeEnd, description, keywords, cohosts) {
-   
-   
+     const id = db.collection('events').doc().id                  
+     db.collection('events').doc(id).set({
+     //sortId: to implement
+     eventId: id,
+     eventName: title,
+     startDate: dateStart,
+     endDate: dateEnd,
+     startTime: timeStart,
+     endTime: timeEnd,
+     eventDescription: description,
+     eventKeywords: keywords,
+     eventCohots: cohosts
+    });  
+    console.log(title);
 }
 
-function updateEvent(title, dateStart, timeStart, dateEnd, 
+function updateEvent(eventId, title, dateStart, timeStart, dateEnd, 
                      timeEnd, description, keywords, cohosts) {
-   
+    db.collection('events').doc(eventId).update({
+    eventName: title,
+    startDate: dateStart,
+    endDate: dateEnd,
+    startTime: timeStart,
+    endTime: timeEnd,
+    eventDescription: description,
+    eventKeywords: keywords,
+    eventCohots: cohosts
+   })
    
 }
 
 function deleteEvent(eventId){
-	
+    //check if event exists, unless firebase does it for you already
+	db.collection('events').doc(eventId).delete();
 }
 
 function createAccount(username, password, securityQ, securityA) {
@@ -83,6 +105,7 @@ function updateAccountSecurityAnswer(uid, payload) {
     });
 }
 
+/*
 function deleteAccount(uid) {
     return db.collection('users').doc(uid).delete();
 }
@@ -91,7 +114,8 @@ function deleteAccount(uid) {
 planEvent and unplanEvent, for the time-being, does not have accountId yet.
 Thus it is temporarily deleted as needed. Also added description and title
 as needed into planEvent
-*/
+
+
 function planEvent(eventId, Description, Title) {
 	
     //Most likely going to work like that; haven't found a use for accountId yet
@@ -115,7 +139,6 @@ function unplanEvent(eventId) {
     .catch(function(error) {
         console.log("Error removing document: ", error);
     })
-
 }
 
 function followHost(hostId, accountId) {
@@ -143,7 +166,7 @@ function getHost(hostId) {
 function getEvent(eventId) {
 
 }
-
-module.exports = (createEvent, updateEvent, deleteEvent,
-                  createAccount, readAccount, updateAccountUsername, updateAccountVerifiedStatus, updateAccountSecurityQuestion, updateAccountPassword, updateAccountSecurityAnswer, deleteAccount,
-                  planEvent, unplanEvent, followHost, unfollowHost);
+*/
+module.exports = {createEvent, updateEvent, deleteEvent,
+                  createAccount, readAccount}
+//updateAccountUsername, updateAccountVerifiedStatus, updateAccountSecurityQuestion, updateAccountPassword, updateAccountSecurityAnswer, deleteAccount,planEvent, unplanEvent, followHost, unfollowHost};

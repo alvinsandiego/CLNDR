@@ -6,12 +6,8 @@ import App from './App.js';
 import firebase from './firebase'
 import axios from "axios";
 
-var user;
-var pass;
-var pCon;
-var ques;
-var answ;
 class CreateAccount extends Component {
+
     state = {
         data     : null,
         userName : null,
@@ -120,7 +116,6 @@ class CreateAccount extends Component {
 
     render() {
         const login = this.state.accMade
-
         if(login) {
             return (
                 <App/>

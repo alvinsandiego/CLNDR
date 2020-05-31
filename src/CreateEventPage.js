@@ -1,8 +1,69 @@
+
 import React, { Component } from 'react';
 import "./styles/App.css"
 import logo from './img/Logo-Semitransparent.png';
 
 class CreateEvent extends Component {
+    
+    constructor(props) {
+        super(props)
+
+        this.state = {title:'Name',startDate:'00',endDate:'00',startTime:'00',
+                        endTime:'00',description:'00',
+                        keywords:'00',cohosts:'00'};
+        this.setTitle = this.setTitle.bind(this);
+       /* this.setStartDate=this.setStartDate.bind(this);
+        this.setEndDate = this.setEndDate.bind(this);
+        this.setStartTime = this.setStartTime.bind(this);
+        this.setEndTime = this.setEndTime.bind(this);
+        this.setEventDescription = this.setEventDescription.bind(this);
+        this.setEventKeywords = this.setEventKeywords.bind(this);
+        this.setCohosts = this.setCohosts.bind(this); */
+    }
+     
+    setTitle(e){
+        e.preventDefault();
+        console.log(e.target.value);
+        this.setState({
+            title:e.target.value
+        })
+        console.log(e.target.value);
+    }
+    /*
+    handleClick = () => {
+        console.log("hehe");
+        /* CONTROLLER CALL 
+        var title = this.state.title;
+        var startDate = this.state.startDate;
+        var startTime = this.state.startTime;
+        var endDate = this.state.endDate;
+        var endTime = this.state.endTime;
+        var description = this.state.description;
+        var keywords = this.state.keywords;
+        var cohosts = this.state.cohosts; 
+
+
+        /* make a post request with the new tutor we are adding 
+        let config = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title,
+                startTime,
+                endDate,
+                endTime,
+                description,
+                keywords,
+                cohosts
+            })
+        };
+    
+        /* make the server call, which will make the database call to add the new tutor to the tutors list 
+         fetch('http://localhost:5000/CreateEventPage', config).catch(error => console.log(error));
+    
+        /* END OF CONTROLLER CALL 
+} */
+
     render(){
         return(
         <div>
@@ -49,7 +110,7 @@ class CreateEvent extends Component {
             <form class="center create-event-form">
                 <div class="form-input">
                     <label>Event Title:</label>
-                    <input type="text" id="title" placeholder="Event Title"/>
+                    <input onChange={this.setTitle} type="text" id="title" placeholder="Event Title"/>
                 </div>
 
                 <div class="date-time-grid">
@@ -83,7 +144,7 @@ class CreateEvent extends Component {
                 </div>
 
                 <br/><br/>
-                <input type="submit" value="Submit"/>
+                <input type="submit" onClick={this.handleClick} value="Submit"/>
                 <input type="submit" value="Cancel"/>
             </form>
         </div>
