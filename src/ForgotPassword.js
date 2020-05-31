@@ -4,12 +4,25 @@ import './styles/App.css';
 import App from './App.js';
 
 import firebase from './firebase'
+import EventPage from "./EventPage";
+import axios from "axios";
 
 class ForgotPassword extends Component {
-	state = {
-   	data: null,
-		changeDone: false
-	};
+
+    constructor(props) {
+        super(props);
+
+        const eventID = this.props.username;
+
+
+        this.state = {
+            data: null,
+            changeDone: false,
+            username:"21",
+            securityQuestion:"What is 9+10"
+        };
+    };
+
 
    componentDidMount() {
    	// call fetch
@@ -26,29 +39,40 @@ class ForgotPassword extends Component {
 
     	return body;
   	};
+
+
+
+    componentDidMount = () =>{
+        axios.get("http://localhost:5000/userInfo?username="+this.props.username).then(response => {
+            this.setState({
+                securityQuestion: response.data.sec_question
+            })
+        });
+    };
+
+
 	
 
 
   	render() {
 	    return (
-				<div style={{backgroundColor: '#cccccc', height: 1000}}>
+				<div style={{backgroundColor: '#d6f3ff', height: 1000}}>
           <div style= {styles.centerDiv}>
 						<img src={logo} style= {{width: 100, height: 100}}/>
-        				<h1>Create Account</h1>
+        				<h1>Forgot Password</h1>
 					</div>
 
-          <div style={styles.centerDiv}>
-            <label>Username:</label>
+          <div class='left'>
+            <label>Username: {this.state.username}</label>
           </div>
-          <div style={styles.centerDiv}>
-            <label>Security Question:</label>
+          <div class='left'>
+            <label>Security Question:&nbsp;{this.state.securityQuestion}</label>
           </div>
 
-          <div style={styles.centerDiv}>
-            <label>Security Question Answer:</label>
+          <div class='left'>
+            <label>Security Question Answer:&nbsp;</label>
             <input type="text"/>
           </div>
-          
           <div style={styles.centerDiv}>
             <label>New Password:</label>
             <input type="text"/>
@@ -60,8 +84,8 @@ class ForgotPassword extends Component {
           </div>
 
           <div style={styles.centerDiv}>
-            <button style= {styles.allButton}>
-              Create Account
+            <button class='control_button'>
+              Confirm
             </button>
           </div>
 				</div>
@@ -80,5 +104,8 @@ const styles = {
     width: 175
   }
 };
+
+
+EventPage.defaultProps = {username: new String}
 
 export default ForgotPassword;
