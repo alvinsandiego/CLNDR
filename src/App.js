@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Page from './Page';
@@ -6,9 +7,9 @@ import axios from "axios";
 
 import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
-import EventPage from './EventPage.js'
 
-//import firebase from './firebase'
+
+import firebase from './firebase'
 
 var user;
 var pass;
@@ -81,6 +82,7 @@ class App extends Component {
       	     		<h3>Returning Member</h3>
 					</div>					
 					<div style= {styles.centerDiv}>
+
 						<label>Username &nbsp;</label>
 						<input type="text" name='userName' id="userN"/>
         	   	</div>
@@ -103,7 +105,9 @@ class App extends Component {
 						<p>To enjoy full personalized benefits of CLNDR, sign up for an account.</p>
 	            </div>
 					<div style= {styles.centerDiv}>
-						<button class= 'login_button'>Create Account</button>
+						<a href="/createaccount">
+							<button class= 'login_button' style= {{width: 130}}>Create Account</button>
+						</a>
                </div>
 					<br />
                <br />
@@ -114,7 +118,7 @@ class App extends Component {
 						<p>To simply explore scheduled events, continue as guest.</p>
 	            </div>
 					<div style= {styles.centerDiv}>
-						<button class= 'login_button' onClick= {this.goIn.bind(this)}>Continue as Guest</button>
+					<button class= 'login_button' style= {{width: 130}} onClick= {this.goIn.bind(this)}>Continue as Guest</button>
 				   </div>
 					<br />
          	</div>
