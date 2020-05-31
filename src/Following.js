@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles/App.css'
+import './styles/App.css';
 import logo from './img/Logo-Semitransparent.png';
 import Account from "./Account";
 import axios from "axios";
