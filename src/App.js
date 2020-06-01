@@ -16,45 +16,38 @@ var pass;
 
 
 class App extends Component {
-	state = {
-   	data: null,
-		signin: false,
+	constructor(props){
+		super(props);
 
-	};
-
-   componentDidMount() {
-   	// call fetch
-   	this.callBackendAPI().then(res => this.setState({ data: res.express })).catch(err => console.log(err));
- 	}
-
-   callBackendAPI = async() => {
-   	const response = await fetch('/test');
-   	const body = await response.json();
-
-   	if (response.status !== 200) {
-      	throw Error(body.message);
-   	}
-
-    	return body;
-  	};
-
-	//change state 
-	goIn() {
-		this.setState({
-			signin: true
-		})	
+		this.state = {
+			data: null,
+			 signin: false,
+	 
+		 };
 	}
-
 
 	handleLogin(){
 		user = document.getElementById('userN').value;
 		pass = document.getElementById( 'passW').value;
-
-		axios.post("http://localhost:5000/login",
+		if (user.length > 0 && pass.length > 0){
+			axios.post("http://localhost:5000/login",
 			{
-				userName: user,
+				username: user,
 				password: pass
-			})
+			}).then(response => {
+                console.log(response)
+                if (response.data.success) {
+					this.setState({signin: true})
+					const token = response.data.token;
+					localStorage.setItem('jwtToken',token);
+					this.props.history.push("/calendar");
+                }
+                else {
+					alert("Invalid Username or Password");
+                }
+            })
+        }
+		
 
 
 	}
@@ -92,11 +85,11 @@ class App extends Component {
 					  </div>
 					  <br /> 
 					  <div style= {styles.centerDiv}>
-              <a href ="/calendar">
+              
 					      <button class= 'login_button' style= {{width: 130}} onClick={() => this.handleLogin()}>
                   Login
                 </button>
-              </a>  
+              
               <a href="/forgotpassword">  
                 <button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgotPassword()}>
                   Forgot Password
