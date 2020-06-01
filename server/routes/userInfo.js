@@ -1,7 +1,7 @@
 const Accounts = require('../model/accountsModel');
 
 module.exports = function(app) {
-    app.get("/userInfo", (req, res, next) => {
+    app.get("/userInfo", (req, res) => {
         if (req.body.userID != undefined) {
             Accounts.readAccountByID(req.body.userID).then(documentSnapshot => {
                 if (documentSnapshot.exists) {
@@ -32,5 +32,5 @@ module.exports = function(app) {
         else {
             res.status(200).send({success: false, message: "Invalid request."});
         }
-    })(req, res, next);
+    });
 }
