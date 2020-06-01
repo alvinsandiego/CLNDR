@@ -12,6 +12,7 @@ import CreateEvent from "./CreateEventPage"
 import EditAccountInfo from "./EditAccountInfo";
 import Page from "./Page";
 import EventPage from "./EventPage";
+import Verification from  "./Verification";
 
 const Root = () => {
     return (
@@ -27,6 +28,7 @@ const Root = () => {
                     <Route component={Account} path="/account" />
                     <Route component={CreateEvent} path="/createevent" />
                     <Route component={EditAccountInfo} path="/editaccountinfo" />
+                    <Route component={Verification} path="/verification" />
                     <Route component={App} path="/" />
 
                 </Switch>
