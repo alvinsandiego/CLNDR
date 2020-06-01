@@ -57,6 +57,9 @@ require('./routes/deleteAccount')(app);
 // user info
 require('./routes/userInfo')(app);
 
+// account info
+require('./routes/accountInfo')(app);
+
 // following
 require('./routes/following')(app);
 
