@@ -11,12 +11,14 @@ import Account from "./Account";
 import CreateEvent from "./CreateEventPage"
 import EditAccountInfo from "./EditAccountInfo";
 import Page from "./Page";
+import EventPage from "./EventPage";
 
 const Root = () => {
     return (
         <BrowserRouter>
             <div>
                 <Switch>
+                    <Route component={EventPage} path="/eventpage"/>
                     <Route component={CreateAccount} path="/createaccount" />
                     <Route component={ForgotPassword} path="/forgotpassword" />
                     <Route component={Page} path="/calendar" />
@@ -26,6 +28,7 @@ const Root = () => {
                     <Route component={CreateEvent} path="/createevent" />
                     <Route component={EditAccountInfo} path="/editaccountinfo" />
                     <Route component={App} path="/" />
+
                 </Switch>
             </div>
         </BrowserRouter>

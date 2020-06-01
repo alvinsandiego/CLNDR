@@ -101,11 +101,9 @@ class Account extends Component {
             <p>Username: {this.state.username}</p><br/>
             <p>Email: {this.state.email}</p><br/>
             <p>Account Level: {this.state.accountLevel}</p><br/>
-            
-            <a href="/editaccountinfo">
-            <button className="control_button" onClick = {() => this.handleEditAccountInfo()}>Edit Account Info</button>
-            </a>
 
+
+            <a href="/editaccountinfo"><button className="control_button">Edit Account Info</button></a>
         </div>
             <br />
             <div value="withConfirm"style={styles.centerDiv}>

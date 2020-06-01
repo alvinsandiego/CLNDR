@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="8fb60b38-5d50-4d86-a354-d4f5ef54fa39" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/EditEventInfo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CreateEventPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/CreateEventPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Following.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Following.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planned.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planned.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ForgotPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ForgotPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Root.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,12 +72,23 @@
       <updated>1590814584841</updated>
       <workItem from="1590814586466" duration="365000" />
       <workItem from="1590814961345" duration="31099000" />
-      <workItem from="1590907690712" duration="7446000" />
+      <workItem from="1590907690712" duration="18338000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="1060" y="455" key="FileChooserDialogImpl" timestamp="1590908306510">
