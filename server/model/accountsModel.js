@@ -1,9 +1,10 @@
 const bcrypt = require("bcrypt");
 const {db} = require('./firebase');
+const HASH_ROUNDS = 9;
 
 function createAccount(username, password, securityQ, securityA) {
-    const encryptPW = bcrypt.hashSync(password, 16);
-    const encryptAnswer = bcrypt.hashSync(securityA, 16);
+    const encryptPW = bcrypt.hashSync(password, HASH_ROUNDS);
+    const encryptAnswer = bcrypt.hashSync(securityA, HASH_ROUNDS);
     return db.collection('users').add({
         username: username,
         password: encryptPW,
@@ -33,14 +34,14 @@ function updateAccount(uid, payload) {
         updateBody.username = payload.username;
     }
     if (payload.password != undefined) {
-        const encryptPW = bcrypt.hashSync(payload.password, 16);
+        const encryptPW = bcrypt.hashSync(payload.password, HASH_ROUNDS);
         updateBody.password = encryptPW;
     }
     if (payload.sec_question != undefined) {
         updateBody.sec_question = payload.sec_question;
     }
     if (payload.sec_answer != undefined) {
-        const encryptAnswer = bcrypt.hashSync(payload.sec_answer, 16);
+        const encryptAnswer = bcrypt.hashSync(payload.sec_answer, HASH_ROUNDS);
         updateBody.sec_answer = encryptAnswer;
     }
     
