@@ -65,21 +65,36 @@ two methods
 */
 
 // plan event
-app.post('/EventPage', (req,res) => {
-
-    /*
-    For now, I will do:
-    */
-    planEvent(req.body.eventId, req.body.Description, req.body.Title);
-})
+app.post('/EventPage', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            planEvent(req.body.eventId, req.body.Description, req.body.Title);
+        }
+    })(req, res, next);
+});
 
 // unplan event
-app.post('/EventPage', (req,res) => {
-    /*
-    For now, I will do:
-    */
-    unplanEvent(req.body.eventId);
-})
+app.post('/EventPage', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            unplanEvent(req.body.eventId);
+        }
+    })(req, res, next);
+});
 
 /*-------------------------------------------------------------------*/
 
