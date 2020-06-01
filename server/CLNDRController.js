@@ -86,51 +86,37 @@ app.post('/EventPage', (req,res) => {
 /*-------------------------------------------------------------------*/
 
 
-app.post('/HostPage', (req, res, next) => {
-        passport.authenticate('jwt', { session: false }, (err, user, info) => {
-            if (err) {
-                console.log(err);
-            }
+app.post('/follow', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
 
-            if (info != undefined) {
-                console.log(info.message);
-                res.send(info.message);
-            }
-            else {
-                followHost(req.body.hostId, user.accountId)
-            }
-        })(req, res, next);
-    });
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            followHost(req.body.hostId, user.id)
+        }
+    })(req, res, next);
+});
 
-// unfollow host
-//router.post('./HostPage', (req,res) => {
-//	unfollowHost(req.body.hostId, req.body.accountId);
-//})
-app.post('/HostPage', (req, res, next) => {
-        passport.authenticate('jwt', { session: false }, (err, user, info) => {
-            if (err) {
-                console.log(err);
-            }
+app.post('/unfollow', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
 
-            if (info != undefined) {
-                console.log(info.message);
-                res.send(info.message);
-            }
-            else {
-                unfollowHost(req.body.hostId, user.accountId)
-            }
-        })(req, res, next);
-    });
-
-// display host details
-app.get('/HostPage', (req,res) => {
-
-})
-
-// display list of hosts
-app.get('/Following', (req,res) => {
-
-})
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            unfollowHost(req.body.hostId, user.id)
+        }
+    })(req, res, next);
+});
 
 // display event details
 app.get('/EventPage', (req,res) => {
