@@ -8,6 +8,8 @@ const jwtSecret = require('./jwtConfig');
 
 const Accounts = require('../model/accountsModel');
 
+var usernamesBeingRegistered = {};
+
 passport.use(
     'register',
     new LocalStrategy(
@@ -18,17 +20,20 @@ passport.use(
             passReqToCallback: true
         },
         (req, username, password, done) => {
+            console.log(JSON.stringify(usernamesBeingRegistered));
             try {
                 // check if user already exists
                 Accounts.readAccountByUsername(username).then(querySnapshot => {
-                    if (!querySnapshot.empty) {
+                    if (!querySnapshot.empty || usernamesBeingRegistered[username] === true) {
                         // user exists
                         return done(null, false, {message: 'This username is already taken.'});
                     }
                     else {
                         console.log(JSON.stringify(req.body));
+                        usernamesBeingRegistered[username] = true;
                         Accounts.createAccount(username, password, req.body.sec_question, req.body.sec_answer).then(docRef => {
                             docRef.get().then(documentSnapshot => {
+                                delete usernamesBeingRegistered[username];
                                 return done(null, {id: documentSnapshot.ref.id, data: documentSnapshot.data()});
                             });
                         });
