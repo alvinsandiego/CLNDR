@@ -94,13 +94,6 @@ class Verification extends Component {
     render() {
         const confirm = this.state.accMade
 
-        if(confirm) {
-            return (
-                //Kevin says he will fix this. k. sure.
-                <App/>
-            );
-        }
-        else{
             const {errors} = this.state;
             return (
                 <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
@@ -158,7 +151,6 @@ class Verification extends Component {
 
 
             );
-        }
     }
 }
 

@@ -143,6 +143,20 @@ class NavBar extends Component {
                         <input type="text" style={{ width: 180 }} />
                         <button style={{ width: 95 }}>Search</button>
                     </div>
+
+                    <div style={{ backgroundColor: "#004d6e", textAlign: "center" }}>
+                        <a href="/calendar">
+                            <button class="control_button" style={styles.allButton}>
+                                View Calendar
+                        </button>
+                        </a>
+                        <a href="/account">
+                            <button class="control_button" style={styles.allButton}>
+                                Account
+                        </button>
+                        </a>
+                    </div>
+                    <br />
                 </div>
             )
         }

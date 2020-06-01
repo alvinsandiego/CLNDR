@@ -127,9 +127,11 @@ if(!this.state.guest){
                 </div>
 		<br />	
 		<div style={styles.centerDiv}>
-                <button class = "control_button" onClick = {() => this.handleApplyForVerification()}>
+		<a href="/verification" >
+                <button class = "control_button">
                   Apply For Verification
-                </button>{' '}
+                </button>
+		</a>
 		</div> 
 		<br />
                 <div value="withConfirm2"style={styles.centerDiv}>
