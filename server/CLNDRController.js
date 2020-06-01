@@ -1,5 +1,5 @@
 const {createEvent, updateEvent, deleteEvent,
-       planEvent, unplanEvent, followHost, unfollowHost} = require('./model/CLNDRModel');
+       planEvent, unplanEvent, followHost, unfollowHost,getEvent} = require('./model/CLNDRModel');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -24,20 +24,21 @@ app.get('/Page', (req,res) => {
 
 })
 // create event
-
 app.post('/CreateEventPage', (req,res) => {
-    createEvent(req.body.title, req.body.dateStart,req.body.startTime, req.body.endDate,
-        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts,req.body.image);
+    createEvent(req.body.title,req.body.hostID,req.body.startDate, req.body.startTime, req.body.endDate,
+        req.body.endTime, req.body.description,req.body.keywords,req.body.cohosts, req.body.imageUrl);
+        //req.body.image);
 })
 
 // update event
 app.post('/EventPage', (req,res) => {
-
+    updateEvent(req.body.title,req.body.startDate, req.body.startTime, req.body.endDate,
+        req.body.endTime, req.body.description,req.body.keywords,req.body.cohosts);
 })
 
 // delete event
 app.post('/EventPage', (req,res) => {
-
+    deleteEvent(req.body.eventId);
 })
 
 // log in
@@ -54,21 +55,6 @@ require('./routes/updateAccount')(app);
 // delete account
 require('./routes/deleteAccount')(app);
 
-// user info
-require('./routes/userInfo')(app);
-
-// account info
-require('./routes/accountInfo')(app);
-
-// following
-require('./routes/following')(app);
-
-// planned
-require('./routes/planned')(app);
-
-// request verification
-require('./routes/requestVerification')(app);
-
 /*-------------------------------------------------------------------*/
 
 /*
@@ -79,49 +65,47 @@ two methods
 */
 
 // plan event
-app.post('/EventPage', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info != undefined) {
-            console.log(info.message);
-            res.send(info.message);
-        }
-        else {
-            planEvent(req.body.eventId, req.body.Description, req.body.Title);
-        }
-    })(req, res, next);
-});
+app.post('/EventPage', (req,res) => {
+
+    /*
+    For now, I will do:
+    */
+    planEvent(req.body.eventId, req.body.Description, req.body.Title);
+})
 
 // unplan event
-app.post('/EventPage', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info != undefined) {
-            console.log(info.message);
-            res.send(info.message);
-        }
-        else {
-            unplanEvent(req.body.eventId);
-        }
-    })(req, res, next);
-});
+app.post('/EventPage', (req,res) => {
+    /*
+    For now, I will do:
+    */
+    unplanEvent(req.body.eventId);
+})
 
 /*-------------------------------------------------------------------*/
 
 
-// follow
-require('./routes/follow')(app);
+// follow host
+app.post('/HostPage', (req,res) => {
+	followHost(req.body.hostId, req.body.accountId);
+})
 
-// unfollow
-require('./routes/unfollow')(app);
+// unfollow host
+app.post('/HostPage', (req,res) => {
+	unfollowHost(req.body.hostId, req.body.accountId);
+})
+
+// display host details
+app.get('/HostPage', (req,res) => {
+
+})
+
+// display list of hosts
+app.get('/Following', (req,res) => {
+
+})
 
 // display event details
 app.get('/EventPage', (req,res) => {
-
 })
 
 // display list of events by host
@@ -137,7 +121,6 @@ app.get('/Planned', (req,res) => {
 
 // check if user is verified
 app.get('/CreateEventPage', (req,res) => {
-
 })
 
 module.exports = app;
