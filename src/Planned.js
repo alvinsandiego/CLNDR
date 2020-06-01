@@ -68,8 +68,8 @@ class Planned extends Component {
             return (
                 <tr class="events" key={id}>
                     <td>{id}</td>
-                    <td>{eventName}</td>
-                    <td>{hostName}</td>
+                    <td><a href={"/viewEvent?id=" + id}>{eventName}</a></td>
+                    <td><a href={"/viewHost?id=" + id}>{hostName}</a></td>
                     <td>{eventDate}</td>
                     <td>{eventTime}</td>
                 </tr>
