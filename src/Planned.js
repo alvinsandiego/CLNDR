@@ -1,54 +1,65 @@
 import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
+import Account from "./Account";
+import axios from "axios";
+import './styles/App.css';
+import NavBar from "./NavBar";
 
 class Planned extends Component {
 
     constructor(props){
         super(props)
-        this.state={
-            events: []
+        const userID = this.props.userID;
+
+        this.state = {
+            userID: "user1",
+            events: [{
+                id: "10",
+                eventName: "asdfasdfasdf",
+                hostName: "adfsasdf",
+                eventDate: "adfsasdf",
+                eventTime: "xxxxx"
+            }],
+            eventIDs: []
         }
     }
+
+
+    componentDidMount = () => {
+        axios.get("http://localhost:5000/Planned?userID=" + this.state.userID).then(response => {
+            this.setState({
+                eventIDs: response.data
+            })
+        });
+    };
+
+
+
 
     componentDidMount() {
         this.setData();
     }
 
     setData() {
-        /**
-         * Code for Complete Implementation :
-         * let newEvents = this.state.events.slice();
-         * let ids = getId();       // store ids in array
-         * 
-         * for (i = 0; i < ids.length; i += 1) {
-         *  let plEvent = getPlannedEvent(ids[i]);
-         *  newEvents.push({
-         * id: plEvent.id,
-         * eventName: plEvent.eventName,
-         * hostName: plEvent.hostName,
-         * eventDate: plEvent.eventDate,
-         * eventTime: plEvent.eventTime}) 
-         * }
-         */
 
-        // Place Holders
-        let ids = [0, 1, 2, 3, 4, 5]
-        let eventNames = ['Event #1', 'Event #2', 'Event #3', 'Event #4', 'Event #5', 'Event #6']
-        let hostNames = ['ab', 'bc', 'cd', 'de', 'ef', 'fg']
-        let dates = ['MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY', 'MM/DD/YYYY']
-        let times = ['HH:MM', 'HH:MM', 'HH:MM', 'HH:MM', 'HH:MM', 'HH:MM']
-        
-        // Implementation
         let newEvents = this.state.events.slice();
-        for (let i = 0; i < 6; i += 1) {
-            newEvents.push({id: ids[i], 
-                    eventName: eventNames[i],
-                hostName: hostNames[i],
-            eventDate: dates[i],
-        eventTime: times[i]})
-        }
+        for (var i = 0; i < this.state.eventIDs.size(); i++) {
 
-        this.setState({events : newEvents});
+            var eventInfo = axios.get("http://localhost:5000/EventPage?eventID=" + this.state.eventIDs[i])
+
+
+            newEvents.push({
+                id: i,
+                eventName: eventInfo.eventName,
+                hostName: eventInfo.hostName,
+                eventDate: eventInfo.eventDate,
+                eventTime: eventInfo.eventTime
+            })
+
+
+        }
+        this.setState({events: newEvents});
+
     }
 
     renderTableData(){
@@ -71,60 +82,32 @@ class Planned extends Component {
         return (
             <div>
                 <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
-                    <div style= {{display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'white'}}>
-                      <img src={logo} style= {{width: 100, height: 100} }/>
-                      <h1 style={{width: 500}}>CLN<span className="goldText">DR</span></h1>
-                      <input type= "text" style= {{width: 180}}/>
-                      <button style= {{width: 95}}>Search</button>
-                    </div>
 
-                    <div style={styles.centerDiv}>
-                        <a href="/calendar">
-                            <button class = "control_button" style={styles.allButton}>
-                                View Calendar
-                            </button>
-                        </a>
-                        <a href="/planned">
-                            <button class = "control_button" style={styles.allButton}>
-                                Planned Events
-                            </button>
-                        </a>
-                        <a href="/following">
-                            <button class = "control_button" style={styles.allButton}>
-                                Following
-                            </button>
-                        </a>
-                        <a href="/account">
-                            <button class = "control_button" style={styles.allButton}>
-                                Account
-                            </button>
-                        </a>
-                        <a href="/createevent">
-                            <button class = "control_button" style={styles.allButton}>
-                                Create Event
-                            </button>
-                        </a>
-                    </div>
+                    <NavBar/>
+
 
                     <br />
+                    <div class="events">
+                        <div class = "events2">
                     <body>
-            <h2>Planned Events</h2>
+                    <h2>Planned Events</h2>
+	                    
+                    <div style={styles.centerDiv}>
+                    <table class="events" id="events">
+                        <th>No.</th>
+                        <th>Event</th>
+                        <th>Host</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <tbody>
+                        {this.renderTableData()}
+                        </tbody>
+                    </table>
+                    </div>
 
-            <table class="events" id="events">
-                <th>No.</th>
-                <th>Event</th>
-                <th>Host</th>
-                <th>Date</th>
-                <th>Time</th>
-                <tbody>
-                    {this.renderTableData()}
-                </tbody>
-            </table>
-
-            </body>
+                    </body>
+                    </div>
+                    </div>
                 </div>
             </div>
         );
@@ -132,13 +115,17 @@ class Planned extends Component {
 }
 const styles = {
     centerDiv: {
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     allButton: {
-      height: 40, 
-      width: 175
+        height: 40,
+        width: 175
     }
-  };
+};
+
+
+
+
 export default Planned

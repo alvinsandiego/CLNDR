@@ -13,7 +13,8 @@ for (var i = 0; i < 31; i++) {
 }
 
 /** A Calendar. Pass the following props:
- * "referenceDate" is usually the current date, this component will use the reference date to determine what month to render and get events for.
+ * "referenceDate" is usually the current date, this component will use the reference date to 
+ * determine what month to render and get events for.
  */
 class CalendarView extends Component {
     constructor(props) {
@@ -116,9 +117,12 @@ class CalendarView extends Component {
     }
 
     render() {
-        // get the beginning and end of the month and weekdays so we can properly align and bound the calendar cells
-        const begOfMonth = new Date(this.state.referenceDate.getFullYear(), this.state.referenceDate.getMonth(), 1);
-        const endOfMonth = new Date(this.state.referenceDate.getFullYear(), this.state.referenceDate.getMonth() + 1, 0);
+        // get the beginning and end of the month and weekdays so
+        // we can properly align and bound the calendar cells
+        const begOfMonth = new Date(this.state.referenceDate.getFullYear(), 
+                                    this.state.referenceDate.getMonth(), 1);
+        const endOfMonth = new Date(this.state.referenceDate.getFullYear(), 
+                                    this.state.referenceDate.getMonth() + 1, 0);
         const weekdayOfStart = begOfMonth.getDay();
         const weekdayAfterEnd = endOfMonth.getDay() + 1;
 
@@ -134,9 +138,11 @@ class CalendarView extends Component {
                 events = emptyArrayOfArrays;
             }
 
-            // Here, we have a row for the weekday headings. Then, we know each month will occupy at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month could potentially occupy, only render them conditionally.
+            // Here, we have a row for the weekday headings. Then, we know each month will occupy 
+            // at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month 
+            // could potentially occupy, only render them conditionally.
             return (
-                <div class="calendar">
+                <div style={{ backgroundColor: '#d6f3ff' }} class="calendar">
                     {this.calendarHeading(header)}
                     <table>
                         <tr class="weekdays">
@@ -148,15 +154,38 @@ class CalendarView extends Component {
                             <td>Friday</td>
                             <td>Saturday</td>
                         </tr>
-                        <CalendarRow rowStart={weekdayOfStart} rowEnd={7} arrayStart={0} day={1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
-                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={7 - weekdayOfStart} day={7 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
-                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={14 - weekdayOfStart} day={14 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
-                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={21 - weekdayOfStart} day={21 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        <CalendarRow rowStart={weekdayOfStart} rowEnd={7} arrayStart={0} day={1} 
+                          events={events} maxEvents={maxEvents} linkEvents={linkEvents} 
+                          moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                        
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={7 - weekdayOfStart} 
+                          day={7 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} 
+                          linkEvents={linkEvents} moreEventsLink={moreEventsLink} 
+                          beginningOfPeriod={begOfMonth}/>
+                        
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={14 - weekdayOfStart} 
+                          day={14 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} 
+                          linkEvents={linkEvents} moreEventsLink={moreEventsLink} 
+                          beginningOfPeriod={begOfMonth}/>
+                        
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={21 - weekdayOfStart} 
+                          day={21 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} 
+                          linkEvents={linkEvents} moreEventsLink={moreEventsLink} 
+                          beginningOfPeriod={begOfMonth}/>
+                        
                         {(28 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
-                            <CalendarRow rowStart={0} rowEnd={((35 - weekdayOfStart + 1) <= endOfMonth.getDate()) ? 7 : weekdayAfterEnd} arrayStart={28 - weekdayOfStart} day={28 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                            <CalendarRow rowStart={0} rowEnd={((35 - weekdayOfStart + 1) 
+                              <= endOfMonth.getDate()) ? 7 : weekdayAfterEnd} arrayStart={28 - weekdayOfStart} 
+                              day={28 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} 
+                              linkEvents={linkEvents} moreEventsLink={moreEventsLink} 
+                              beginningOfPeriod={begOfMonth}/>
                         }
+
                         {(35 - weekdayOfStart + 1) <= endOfMonth.getDate() &&
-                            <CalendarRow rowStart={0} rowEnd={weekdayAfterEnd} arrayStart={35 - weekdayOfStart} day={35 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={begOfMonth}/>
+                            <CalendarRow rowStart={0} rowEnd={weekdayAfterEnd} arrayStart={35 - weekdayOfStart} 
+                            day={35 - weekdayOfStart + 1} events={events} maxEvents={maxEvents} 
+                            linkEvents={linkEvents} moreEventsLink={moreEventsLink} 
+                            beginningOfPeriod={begOfMonth}/>
                         }
                         
                     </table>
@@ -165,8 +194,12 @@ class CalendarView extends Component {
         }
         else {
             const weekdayOfRef = this.state.referenceDate.getDay();
-            const beginningOfWeek = new Date(this.state.referenceDate.getFullYear(), this.state.referenceDate.getMonth(), this.state.referenceDate.getDate() - weekdayOfRef);
-            const endOfWeek = new Date(beginningOfWeek.getFullYear(), beginningOfWeek.getMonth(), beginningOfWeek.getDate() + 6);
+            const beginningOfWeek = new Date(this.state.referenceDate.getFullYear(), 
+                                    this.state.referenceDate.getMonth(), 
+                                    this.state.referenceDate.getDate() - weekdayOfRef);
+            const endOfWeek = new Date(beginningOfWeek.getFullYear(), 
+                                       beginningOfWeek.getMonth(), 
+                                       beginningOfWeek.getDate() + 6);
 
             // build the list of events for the week and generate header
             var header = "";
@@ -181,12 +214,14 @@ class CalendarView extends Component {
                 const endMonthEvents = this.state.eventsDict[endOfWeekHeader];
 
                 if (begMonthEvents === undefined) {
-                    for (var i = beginningOfWeek.getDate() - 1; i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
+                    for (var i = beginningOfWeek.getDate() - 1; 
+                    i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
                         events.push([]);
                     }
                 }
                 else {
-                    for (var i = beginningOfWeek.getDate() - 1; i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
+                    for (var i = beginningOfWeek.getDate() - 1; 
+                    i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
                         events.push(begMonthEvents[i]);
                     }
                 }
@@ -234,7 +269,11 @@ class CalendarView extends Component {
                             <td>Friday</td>
                             <td>Saturday</td>
                         </tr>
-                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={0} day={beginningOfWeek.getDate()} events={events} maxEvents={maxEvents} linkEvents={linkEvents} moreEventsLink={moreEventsLink} beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
+                        <CalendarRow rowStart={0} rowEnd={7} arrayStart={0} 
+                                     day={beginningOfWeek.getDate()} events={events} 
+                                     maxEvents={maxEvents} linkEvents={linkEvents} 
+                                     moreEventsLink={moreEventsLink} 
+                                      beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
                     </table>
                 </div>
             );
@@ -261,7 +300,8 @@ class CalendarRow extends Component {
 
     calculateDate(index) {
         if (this.props.viewWeek) {
-            const endOfMonth = new Date(this.props.beginningOfPeriod.getFullYear(), this.props.beginningOfPeriod.getMonth() + 1, 0);
+            const endOfMonth = new Date(this.props.beginningOfPeriod.getFullYear(), 
+                                        this.props.beginningOfPeriod.getMonth() + 1, 0);
             return ((index + this.props.day - this.props.rowStart - 1) % (endOfMonth.getDate())) + 1;
         }
         else {
@@ -295,7 +335,8 @@ class CalendarRow extends Component {
                         }
                         else {
                             // otherwise, we put the current day, and map all events taking place that day to divs
-                            return <td class={(this.props.viewWeek) ? "calendar-cell-long" : "calendar-cell"}><div class="date">{this.calculateDate(index)}</div>{
+                            return <td class={(this.props.viewWeek) ? "calendar-cell-long" : "calendar-cell"}>
+                                   <div class="date">{this.calculateDate(index)}</div>{
                                 item.map((event, index) => {
                                     if (this.props.maxEvents === -1 || index < this.props.maxEvents) {
                                         if (this.props.linkEvents) {
@@ -311,7 +352,9 @@ class CalendarRow extends Component {
                                 })
                             }
                             {this.props.maxEvents !== -1 && item.length > this.props.maxEvents && this.props.moreEventsLink &&
-                                <a class="bold" href={"/viewEvents?year=" + this.props.beginningOfPeriod.toLocaleString('default', { year: 'numeric'}) + "&month=" + this.props.beginningOfPeriod.toLocaleString('default', { month: 'numeric'}) + "&day=" + this.calculateDate(index)}>View All></a>
+                                <a class="bold" href={"/viewEvents?year=" + this.props.beginningOfPeriod.toLocaleString('default', 
+                                                     { year: 'numeric'}) + "&month=" + this.props.beginningOfPeriod.toLocaleString('default', 
+                                                     { month: 'numeric'}) + "&day=" + this.calculateDate(index)}>View All></a>
                             }
                             </td>;
                         }

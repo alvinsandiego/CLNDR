@@ -1,6 +1,9 @@
 # CLNDR
 CSE 110 project. A web app that allows people to create and host events at UCSD, built using Firebase, Express, and React.
 
+## Important note:
+Everytime you `git pull` new code, make sure to run `npm install` to pull any new dependencies.
+
 ## How to download and set up this project:
 0. Make sure you have the following downloaded and installed:
     * `git` (Windows users: [Git Bash](https://git-scm.com/download/win) is an excellent terminal and git client)
