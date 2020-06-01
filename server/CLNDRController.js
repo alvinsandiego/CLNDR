@@ -3,6 +3,7 @@ const {createEvent, updateEvent, deleteEvent,
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 
 const router = express.Router();
@@ -12,6 +13,7 @@ const server = app.listen(port, () => console.log('Listening on port', port));
 
 require('./auth/passport');
 
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -25,7 +27,7 @@ app.get('/Page', (req,res) => {
 
 app.post('/CreateEventPage', (req,res) => {
     createEvent(req.body.title, req.body.dateStart,req.body.startTime, req.body.endDate,
-        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts);
+        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts,req.body.image);
 })
 
 // update event
@@ -51,6 +53,9 @@ require('./routes/updateAccount')(app);
 
 // delete account
 require('./routes/deleteAccount')(app);
+
+// user info
+require('./routes/userInfo')(app);
 
 /*-------------------------------------------------------------------*/
 
@@ -81,25 +86,37 @@ app.post('/EventPage', (req,res) => {
 /*-------------------------------------------------------------------*/
 
 
-// follow host
-app.post('/HostPage', (req,res) => {
-	followHost(req.body.hostId, req.body.accountId);
-})
+app.post('/follow', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
 
-// unfollow host
-app.post('/HostPage', (req,res) => {
-	unfollowHost(req.body.hostId, req.body.accountId);
-})
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            followHost(req.body.hostId, user.id)
+        }
+    })(req, res, next);
+});
 
-// display host details
-app.get('/HostPage', (req,res) => {
+app.post('/unfollow', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
 
-})
-
-// display list of hosts
-app.get('/Following', (req,res) => {
-
-})
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            unfollowHost(req.body.hostId, user.id)
+        }
+    })(req, res, next);
+});
 
 // display event details
 app.get('/EventPage', (req,res) => {

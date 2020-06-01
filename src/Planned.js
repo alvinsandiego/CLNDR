@@ -91,7 +91,8 @@ class Planned extends Component {
                         <div class = "events2">
                     <body>
                     <h2>Planned Events</h2>
-
+	                    
+                    <div style={styles.centerDiv}>
                     <table class="events" id="events">
                         <th>No.</th>
                         <th>Event</th>
@@ -102,6 +103,7 @@ class Planned extends Component {
                         {this.renderTableData()}
                         </tbody>
                     </table>
+                    </div>
 
                     </body>
                     </div>

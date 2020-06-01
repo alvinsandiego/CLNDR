@@ -11,15 +11,15 @@ module.exports = function(app) {
     
             if (info != undefined) {
                 console.log(info.message);
-                res.send(info.message);
+                res.send({success: false, message: info.message});
             }
             else {
                 req.logIn(user, err => {
                     const token = jwt.sign({id: user.id}, jwtConfig.secret);
                     res.status(200).send({
-                        auth: true,
+                        success: true,
                         token: token,
-                        message: "Log in successful"
+                        message: "Log in successful."
                     });
                 });
             }

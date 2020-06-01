@@ -14,6 +14,9 @@
     "firebase": "^7.14.6",
     "firebase-admin": "^8.12.1",
     "nodemon": "^2.0.4",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -26,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "frontend": "react-scripts start",
-    "backend": "nodemon server/server.js"
+    "backend": "nodemon server/CLNDRController.js"
   },
   "eslintConfig": {
     "extends": "react-app"

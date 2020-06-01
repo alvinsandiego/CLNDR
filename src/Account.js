@@ -9,6 +9,7 @@ import EditAccountInfo from "./EditAccountInfo";
 import { Button } from 'reactstrap';
 import logo from './img/Logo-Semitransparent.png';
 import NavBar from "./NavBar";
+import Root from "./Root";
 
 class Account extends Component {
     constructor(props) {
@@ -101,20 +102,27 @@ class Account extends Component {
             <p>Email: {this.state.email}</p><br/>
             <p>Account Level: {this.state.accountLevel}</p><br/>
 
-            <a href="/editaccountinfo"><button className="control_button">Edit Account Info</button></a>
 
+            <a href="/editaccountinfo"><button className="control_button">Edit Account Info</button></a>
         </div>
             <br />
-            <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button" onClick = {() => this.handleLogout()}>Log Out</button>{' '}
+            <div value="withConfirm"style={styles.centerDiv}>
+                <a href="/">
+                <button class = "control_button" onClick = {() => this.handleLogout()}>
+                  Log Out
+                </button>{' '}
+                </a>
                 </div>
 		<br />	
-		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button" onClick = {() => this.handleApplyForVerification()}>Apply For Verification</button>{' '}
+		<div style={styles.centerDiv}>
+                <button class = "control_button" onClick = {() => this.handleApplyForVerification()}>
+                  Apply For Verification
+                </button>{' '}
 		</div> 
 		<br />
-                <div value="withConfirm2"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}</button>{' '}
+                <div value="withConfirm2"style={styles.centerDiv}>
+                <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}
+                </button>{' '}
                 </div>
                 </div>
 
