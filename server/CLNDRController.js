@@ -54,6 +54,9 @@ require('./routes/updateAccount')(app);
 // delete account
 require('./routes/deleteAccount')(app);
 
+// user info
+require('./routes/userInfo')(app);
+
 /*-------------------------------------------------------------------*/
 
 /*
