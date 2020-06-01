@@ -26,7 +26,7 @@ class Planned extends Component {
 
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/Planned?userID=" + this.state.userID).then(response => {
+        axios.get("http://localhost:5000/planned").then(response => {
             this.setState({
                 eventIDs: response.data
             })

@@ -57,6 +57,15 @@ require('./routes/deleteAccount')(app);
 // user info
 require('./routes/userInfo')(app);
 
+// following
+require('./routes/following')(app);
+
+// planned
+require('./routes/planned')(app);
+
+// request verification
+require('./routes/requestVerification')(app);
+
 /*-------------------------------------------------------------------*/
 
 /*
@@ -86,37 +95,11 @@ app.post('/EventPage', (req,res) => {
 /*-------------------------------------------------------------------*/
 
 
-app.post('/follow', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
+// follow
+require('./routes/follow')(app);
 
-        if (info != undefined) {
-            console.log(info.message);
-            res.send(info.message);
-        }
-        else {
-            followHost(req.body.hostId, user.id)
-        }
-    })(req, res, next);
-});
-
-app.post('/unfollow', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-
-        if (info != undefined) {
-            console.log(info.message);
-            res.send(info.message);
-        }
-        else {
-            unfollowHost(req.body.hostId, user.id)
-        }
-    })(req, res, next);
-});
+// unfollow
+require('./routes/unfollow')(app);
 
 // display event details
 app.get('/EventPage', (req,res) => {

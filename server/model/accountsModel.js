@@ -53,8 +53,18 @@ function updateAccountVerifiedStatus(uid, payload) {
     });
 }
 
+function verifyAccount(uid, contact_email, org_name, profile_pic_url) {
+    return db.collection('users').doc(uid).update({
+        contact_email: contact_email,
+        hosted_events: [],
+        org_name: org_name,
+        profile_pic_url: profile_pic_url,
+        verified: true
+    });
+}
+
 function deleteAccount(uid) {
     return db.collection('users').doc(uid).delete();
 }
 
-module.exports = {createAccount, createAccountMinimal, readAccountByUsername, readAccountByID, updateAccount, updateAccountVerifiedStatus, deleteAccount};
+module.exports = {createAccount, createAccountMinimal, readAccountByUsername, readAccountByID, updateAccount, updateAccountVerifiedStatus, verifyAccount, deleteAccount};

@@ -113,7 +113,6 @@ class CreateAccount extends Component {
             })
         }
         else {
-            console.log("uh oh")
             let errors = this.state.errors;
             this.validateField('userName', user, errors);
             this.validateField('passWord', pass, errors);
