@@ -150,10 +150,10 @@ class ForgotPassword extends Component {
                         <input type="password" name="confirmPass" id="conP"/>
                     </div>
 
-                        <div className='left'>
+                        <div class='left'>
                             <b>{this.state.secAnsError}</b>
                         </div>
-                        <div className='left'>
+                        <div class='left'>
                             <b>{this.state.passError}</b>
                         </div>
 
@@ -190,6 +190,6 @@ const styles = {
 };
 
 
-EventPage.defaultProps = {username: new String}
+
 
 export default ForgotPassword;

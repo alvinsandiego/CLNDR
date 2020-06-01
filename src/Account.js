@@ -101,7 +101,7 @@ class Account extends Component {
             <p>Email: {this.state.email}</p><br/>
             <p>Account Level: {this.state.accountLevel}</p><br/>
 
-            <button className="control_button" onClick = {() => this.handleEditAccountInfo()}>Edit Account Info</button>
+            <a href="/editaccountinfo"><button className="control_button">Edit Account Info</button></a>
 
         </div>
             <br />

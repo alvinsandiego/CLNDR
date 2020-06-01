@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './styles/App.css';
 import axios from "axios";
+import NavBar from "./NavBar";
 
 class EventPage extends Component {
     constructor(props) {
         super(props);
 
-        const eventID = this.props.eventID;
+
 
 
         this.state = {
@@ -17,11 +18,18 @@ class EventPage extends Component {
             hostName: "Alex Wang",
             eventName: "Event name",
             eventDate: "May 7, 2020",
+            startTime: "12:00",
+            endTime: "15:00",
             interestCount: "25",
             eventDescription: "Blaha blah blah blah blah blah blah blah blah blah blah blah blah " +
                 "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " +
                 "blah blah blah blah blah blah blah blah blah blah blah blah",
-            eventID: "E1234123"
+            eventID: "E1234123",
+
+
+            userID: "",
+            eventHostID: ""
+
         };
     };
 
@@ -34,7 +42,10 @@ class EventPage extends Component {
                 eventDate: response.data.eventDate,
                 interestCount: response.data.interestCount,
                 eventDescription: response.data.eventDescription,
-                eventID: response.data.eventID
+                eventID: response.data.eventID,
+                eventHostID: response.data.eventHostID,
+                startTime: response.data.startTime,
+                endTime: response.data.endTime
             })
         });
 
@@ -44,7 +55,16 @@ class EventPage extends Component {
                 this.setState({planEventButtonColor: "#b8b8b8"})
                 this.setState({planEventButtonText: "Remove from planned events"})
             }
+
         });
+
+
+
+        /*get the user id*/
+        axios.get("http://localhost:5000/userInfo?userID=").then(response => {
+            this.setState({userID: response.data.userID})
+        });
+
     };
 
 
@@ -67,6 +87,12 @@ class EventPage extends Component {
     render() {
 
         return (
+
+
+            <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+
+                <NavBar/>
+
             <body>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
@@ -75,7 +101,7 @@ class EventPage extends Component {
             <div class="centerPage" >
 
                 <div class = "w3-row">
-                    <div class="center">
+                    <div class="center2">
 
                         <div className="w3-card-4 w3-margin w3-white">
                             <h6>
@@ -85,6 +111,7 @@ class EventPage extends Component {
                             <div className="w3-container">
                                 <h3><b>{this.state.eventName}</b></h3>
                                 <h5>{this.state.hostName}, <span className="w3-opacity">{this.state.eventDate}</span></h5>
+                                <h5><span className="w3-opacity">{this.state.startTime}-{this.state.endTime}</span></h5>
                             </div>
 
                             <div className="w3-container">
@@ -99,9 +126,7 @@ class EventPage extends Component {
                                             </button>
 
                                         </p>
-                                        <a href="#" className="fa fa-facebook"></a>
-                                        <a href="#" className="fa fa-twitter"></a>
-                                        <a href="#" className="fa fa-instagram"></a>
+
                                     </div>
                                     <div className="w3-col m4 w3-hide-small">
                                         <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
@@ -115,7 +140,10 @@ class EventPage extends Component {
                 </div>
             </div>
 
+
+
             </body>
+            </div>
         );
     }
 
@@ -125,6 +153,6 @@ EventPage.defaultProps = {color: "blue"}
 EventPage.defaultProps = {text: 'Button 1'}
 
 
-EventPage.defaultProps = {eventID: new String}
+
 
 export default EventPage;
