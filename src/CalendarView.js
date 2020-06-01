@@ -28,16 +28,12 @@ class CalendarView extends Component {
         }
 
         var eventsDict = {};
-
-        // eventsDict[CalendarView.getMonthIdentifier(this.props.initialReferenceDate)] = testArray;
-
+        
         this.state = {
             eventsDict: eventsDict,
             referenceDate: this.props.initialReferenceDate,
             viewWeek: false
         };
-
-        // this.getEventsForMonth(this.props.initialReferenceDate.getMonth(), this.props.initialReferenceDate.getFullYear());
     }
 
     incrementView() {
@@ -45,30 +41,9 @@ class CalendarView extends Component {
 
         if (this.state.viewWeek) {
             copyOfRef.setDate(copyOfRef.getDate() + 7);
-            
-            // const weekdayOfRef = copyOfRef.getDay();
-            // const beginningOfWeek = new Date(copyOfRef.getFullYear(), 
-            //                                  copyOfRef.getMonth(), 
-            //                                  copyOfRef.getDate() - weekdayOfRef);
-            // const endOfWeek = new Date(beginningOfWeek.getFullYear(), 
-            //                            beginningOfWeek.getMonth(), 
-            //                            beginningOfWeek.getDate() + 6);
-
-            // if (this.eventsUndefined(beginningOfWeek)) {
-            //     this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
-            // }
-            // if (beginningOfWeek.getMonth() !== endOfWeek.getMonth()) {
-            //     if (this.eventsUndefined(endOfWeek)) {
-            //         this.getEventsForMonth(endOfWeek.getMonth(), endOfWeek.getFullYear());
-            //     }
-            // }
         }
         else {
             copyOfRef.setMonth(copyOfRef.getMonth() + 1);
-
-            // if (this.eventsUndefined(copyOfRef)) {
-            //     this.getEventsForMonth(copyOfRef.getMonth(), copyOfRef.getFullYear());
-            // }
         }
         
         this.setState({
@@ -81,30 +56,9 @@ class CalendarView extends Component {
         
         if (this.state.viewWeek) {
             copyOfRef.setDate(copyOfRef.getDate() - 7);
-
-            // const weekdayOfRef = copyOfRef.getDay();
-            // const beginningOfWeek = new Date(copyOfRef.getFullYear(), 
-            //                                  copyOfRef.getMonth(), 
-            //                                  copyOfRef.getDate() - weekdayOfRef);
-            // const endOfWeek = new Date(beginningOfWeek.getFullYear(), 
-            //                            beginningOfWeek.getMonth(), 
-            //                            beginningOfWeek.getDate() + 6);
-
-            // if (this.eventsUndefined(beginningOfWeek)) {
-            //     this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
-            // }
-            // if (beginningOfWeek.getMonth() !== endOfWeek.getMonth()) {
-            //     if (this.eventsUndefined(endOfWeek)) {
-            //         this.getEventsForMonth(endOfWeek.getMonth(), endOfWeek.getFullYear());
-            //     }
-            // }
         }
         else {
             copyOfRef.setMonth(copyOfRef.getMonth() - 1);
-
-            // if (this.eventsUndefined(copyOfRef)) {
-            //     this.getEventsForMonth(copyOfRef.getMonth(), copyOfRef.getFullYear());
-            // }
         }
 
         this.setState({
