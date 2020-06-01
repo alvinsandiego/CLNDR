@@ -127,7 +127,7 @@ class CalendarView extends Component {
             // at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month 
             // could potentially occupy, only render them conditionally.
             return (
-                <div style={{ backgroundColor: '#d6f3ff' }} class="calendar">
+                <div class="calendar">
                     {this.calendarHeading(header)}
                     <table>
                         <tr class="weekdays">
