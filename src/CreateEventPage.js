@@ -3,37 +3,71 @@ import React, { Component } from 'react';
 import "./styles/App.css"
 import logo from './img/Logo-Semitransparent.png';
 import NavBar from "./NavBar";
+import axios from "axios";
+import { Timestamp } from '@google-cloud/firestore';
 
 class CreateEvent extends Component {
     
     constructor(props) {
         super(props)
+        this.state = {
+        title:"",
+        startDate:"",
+        endDate:"",
+        startTime:"",
+        endTime:"",
+        description:"",
+        keywords:"",
+        cohosts:"",
+        //implements
+        imageURL:"",
+        userID: null,
+        username: null,
+        email: null,
+        accountLevel: null,
+        guest: true
+    };
 
-        this.state = {title:'Name',startDate:'00',endDate:'00',startTime:'00',
-                        endTime:'00',description:'00',
-                        keywords:'00',cohosts:'00'};
-        this.setTitle = this.setTitle.bind(this);
-       /* this.setStartDate=this.setStartDate.bind(this);
-        this.setEndDate = this.setEndDate.bind(this);
-        this.setStartTime = this.setStartTime.bind(this);
-        this.setEndTime = this.setEndTime.bind(this);
-        this.setEventDescription = this.setEventDescription.bind(this);
-        this.setEventKeywords = this.setEventKeywords.bind(this);
-        this.setCohosts = this.setCohosts.bind(this); */
+    this.handleInputChange = this.handleInputChange.bind(this);
     }
-     
-    setTitle(e){
-        e.preventDefault();
-        console.log(e.target.value);
+
+  /*Get Account Details*/
+  componentDidMount = () =>{
+    let userToken = localStorage.getItem('jwtToken');
+	if (userToken === null) {
+	 this.setState({
+	        userID: "log in for this",
+	    });
+	}
+	else {
+    axios.get('http://localhost:5000/accountInfo', {
+      headers: { Authorization: 'JWT ' + userToken },
+    })
+    .then(response => {
+      if(response.data.success){
+      this.setState({
+	  userID: response.data.id,
+      });
+      console.log(this.state.userID);
+      }
+      else{}
+    })
+    .catch(error => {
+      console.log(error.data);
+    });
+  }
+}
+
+    handleInputChange(event) {
         this.setState({
-            title:e.target.value
-        })
-        console.log(e.target.value);
-    }
-    /*
+          [event.target.name]: event.target.value
+        });
+      }
+
+
     handleClick = () => {
-        console.log("hehe");
-        /* CONTROLLER CALL 
+        console.log("hehe"); 
+        /* CONTROLLER CALL */
         var title = this.state.title;
         var startDate = this.state.startDate;
         var startTime = this.state.startTime;
@@ -41,73 +75,82 @@ class CreateEvent extends Component {
         var endTime = this.state.endTime;
         var description = this.state.description;
         var keywords = this.state.keywords;
-        var cohosts = this.state.cohosts; 
+        var cohosts = this.state.cohosts;
+        var imageUrl = this.state.imageURL;
+        var hostID = this.state.userID;
 
+        console.log(hostID);
 
-        /* make a post request with the new tutor we are adding 
+        /* make a post request with the new tutor we are adding */
         let config = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 title,
+                hostID,
+                startDate,
                 startTime,
                 endDate,
                 endTime,
                 description,
                 keywords,
-                cohosts
+                cohosts,
+                imageUrl
             })
         };
     
-        /* make the server call, which will make the database call to add the new tutor to the tutors list 
-         fetch('http://localhost:5000/CreateEventPage', config).catch(error => console.log(error));
+        /* make the server call, which will make the database call to add the new tutor to the tutors list */
+        fetch('http://localhost:5000/CreateEventPage', config).catch(error => console.log(error));
     
-        /* END OF CONTROLLER CALL 
-} */
+        /* END OF CONTROLLER CALL */
+}
+
 
     render(){
+        const {title, startDate, startTime, endDate, endTime, description, keywords, cohosts,imageURL} = this.state;
+
         return(
         <div>
             <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
 
-                    <NavBar/>
+            <NavBar/>
 
-                    <br />
+            <br />
             <h1 class="center">Create Event</h1>
             <form class="center create-event-form">
                 <div class="form-input">
                     <label>Event Title:</label>
-                    <input onChange={this.setTitle} type="text" id="title" placeholder="Event Title"/>
+                    <input onChange={this.handleInputChange} type="text" name="title" id="title" placeholder="Event Title"/>
                 </div>
 
                 <div class="date-time-grid">
                     <label>Start Date:</label><label>Start Time:</label>
-                    <input type="date" id="start_date" /><input type="time" id="start_time" />
+                    <input onChange={this.handleInputChange} name="startDate" type="date" id="start_date" /><input type="time" onChange={this.handleInputChange} name="startTime" id="start_time" />
                 </div>
 
                 <div class="date-time-grid">
                     <label>End Date:</label><label>End Time:</label>
-                    <input type="date" id="end_date" /><input type="time" id="end_time" />
+                    <input onChange={this.handleInputChange} name="endDate" type="date" id="end_date" /><input type="time" onChange={this.handleInputChange} name="endTime" id="end_time" />
                 </div>
 
                 <div class="form-input">
                     <label>Details:</label>
-                    <textarea rows = "5" cols = "50" id="details" placeholder="Enter description here..."></textarea>
+                    <textarea onChange={this.handleInputChange} name="description" rows = "5" cols = "50" id="details" placeholder="Enter description here..."></textarea>
                 </div>
 
                 <div class="form-input">
                     <label>Keywords:</label>
-                    <textarea rows = "3" cols = "50" id="details"></textarea>
+                    <textarea onChange={this.handleInputChange} name="keywords" rows = "3" cols = "50" id="details"></textarea>
                 </div>
 
                 <div class="form-input">
                     <label>Co-Hosts:</label>
-                    <textarea rows = "1" cols = "50" id="details"></textarea>
+                    <textarea onChange={this.handleInputChange} name="cohosts" rows = "1" cols = "50" id="details"></textarea>
                 </div>
 
                 <div class="form-input">
                     <label>Pictures or Videos</label>
-                    <button type="button">Upload</button>
+                    <input onChange={this.handleInputChange} type="text" name="imageURL" id="title" placeholder="Image URL"/>
                 </div>
 
                 <br/><br/>
@@ -120,6 +163,7 @@ class CreateEvent extends Component {
         );
     }
 }
+
 const styles = {
     centerDiv: {
       display: 'flex', 
