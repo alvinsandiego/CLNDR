@@ -1,27 +1,30 @@
 const {db} = require('./firebase');
 
 // app functions
-function createEvent(title, dateStart, timeStart, dateEnd, 
-                     timeEnd, description, keywords, cohosts, image) {
+function createEvent(title, hostingId,dateStart, timeStart,
+    dateEnd, timeEnd, description, keywords, cohosts,imageURL) {
+    
+    //image
      const id = db.collection('events').doc().id                  
      db.collection('events').doc(id).set({
-     //sortId: to implement
+     sortId: dateStart.concat(timeStart,dateEnd,timeEnd),
      eventId: id,
      eventName: title,
+     hostID: hostingId,
      startDate: dateStart,
      endDate: dateEnd,
      startTime: timeStart,
-     endTime: timeEnd,
+     endTime: timeEnd, 
      eventDescription: description,
      eventKeywords: keywords,
      eventCohots: cohosts,
-     imgUrl: image
+     imageUrl: imageURL
     });  
     console.log(title);
 }
 
 function updateEvent(eventId, title, dateStart, timeStart, dateEnd, 
-                     timeEnd, description, keywords, cohosts) {
+                     timeEnd, description, keywords, cohosts,imageURL) {
     db.collection('events').doc(eventId).update({
     eventName: title,
     startDate: dateStart,
@@ -30,7 +33,8 @@ function updateEvent(eventId, title, dateStart, timeStart, dateEnd,
     endTime: timeEnd,
     eventDescription: description,
     eventKeywords: keywords,
-    eventCohots: cohosts
+    eventCohots: cohosts,
+    imageUrl: imageURL
    })
    
 }
@@ -94,8 +98,12 @@ function getHost(hostId) {
 }
 
 function getEvent(eventId) {
+    return db.collection('events').doc(eventId).get();
+}
+
+function queryBasedOnDateYear(date){
 
 }
 
 module.exports = {createEvent, updateEvent, deleteEvent,
-                  planEvent, unplanEvent, followHost, unfollowHost};
+                  planEvent, unplanEvent, followHost, unfollowHost,getEvent};
