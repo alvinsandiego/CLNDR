@@ -7,11 +7,11 @@ import firebase from './firebase'
 import EventPage from "./EventPage";
 import axios from "axios";
 
-var secAns;
-var newPass;
-var confPass;
+var email;
+var org;
+var pic;
 
-class ForgotPassword extends Component {
+class Verification extends Component {
 
     constructor(props) {
         super(props);
@@ -33,29 +33,27 @@ class ForgotPassword extends Component {
 
     };
 
-    componentDidMount = () =>{
-        axios.get("http://localhost:5000/userInfo?username="+this.props.username).then(response => {
-            this.setState({
-                securityQuestion: response.data.sec_question
-            })
-        });
-    };
 
+    handleVerify(){
+        email = document.getElementById('email').value;
+        org = document.getElementById('oName').value;
+        pic = document.getElementById('pic').value;
 
-    handleForgotPass(){
-        secAns = document.getElementById('secQ').value;
-        newPass = document.getElementById('newP').value;
-        confPass = document.getElementById('conP').value;
+        
 
-        if(secAns.length > 0 && newPass.length > 0 && confPass == newPass){
+        if(email.length > 0 && org.length > 0 && pic.length > 0){
+
+            alert("Sweet! Your application has been submitted.");
+
             this.setState({
                 accMade: true
             })
 
-            axios.post("http://localhost:5000/login",
+            axios.post("http://localhost:5000/requestVerification",
                 {
-                    securityAns: secAns,
-                    newPassword: newPass
+                    contact_email: email,
+                    org_name: org,
+                    profile_pic_url: pic
 
                 })
         }
@@ -63,29 +61,26 @@ class ForgotPassword extends Component {
 
 
     handleChange = () => {
-        var secAns = document.getElementById('secQ').value;
-        var newPass = document.getElementById( 'newP').value;
-        var confPass = document.getElementById( 'conP').value;
+        var email = document.getElementById('email').value;
+        var org = document.getElementById( 'oName').value;
+        var pic = document.getElementById( 'pic').value;
 
-        if(secAns.length==0){
-            this.setState({secAnsError: 'Security Answer cannot be empty'})
+        if(email.length==0){
+            this.setState({secAnsError: 'Please enter an email'})
         }
         else{
             this.setState({secAnsError: ''})
         }
 
-        if(newPass.length==0){
-            this.setState({passError: 'Please enter a password'})
-        }
-        else if(newPass!=confPass){
-            this.setState({passError: 'Password must match password confirmation'})
+        if(org.length==0){
+            this.setState({passError: 'Please enter an organization name'})
         }
         else{
             this.setState({passError: ''})
         }
 
-        if(confPass.length==0){
-            this.setState({confError: 'Please confirm password'})
+        if(pic.length==0){
+            this.setState({confError: 'Please provide a profile picture URL'})
         }
         else{
             this.setState({confError: ''})
@@ -111,39 +106,31 @@ class ForgotPassword extends Component {
                 <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
                     <div style= {styles.centerDiv}>
                         <img src={logo} style= {{width: 100, height: 100}}/>
-                        <h1>Forgot Password</h1>
+                        <h1>Verification Application</h1>
                     </div>
                     <div class='events'>
 
                     <div class='left'>
-                        <label>Username: {this.state.username}</label>
-                    </div>
-                    <div class='left'>
-                        <label>Security Question:&nbsp;{this.state.securityQuestion}</label>
-                    </div>
-
-                    <div class='left'>
-                        <label>Security Question Answer:&nbsp;</label>
-                        <input type="text" name='secQuestion' id="secQ"
+                        <label>Contact Email:&nbsp;</label>
+                        <input type="text" name='contEmail' id="email"
                                onChange={this.handleChange}/>
                     </div>
 
                     <div class='left'>
-                        <label>New Password:&nbsp;</label>
-                        <input type="password" name='newPassword' id="newP"
+                        <label>Organization Name:&nbsp;</label>
+                        <input type="text" name='orgName' id="oName"
                                onChange={this.handleChange}/>
                     </div>
 
                     <div class='left'>
-                        <label>Confirm New Password:&nbsp;</label>
-                        <input type="password" name="confirmPass" id="conP"
+                        <label>Profile Picture URL:&nbsp;</label>
+                        <input type="text" name="profPic" id="pic"
                                 onChange={this.handleChange}/>
-
                     </div>
 
 
                     <div style={styles.centerDiv}>
-                        <button class='control_button' onClick={this.handleForgotPass.bind(this)}>
+                        <button class='control_button' onClick={this.handleVerify.bind(this)}>
                             Confirm
                         </button>
 			        <a href= "/">
@@ -166,10 +153,6 @@ class ForgotPassword extends Component {
                         </div>
 
                 </div>
-
-
-
-
 
                 </div>
 
@@ -195,4 +178,4 @@ const styles = {
 
 EventPage.defaultProps = {username: new String}
 
-export default ForgotPassword;
+export default Verification;

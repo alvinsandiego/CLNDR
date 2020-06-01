@@ -62,8 +62,7 @@ class App extends Component {
 
 
   	render() {
-		const login = this.state.signin
-		if(!login) {
+		
     		return (
 				  <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
 					  <div style= {styles.centerDiv}>
@@ -128,13 +127,9 @@ class App extends Component {
           </div>
  	   	);
 		}
-		else if(login) {
-			return (
-				<Page/>
-			);
-		}
+
   }
-}
+
 
 const styles = {
   centerDiv: {
