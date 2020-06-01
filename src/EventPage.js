@@ -34,8 +34,9 @@ class EventPage extends Component {
     };
 
     /*Get Event Details*/
+    /*
     componentDidMount = () =>{
-        axios.get("http://localhost:5000/EventPage?eventID="+this.props.eventID).then(response => {
+        axios.get("http://localhost:5000/EventPage?eventID="+this.props.match.params.id).then(response => {
             this.setState({
                 eventName: response.data.eventName,
                 hostName: response.data.hostName,
@@ -49,7 +50,10 @@ class EventPage extends Component {
             })
         });
 
-        /*Check if user is already following event*/
+
+        /*Check if user is already following event
+        let userToken = localStorage.getItem(jwtToken);
+
         axios.get("http://localhost:5000/Planned?userID=").then(response => {
             if(response.data.contains(this.state.eventID)){
                 this.setState({planEventButtonColor: "#b8b8b8"})
@@ -60,12 +64,62 @@ class EventPage extends Component {
 
 
 
-        /*get the user id*/
+        /*get the user id
         axios.get("http://localhost:5000/userInfo?userID=").then(response => {
             this.setState({userID: response.data.userID})
         });
 
     };
+*/
+        /*Get Account Details*/
+  
+
+  componentDidMount = () =>{
+    let config = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    };
+
+    var eventID = "6ctPVjhATlNbJysHXUlh";
+
+    /* we are making a call to this route, we specified what kind of call (post / get) we are making */
+    fetch('http://localhost:5000/EventPage?eventID=' + eventID, config)
+    .then(response => response.json())
+    .catch(error => console.log(error));
+
+    axios.get(`http://localhost:5000/EventPage${this.props.match.params.id}`).then(response => {
+        this.setState({
+            eventName: response.data.data.eventName,
+            hostName: response.data.data.hostName,
+            eventDate: response.data.data.eventDate,
+            //interestCount: response.data.data.interestCount,
+            eventDescription: response.data.data.eventDescription,
+            eventID: response.data.data.eventID,
+            eventHostID: response.data.data.eventHostID,
+            startTime: response.data.data.startTime,
+            endTime: response.data.data.endTime
+        })
+    }); 
+
+    let userToken = localStorage.getItem('jwtToken');
+	if (userToken === null) {
+	}
+	else {
+    axios.get('http://localhost:5000/accountInfo', {
+      headers: { Authorization: 'JWT ' + userToken },
+    })
+    .then(response => {
+      if(response.data.success){
+        this.setState({planEventButtonColor: "#b8b8b8"})
+        this.setState({planEventButtonText: "Remove from planned events"});
+      }
+      else{}
+    })
+    .catch(error => {
+      console.log(error.data);
+    });
+  }
+  }
 
 
     //Handles the button to add planned event
