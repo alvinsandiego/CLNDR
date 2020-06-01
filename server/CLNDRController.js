@@ -54,6 +54,9 @@ require('./routes/updateAccount')(app);
 // delete account
 require('./routes/deleteAccount')(app);
 
+// user info
+require('./routes/userInfo')(app);
+
 /*-------------------------------------------------------------------*/
 
 /*
@@ -83,6 +86,7 @@ app.post('/EventPage', (req,res) => {
 /*-------------------------------------------------------------------*/
 
 
+<<<<<<< HEAD
 // follow host
 <<<<<<< HEAD
 //router.post('./HostPage', (req,res) => {
@@ -144,6 +148,39 @@ app.get('/HostPage', (req,res) => {
 app.get('/Following', (req,res) => {
 
 })
+=======
+app.post('/follow', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            followHost(req.body.hostId, user.id)
+        }
+    })(req, res, next);
+});
+
+app.post('/unfollow', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+
+        if (info != undefined) {
+            console.log(info.message);
+            res.send(info.message);
+        }
+        else {
+            unfollowHost(req.body.hostId, user.id)
+        }
+    })(req, res, next);
+});
+>>>>>>> d50fb7e128e17bcb9dd43ec3cd6fdffba0277048
 
 // display event details
 app.get('/EventPage', (req,res) => {

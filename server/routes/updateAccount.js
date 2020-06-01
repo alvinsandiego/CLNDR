@@ -10,7 +10,7 @@ module.exports = function(app) {
 
             if (info != undefined) {
                 console.log(info.message);
-                res.send(info.message);
+                res.send({success: false, message: info.message});
             }
             else {
                 if (req.body.username != undefined) {
@@ -18,10 +18,10 @@ module.exports = function(app) {
                     Accounts.readAccountByUsername(req.body.username).then(snapshot => {
                         if (snapshot.empty || req.body.username === user.data.username) {
                             Accounts.updateAccount(user.id, req.body);
-                            res.status(200).send("Updated account.");
+                            res.status(200).send({success: true, message: "Updated account."});
                         }
                         else {
-                            res.send("Username already taken. Account not updated.");
+                            res.send({success: false, message: "Username already taken. Account not updated."});
                         }
                     });
                 }

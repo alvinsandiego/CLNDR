@@ -102,7 +102,6 @@ class CreateAccount extends Component {
                 sec_question: ques,
                 sec_answer: answ
             }).then(response => {
-                console.log(response)
                 if (response.data.success) {
                     this.props.history.push("/");
                 }

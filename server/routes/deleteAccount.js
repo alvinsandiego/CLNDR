@@ -6,11 +6,11 @@ module.exports = function(app) {
         passport.authenticate('jwt', { session: false }, (err, user, info) => {
             try {
                 Accounts.deleteAccount(user.id).then(result => {
-                    res.status(200).send("Account deletion processed.");
+                    res.status(200).send({success: true, message: "Account deletion processed."});
                 });
             }
             catch (err) {
-                res.send("Account deletion error.");
+                res.status(200).send({success: false, message: "Account deletion error."});
             }
         })(req, res, next);
     });
