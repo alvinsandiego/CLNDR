@@ -4,7 +4,7 @@ import "./styles/CalendarView.css";
 import logo from './img/Logo-Semitransparent.png';
 import axios from "axios";
 
-const maxEvents = 1;
+const maxEvents = 3;
 const linkEvents = true;
 const moreEventsLink = true;
 
@@ -29,13 +29,15 @@ class CalendarView extends Component {
 
         var eventsDict = {};
 
-        eventsDict[CalendarView.getMonthIdentifier(this.props.initialReferenceDate)] = testArray;
+        // eventsDict[CalendarView.getMonthIdentifier(this.props.initialReferenceDate)] = testArray;
 
         this.state = {
             eventsDict: eventsDict,
             referenceDate: this.props.initialReferenceDate,
             viewWeek: false
         };
+
+        // this.getEventsForMonth(this.props.initialReferenceDate.getMonth(), this.props.initialReferenceDate.getFullYear());
     }
 
     incrementView() {
@@ -43,9 +45,30 @@ class CalendarView extends Component {
 
         if (this.state.viewWeek) {
             copyOfRef.setDate(copyOfRef.getDate() + 7);
+            
+            // const weekdayOfRef = copyOfRef.getDay();
+            // const beginningOfWeek = new Date(copyOfRef.getFullYear(), 
+            //                                  copyOfRef.getMonth(), 
+            //                                  copyOfRef.getDate() - weekdayOfRef);
+            // const endOfWeek = new Date(beginningOfWeek.getFullYear(), 
+            //                            beginningOfWeek.getMonth(), 
+            //                            beginningOfWeek.getDate() + 6);
+
+            // if (this.eventsUndefined(beginningOfWeek)) {
+            //     this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
+            // }
+            // if (beginningOfWeek.getMonth() !== endOfWeek.getMonth()) {
+            //     if (this.eventsUndefined(endOfWeek)) {
+            //         this.getEventsForMonth(endOfWeek.getMonth(), endOfWeek.getFullYear());
+            //     }
+            // }
         }
         else {
             copyOfRef.setMonth(copyOfRef.getMonth() + 1);
+
+            // if (this.eventsUndefined(copyOfRef)) {
+            //     this.getEventsForMonth(copyOfRef.getMonth(), copyOfRef.getFullYear());
+            // }
         }
         
         this.setState({
@@ -58,14 +81,54 @@ class CalendarView extends Component {
         
         if (this.state.viewWeek) {
             copyOfRef.setDate(copyOfRef.getDate() - 7);
+
+            // const weekdayOfRef = copyOfRef.getDay();
+            // const beginningOfWeek = new Date(copyOfRef.getFullYear(), 
+            //                                  copyOfRef.getMonth(), 
+            //                                  copyOfRef.getDate() - weekdayOfRef);
+            // const endOfWeek = new Date(beginningOfWeek.getFullYear(), 
+            //                            beginningOfWeek.getMonth(), 
+            //                            beginningOfWeek.getDate() + 6);
+
+            // if (this.eventsUndefined(beginningOfWeek)) {
+            //     this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
+            // }
+            // if (beginningOfWeek.getMonth() !== endOfWeek.getMonth()) {
+            //     if (this.eventsUndefined(endOfWeek)) {
+            //         this.getEventsForMonth(endOfWeek.getMonth(), endOfWeek.getFullYear());
+            //     }
+            // }
         }
         else {
             copyOfRef.setMonth(copyOfRef.getMonth() - 1);
+
+            // if (this.eventsUndefined(copyOfRef)) {
+            //     this.getEventsForMonth(copyOfRef.getMonth(), copyOfRef.getFullYear());
+            // }
         }
 
         this.setState({
             referenceDate: copyOfRef
         });
+    }
+
+    getEventsForMonth(month, year) {
+        axios.post("http://localhost:5000/eventsForMonth", {
+            month: month + 1,
+            year: year
+        }).then(response => {
+            if (response.data.success) {
+                var dictState = this.state.eventsDict;
+                const identifier = CalendarView.getMonthIdentifier(new Date(year, month, 1));
+                console.log(response.data.data);
+                dictState[identifier] = response.data.data;
+                this.setState({eventsDict: dictState});
+            }
+        });
+    }
+
+    eventsUndefined(date) {
+        return this.state.eventsDict[CalendarView.getMonthIdentifier(date)] === undefined;
     }
 
     viewMonth() {
@@ -120,6 +183,7 @@ class CalendarView extends Component {
             var events = this.state.eventsDict[header];
 
             if (events === undefined) {
+                this.getEventsForMonth(begOfMonth.getMonth(), begOfMonth.getFullYear());
                 events = emptyArrayOfArrays;
             }
 
@@ -199,6 +263,8 @@ class CalendarView extends Component {
                 const endMonthEvents = this.state.eventsDict[endOfWeekHeader];
 
                 if (begMonthEvents === undefined) {
+                    this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
+
                     for (var i = beginningOfWeek.getDate() - 1; 
                     i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
                         events.push([]);
@@ -212,6 +278,8 @@ class CalendarView extends Component {
                 }
 
                 if (endMonthEvents === undefined) {
+                    this.getEventsForMonth(endOfWeek.getMonth(), endOfWeek.getFullYear());
+
                     for (var i = 0; i < endOfWeek.getDate(); i++) {
                         events.push([]);
                     }
@@ -230,6 +298,7 @@ class CalendarView extends Component {
                 const monthEvents = this.state.eventsDict[header];
 
                 if (monthEvents === undefined) {
+                    this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
                     for (var i = 0; i < 7; i++) {
                         events.push([]);
                     }
@@ -258,7 +327,7 @@ class CalendarView extends Component {
                                      day={beginningOfWeek.getDate()} events={events} 
                                      maxEvents={maxEvents} linkEvents={linkEvents} 
                                      moreEventsLink={moreEventsLink} 
-                                      beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
+                                     beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
                     </table>
                 </div>
             );
@@ -325,10 +394,24 @@ class CalendarRow extends Component {
                                 item.map((event, index) => {
                                     if (this.props.maxEvents === -1 || index < this.props.maxEvents) {
                                         if (this.props.linkEvents) {
-                                            return (<div class="event"><a href={"/viewEvent?id=" + event.id}>{event.name}</a></div>)
+                                            return (
+                                                <div class="event">
+                                                    <a href={"/viewEvent?id=" + event.id}>{event.name}</a>
+                                                    {this.props.viewWeek &&
+                                                        <div class="description">{event.description}</div>
+                                                    }
+                                                </div>
+                                            );
                                         }
                                         else {
-                                            return (<div class="event">{event.name}</div>)
+                                            return (
+                                                <div class="event">
+                                                    <span>{event.name}</span>
+                                                    {this.props.viewWeek &&
+                                                        <div class="description">{event.description}</div>
+                                                    }
+                                                </div>
+                                            );
                                         }
                                     }
                                     else {

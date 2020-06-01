@@ -1,7 +1,7 @@
 const {readEventsForMonth} = require('../model/CLNDRModel');
 
 module.exports = function(app) {
-    app.get('/eventsForMonth', (req, res) => {
+    app.post('/eventsForMonth', (req, res) => {
         if (req.body.month == undefined || req.body.year == undefined || typeof req.body.month !== "number" || typeof req.body.year !== "number") {
             res.send({success: false});
         }
@@ -21,7 +21,7 @@ module.exports = function(app) {
                         const timestamp = start._seconds * 1000;
                         const date = new Date(timestamp).getDate();
 
-                        arrayOfArrays[date - 1].push({id: documentSnapshot.ref.id, name: documentSnapshot.get('eventName')});
+                        arrayOfArrays[date - 1].push({id: documentSnapshot.ref.id, name: documentSnapshot.get('eventName'), description: documentSnapshot.get('eventDescription')});
                     })
 
                     res.send({success: true, data: arrayOfArrays})

@@ -136,3 +136,7 @@
 .bold {
     font-weight: bold;
 }
+
+.description {
+    margin-bottom: 0.75em;
+}
