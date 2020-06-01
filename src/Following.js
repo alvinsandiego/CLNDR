@@ -19,7 +19,7 @@ class Following extends Component {
     }
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/Following?userID=" + this.state.userID).then(response => {
+        axios.get("http://localhost:5000/following").then(response => {
             this.setState({
                 hostIDs: response.data
             })

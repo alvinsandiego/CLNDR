@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CreateEventButton from './CreateEventButton';
 import "./styles/CalendarView.css";
 import logo from './img/Logo-Semitransparent.png';
+import axios from "axios";
 
 const maxEvents = 1;
 const linkEvents = true;
@@ -36,22 +37,6 @@ class CalendarView extends Component {
             viewWeek: false
         };
     }
-
-    componentDidMount() {
-        // TODO: get the events for the month and map them into events array
-        this.callBackendAPI(this.state.referenceDate).catch(err => console.log(err));
-    }
-    
-    callBackendAPI = async(date) => {
-        // const response = await fetch('/getEvents?month=' + date.getMonth() + '&year=' + date.getYear());
-        // const body = await response.json();
-
-        // if (response.status !== 200) {
-        //     throw Error(body.message);
-        // }
-
-        // return body;
-    };
 
     incrementView() {
         var copyOfRef = new Date(this.state.referenceDate);
@@ -102,16 +87,16 @@ class CalendarView extends Component {
     calendarHeading(header) {
         return (
             <div class="calendar_heading">
-                        <span class="button_box left_justify">
-                            <a class="control_button" href="#" onClick={this.decrementView.bind(this)}>{"<"}</a>
-                            <a class="control_button" href="#" onClick={this.incrementView.bind(this)}>{">"}</a>
-                        </span>
-                        <span class="calendar_heading_text">{header}</span>
-                        <span class="button_box right_justify">
-                            <span class="view_text">View:</span>
-                            <a class="control_button" href="#" onClick={this.viewMonth.bind(this)}>Month</a>
-                            <a class="control_button" href="#" onClick={this.viewWeek.bind(this)}>Week</a>
-                        </span>
+                <span class="button_box left_justify">
+                    <a class="control_button" href="#" onClick={this.decrementView.bind(this)}>{"<"}</a>
+                    <a class="control_button" href="#" onClick={this.incrementView.bind(this)}>{">"}</a>
+                </span>
+                <span class="calendar_heading_text">{header}</span>
+                <span class="button_box right_justify">
+                    <span class="view_text">View:</span>
+                    <a class="control_button" href="#" onClick={this.viewMonth.bind(this)}>Month</a>
+                    <a class="control_button" href="#" onClick={this.viewWeek.bind(this)}>Week</a>
+                </span>
             </div>
         );
     }

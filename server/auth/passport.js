@@ -20,7 +20,16 @@ passport.use(
             passReqToCallback: true
         },
         (req, username, password, done) => {
-            console.log(JSON.stringify(usernamesBeingRegistered));
+            // verify data isn't empty
+            if (req.body.sec_question !== undefined &&
+                req.body.sec_answer !== undefined &&
+                !(username.length > 0 &&
+                    password.length > 0 &&
+                    req.body.sec_question.length > 0 &&
+                    req.body.sec_answer.length > 0)) {
+                return done(null, false, {message: 'Invalid input.'})
+            }
+            
             try {
                 // check if user already exists
                 Accounts.readAccountByUsername(username).then(querySnapshot => {

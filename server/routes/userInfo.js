@@ -8,6 +8,8 @@ module.exports = function(app) {
                     var data = documentSnapshot.data()
                     delete data.password;
                     delete data.sec_answer;
+                    delete data.following;
+                    delete data.planned_events;
                     res.status(200).send({success: true, id: documentSnapshot.ref.id, data: data});
                 }
                 else {
@@ -22,6 +24,8 @@ module.exports = function(app) {
                     var userData = firstUser.data();
                     delete userData.password;
                     delete userData.sec_answer;
+                    delete data.following;
+                    delete data.planned_events;
                     res.status(200).send({success: true, id: firstUser.ref.id, data: userData});
                 }
                 else {
