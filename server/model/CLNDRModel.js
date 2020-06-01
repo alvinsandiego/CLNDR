@@ -22,6 +22,13 @@ function createEvent(title, hostingId, start,
     console.log(title);
 }
 
+// these should be numbers not strings
+function readEventsForMonth(month, year) {
+    const begOfMonth = new Date(year, month - 1, 1);
+    const begOfNextMonth = new Date(year, month, 1);
+    return db.collection('events').where('start', '>=', begOfMonth).where('start', '<', begOfNextMonth).get();
+}
+
 function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL) {
     db.collection('events').doc(eventId).update({
     eventName: title,
@@ -97,5 +104,5 @@ function getEvent(eventId) {
 return db.collection('events').doc(eventId).get();
 }
 
-module.exports = {createEvent, updateEvent, deleteEvent,
+module.exports = {createEvent, updateEvent, deleteEvent, readEventsForMonth,
                   planEvent, unplanEvent, followHost, unfollowHost, getEvent};

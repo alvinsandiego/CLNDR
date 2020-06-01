@@ -75,6 +75,9 @@ require('./routes/requestVerification')(app);
 // status check
 require('./routes/verificationApplicationStatus')(app);
 
+// events for month
+require('./routes/eventsForMonth')(app);
+
 /*-------------------------------------------------------------------*/
 
 /*
