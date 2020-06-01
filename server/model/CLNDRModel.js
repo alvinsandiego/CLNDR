@@ -1,20 +1,19 @@
 const {db} = require('./firebase');
 
 // app functions
-function createEvent(title, hostingId,dateStart, timeStart,
-    dateEnd, timeEnd, description, keywords, cohosts,imageURL) {
+function createEvent(title, hostingId, start,
+    end, description, keywords, cohosts,imageURL) {
 
+    console.log("heere")
     //image
 	const id = db.collection('events').doc().id                  
      db.collection('events').doc(id).set({
-     sortId:  dateStart.concat(timeStart,dateEnd,timeEnd),
+     sortId:  "placeholder",
      eventId: id,
      eventName: title,
 	     hostID: hostingId,
-     startDate: dateStart,
-     endDate: dateEnd,
-     startTime: timeStart,
-     endTime: timeEnd,
+     start: start,
+     end: end,
      eventDescription: description,
      eventKeywords: keywords,
      eventCohots: cohosts,
@@ -23,14 +22,11 @@ function createEvent(title, hostingId,dateStart, timeStart,
     console.log(title);
 }
 
-function updateEvent(eventId, title, dateStart, timeStart, dateEnd, 
-                     timeEnd, description, keywords, cohosts, imageURL) {
+function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL) {
     db.collection('events').doc(eventId).update({
     eventName: title,
-    startDate: dateStart,
-    endDate: dateEnd,
-    startTime: timeStart,
-    endTime: timeEnd,
+    start: start,
+    end: end,
     eventDescription: description,
     eventKeywords: keywords,
     eventCohots: cohosts,

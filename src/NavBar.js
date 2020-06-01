@@ -10,31 +10,58 @@ class NavBar extends Component {
         this.state = {
             verified: false,
             account: false,
+            awaiting: true
         }
     }
-
 
     componentDidMount = () => {
 
         let userToken = localStorage.getItem('jwtToken');
+        if (userToken == null) {
+            console.log("NULLLLL");
+        }
         axios.get('http://localhost:5000/accountInfo', {
             headers: { Authorization: 'JWT ' + userToken },
         })
             .then(response => {
+                
                 if (response.data.success) {
-                    this.setState({ account: true, verified: response.data.data.verified});
+                    this.setState({ account: true, verified: response.data.data.verified, awaiting: false});
                 }
                 else {
+                    this.setState({awaiting: false});
                 }
             })
             .catch(error => {
                 console.log(error.data);
+                this.setState({awaiting: false});
             })
 
     }
     render() {
         const ver = this.state.verified;
         const acc = this.state.account;
+        const awaiting = this.state.awaiting;
+
+        if (awaiting) {
+            return (
+                <div style={{ backgroundColor: '#d6f3ff' }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'white'
+                    }}>
+                        <img src={logo} style={{ width: 100, height: 100 }} />
+                        <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
+                        <input type="text" style={{ width: 180 }} />
+                        <button style={{ width: 95 }}>Search</button>
+                    </div>
+                    <div style={{backgroundColor: "#004d6e", textAlign: "center" }}><button class="control_button" style={ {background: "transparent", border: "none",  height: 40, width: 175}}>
+                        </button></div>
+                    </div>
+            );
+        }
 
         //Renders if the user is a guest
         if (ver) {

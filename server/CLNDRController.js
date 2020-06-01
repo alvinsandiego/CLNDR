@@ -26,8 +26,10 @@ app.get('/Page', (req,res) => {
 // create event
 
 app.post('/CreateEventPage', (req,res) => {
-    createEvent(req.body.title,req.body.hostID,req.body.startDate, req.body.startTime, req.body.endDate,
-        req.body.endTime, req.body.description,req.body.keywords,req.body.cohosts, req.body.imageUrl);
+    const start = new Date(req.body.startDate + 'T' + req.body.startTime);
+    const end = new Date (req.body.endDate + 'T' + req.body.endTime);
+    createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl);
+        res.send({success: true});
 	})
 
 // update event
@@ -69,6 +71,9 @@ require('./routes/planned')(app);
 
 // request verification
 require('./routes/requestVerification')(app);
+
+// status check
+require('./routes/verificationApplicationStatus')(app);
 
 /*-------------------------------------------------------------------*/
 
