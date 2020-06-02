@@ -19,7 +19,7 @@ const Root = () => {
         <BrowserRouter>
             <div>
                 <Switch>
-                    <Route component={EventPage} path="/eventpage"/>
+                    <Route component={EventPage} path="/eventpage/:id"/>
                     <Route component={CreateAccount} path="/createaccount" />
                     <Route component={ForgotPassword} path="/forgotpassword" />
                     <Route component={Page} path="/calendar" />

@@ -75,24 +75,13 @@ class EventPage extends Component {
   
 
   componentDidMount = () =>{
-    let config = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    var eventID = "6ctPVjhATlNbJysHXUlh";
-
-    /* we are making a call to this route, we specified what kind of call (post / get) we are making */
-    fetch('http://localhost:5000/EventPage?eventID=' + eventID, config)
-    .then(response => response.json())
-    .catch(error => console.log(error));
-
+	  console.log("wtf")
     axios.get(`http://localhost:5000/EventPage${this.props.match.params.id}`).then(response => {
         this.setState({
             eventName: response.data.data.eventName,
             hostName: response.data.data.hostName,
             eventDate: response.data.data.eventDate,
-            //interestCount: response.data.data.interestCount,
+            interestCount: "69",
             eventDescription: response.data.data.eventDescription,
             eventID: response.data.data.eventID,
             eventHostID: response.data.data.eventHostID,
@@ -164,7 +153,7 @@ class EventPage extends Component {
                             </h6>
                             <div className="w3-container">
                                 <h3><b>{this.state.eventName}</b></h3>
-                                <h5>{this.state.hostName}, <span className="w3-opacity">{this.state.eventDate}</span></h5>
+                                <h5>{this.props.match.params.id}, <span className="w3-opacity">{this.state.eventDate}</span></h5>
                                 <h5><span className="w3-opacity">{this.state.startTime}-{this.state.endTime}</span></h5>
                             </div>
 

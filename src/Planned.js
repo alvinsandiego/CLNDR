@@ -15,7 +15,7 @@ class Planned extends Component {
             userID: "user1",
             events: [{
                 id: "10",
-                eventName: "asdfasdfasdf",
+                eventName: <a href="eventpage/Garys Day"><button>Gary Day</button></a>,
                 hostName: "adfsasdf",
                 eventDate: "adfsasdf",
                 eventTime: "xxxxx"
