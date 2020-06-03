@@ -63,7 +63,6 @@ require('./routes/userInfo')(app);
 The code assumes that eventID, description, and title is part
 of the body. If this is not true, please revisit the code for the
 two methods
-
 */
 
 // plan event
@@ -86,69 +85,6 @@ app.post('/EventPage', (req,res) => {
 /*-------------------------------------------------------------------*/
 
 
-<<<<<<< HEAD
-// follow host
-<<<<<<< HEAD
-//router.post('./HostPage', (req,res) => {
-//	followHost(req.body.hostId, req.body.accountId);
-//})
-
-app.post('/HostPage', (req, res, next) => {
-        passport.authenticate('jwt', { session: false }, (err, user, info) => {
-            if (err) {
-                console.log(err);
-            }
-
-            if (info != undefined) {
-                console.log(info.message);
-                res.send(info.message);
-            }
-            else {
-                followHost(req.body.hostId, user.accountId)
-            }
-        })(req, res, next);
-    });
-
-// unfollow host
-//router.post('./HostPage', (req,res) => {
-//	unfollowHost(req.body.hostId, req.body.accountId);
-//})
-app.post('/HostPage', (req, res, next) => {
-        passport.authenticate('jwt', { session: false }, (err, user, info) => {
-            if (err) {
-                console.log(err);
-            }
-
-            if (info != undefined) {
-                console.log(info.message);
-                res.send(info.message);
-            }
-            else {
-                unfollowHost(req.body.hostId, user.accountId)
-            }
-        })(req, res, next);
-    });
-=======
-app.post('/HostPage', (req,res) => {
-	followHost(req.body.hostId, req.body.accountId);
-})
-
-// unfollow host
-app.post('/HostPage', (req,res) => {
-	unfollowHost(req.body.hostId, req.body.accountId);
-})
->>>>>>> 8ada9c68e2f47e298036d48086495a1db6352b19
-
-// display host details
-app.get('/HostPage', (req,res) => {
-
-})
-
-// display list of hosts
-app.get('/Following', (req,res) => {
-
-})
-=======
 app.post('/follow', (req, res, next) => {
     passport.authenticate('jwt', { session: false }, (err, user, info) => {
         if (err) {
@@ -180,7 +116,6 @@ app.post('/unfollow', (req, res, next) => {
         }
     })(req, res, next);
 });
->>>>>>> d50fb7e128e17bcb9dd43ec3cd6fdffba0277048
 
 // display event details
 app.get('/EventPage', (req,res) => {
