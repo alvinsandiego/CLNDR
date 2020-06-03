@@ -173,53 +173,11 @@ require('./routes/verificationApplicationStatus')(app);
 // events for month
 require('./routes/eventsForMonth')(app);
 
-/*-------------------------------------------------------------------*/
-
-/*
-The code assumes that eventID, description, and title is part
-of the body. If this is not true, please revisit the code for the
-two methods
-
-*/
-
 // plan event
-app.post('/planEvent', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info != undefined) {
-            console.log(info.message);
-            res.send({success: false, message: info.message});
-        }
-        else {
-            planEvent(req.body.eventId, user.id).then(result => {
-                res.send({success: true, message: "Successfully planned event."});
-            });
-        }
-    })(req, res, next);
-});
+require('./routes/planEvent')(app);
 
 // unplan event
-app.post('/unplanEvent', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info != undefined) {
-            console.log(info.message);
-            res.send({success: false, message: info.message});
-        }
-        else {
-            unplanEvent(req.body.eventId, user.id).then(result => {
-                res.send({success: true, message: "Successfully unplanned event."});
-            });
-        }
-    })(req, res, next);
-});
-
-/*-------------------------------------------------------------------*/
-
+require('./routes/unplanEvent')(app);
 
 // follow
 require('./routes/follow')(app);
