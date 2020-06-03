@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const {db} = require('./firebase');
+const admin = require("firebase-admin");
 const HASH_ROUNDS = 9;
 
 function createAccount(username, password, securityQ, securityA) {
@@ -68,4 +69,16 @@ function deleteAccount(uid) {
     return db.collection('users').doc(uid).delete();
 }
 
-module.exports = {createAccount, createAccountMinimal, readAccountByUsername, readAccountByID, updateAccount, updateAccountVerifiedStatus, verifyAccount, deleteAccount};
+function followHost(hostId, accountId) {
+	return db.collection('users').doc(accountId).update({
+		following: admin.firestore.FieldValue.arrayUnion(hostId)
+	});
+}
+
+function unfollowHost(hostId, accountId) {
+	return db.collection('users').doc(accountId).update({
+		following: admin.firestore.FieldValue.arrayRemove(hostId)
+	});
+}
+
+module.exports = {createAccount, createAccountMinimal, readAccountByUsername, readAccountByID, updateAccount, updateAccountVerifiedStatus, verifyAccount, followHost, unfollowHost, deleteAccount};

@@ -10,10 +10,12 @@ module.exports = function(app) {
     
             if (info != undefined) {
                 console.log(info.message);
-                res.send(info.message);
+                res.send({success: false, message: info.message});
             }
             else {
-                Accounts.followHost(req.body.hostId, user.id);
+                Accounts.followHost(req.body.hostId, user.id).then(result => {
+                    res.send({success: true, message: "Followed user."})
+                });
             }
         })(req, res, next);
     });

@@ -19,48 +19,61 @@ class Following extends Component {
     }
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/following").then(response => {
-            this.setState({
-                hostIDs: response.data
-            })
-        });
+        let userToken = localStorage.getItem('jwtToken');
+        if (userToken !== null) {
+            axios.get("http://localhost:5000/following",
+            {
+                headers: { Authorization: 'JWT ' + userToken },
+            }).then(response => {
+                if (response.data.success){
+                    this.setState({
+                        hostArray: response.data.data
+                    })
+                }
+            });
+        }
     };
 
 
-    componentDidMount() {
-        this.setData();
-    }
+    // componentDidMount() {
+    //     this.setData();
+    // }
 
-    setData() {
+    // setData() {
 
-        let newHosts = this.state.hostArray.slice();
-        for (var i = 0; i < this.state.hostIDs.size(); i++) {
+    //     let newHosts = this.state.hostArray.slice();
+    //     for (var i = 0; i < this.state.hostIDs.size(); i++) {
 
-            var hostInfo = axios.get("http://localhost:5000/userInfo?userID=" + this.state.hostIDs[i])
-
-
-            newHosts.push({
-                id: i,
-                hostName: hostInfo.username,
-                hostEmail: hostInfo.email
-            })
+    //         var hostInfo = axios.get("http://localhost:5000/userInfo?userID=" + this.state.hostIDs[i])
 
 
-        }
-        this.setState({hostArray: newHosts});
-    }
+    //         newHosts.push({
+    //             id: i,
+    //             hostName: hostInfo.username,
+    //             hostEmail: hostInfo.email
+    //         })
 
-    renderTableData(){
-        return this.state.hostArray.map((host, index) => {
-            const {id, hostName, hostEmail} = host
-            return (
-                <tr class="hosts" key={id}>
-                    <td>{id}</td>
-                    <td>{hostName}</td>
-                    <td>{hostEmail}</td>
-                </tr>
-            )
-        })
+
+    //     }
+    //     this.setState({hostArray: newHosts});
+    // }
+
+    renderTableData() {
+        return (
+            <tbody>
+                {this.state.hostArray.map((host, index) => {
+                    const {id, org_name, username, contact_email} = host;
+                    return (
+                        <tr class="hosts" key={id}>
+                            <td>{id}</td>
+                            <td>{org_name}</td>
+                            <td>{username}</td>
+                            <td>{contact_email}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        )
     }
 
 
@@ -85,11 +98,10 @@ class Following extends Component {
                             <div style={styles.centerDiv}>
                                 <table class="host">
                                     <th>No.</th>
-                                    <th>Host</th>
+                                    <th>Host Name</th>
+                                    <th>Username</th>
                                     <th>Email</th>
-                                    <tbody>
                                     {this.renderTableData()}
-                                    </tbody>
                                 </table>
                             </div>
 
