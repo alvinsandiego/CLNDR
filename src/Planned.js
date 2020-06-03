@@ -12,69 +12,50 @@ class Planned extends Component {
         const userID = this.props.userID;
 
         this.state = {
-            userID: "user1",
-            events: [{
-                id: "10",
-                eventName: <a href="eventpage/Garys Day"><button>Gary Day</button></a>,
-                hostName: "adfsasdf",
-                eventDate: "adfsasdf",
-                eventTime: "xxxxx"
-            }],
-            eventIDs: []
+            events: []
         }
     }
 
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/planned").then(response => {
-            this.setState({
-                eventIDs: response.data
-            })
-        });
+        const userToken = localStorage.getItem('jwtToken');
+        if (userToken !== null) {
+            axios.get("http://localhost:5000/planned",
+            {
+                headers: { Authorization: 'JWT ' + userToken }
+            }).then(response => {
+                if (response.data.success) {
+                    this.setState({
+                        events: response.data.data
+                    });
+                }
+            });
+        }
     };
 
-
-
-
-    componentDidMount() {
-        this.setData();
-    }
-
-    setData() {
-
-        let newEvents = this.state.events.slice();
-        for (var i = 0; i < this.state.eventIDs.size(); i++) {
-
-            var eventInfo = axios.get("http://localhost:5000/EventPage?eventID=" + this.state.eventIDs[i])
-
-
-            newEvents.push({
-                id: i,
-                eventName: eventInfo.eventName,
-                hostName: eventInfo.hostName,
-                eventDate: eventInfo.eventDate,
-                eventTime: eventInfo.eventTime
-            })
-
-
-        }
-        this.setState({events: newEvents});
-
+    static dateString(date) {
+        return date.toLocaleString('default');
     }
 
     renderTableData(){
-        return this.state.events.map((event, index) => {
-            const {id, eventName, hostName, eventDate, eventTime} = event
-            return (
-                <tr class="events" key={id}>
-                    <td>{id}</td>
-                    <td>{eventName}</td>
-                    <td>{hostName}</td>
-                    <td>{eventDate}</td>
-                    <td>{eventTime}</td>
-                </tr>
-            )
-        })
+        return (
+            <tbody>
+            {this.state.events.map((event, index) => {
+                const {id, name, hostName, description, start, end} = event;
+                const startDate = Planned.dateString(new Date(start * 1000));
+                const endDate = Planned.dateString(new Date(end * 1000));
+
+                return (
+                    <tr class="events" key={id}>
+                        <td>{name}</td>
+                        <td>{hostName}</td>
+                        <td>{startDate}</td>
+                        <td>{endDate}</td>
+                    </tr>
+                )
+            })}
+            </tbody>
+        );
     }
 
 
@@ -94,14 +75,11 @@ class Planned extends Component {
 	                    
                     <div style={styles.centerDiv}>
                     <table class="events" id="events">
-                        <th>No.</th>
-                        <th>Event</th>
+                        <th>Event Name</th>
                         <th>Host</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <tbody>
+                        <th>Start Date/Time</th>
+                        <th>End Date/Time</th>
                         {this.renderTableData()}
-                        </tbody>
                     </table>
                     </div>
 
