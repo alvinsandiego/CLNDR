@@ -1,5 +1,5 @@
 const {createEvent, updateEvent, deleteEvent,
-       planEvent, unplanEvent, followHost, unfollowHost} = require('./model/CLNDRModel');
+       planEvent, unplanEvent, followHost, unfollowHost, getEvent} = require('./model/CLNDRModel');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -25,19 +25,117 @@ app.get('/Page', (req,res) => {
 })
 // create event
 
-app.post('/CreateEventPage', (req,res) => {
-    createEvent(req.body.title, req.body.dateStart,req.body.startTime, req.body.endDate,
-        req.body.endTime,req.body.description,req.body.keywords,req.body.cohosts,req.body.image);
+app.post('/CreateEventPage', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send({success: false, message: info.message});
+        }
+        else {
+            if (user.data.verified) {
+                const start = new Date(req.body.startDate + 'T' + req.body.startTime);
+                const end = new Date (req.body.endDate + 'T' + req.body.endTime);
+                createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl).then(result => {
+                    res.send({success: true, message: "Created event."});
+                });
+            }
+            else {
+                res.send({success: false, message: "User not verified."});
+            }
+        }
+    })(req, res, next);
 })
 
 // update event
-app.post('/EventPage', (req,res) => {
-
+app.post('/updateEvent', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send({success: false, message: info.message});
+        }
+        else {
+            if (user.data.verified) {
+                getEvent(req.body.eventId).then(documentSnapshot => {
+                    if (documentSnapshot.exists) {
+                        if (user.id === documentSnapshot.get("hostID")) {
+                            const start = new Date(req.body.startDate + 'T' + req.body.startTime);
+                            const end = new Date (req.body.endDate + 'T' + req.body.endTime);
+                            updateEvent(req.body.title, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl).then(result => {
+                                res.send({success: true, message: "Updated event."});
+                            });
+                        }
+                        else {
+                            res.send({success: false, message: "User is not owner of event."});
+                        }
+                    }
+                    else {
+                        res.send({success: false, message: "Event not found."});
+                    }
+                });
+            }
+            else {
+                res.send({success: false, message: "User not verified."});
+            }
+        }
+    })(req, res, next);
 })
 
 // delete event
-app.post('/EventPage', (req,res) => {
+app.post('/deleteEvent', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send({success: false, message: info.message});
+        }
+        else {
+            if (user.data.verified) {
+                getEvent(req.body.eventId).then(documentSnapshot => {
+                    if (documentSnapshot.exists){
+                        if (user.id === documentSnapshot.get("hostID")) {
+                            deleteEvent(req.body.eventId).then(result => {
+                                res.send({success: true, message: "Deleted event."});
+                            });
+                        }
+                        else {
+                            res.send({success: false, message: "User is not owner of event."});
+                        }
+                    }
+                    else {
+                        res.send({success: false, message: "Event not found."});
+                    }
+                });
+            }
+            else {
+                res.send({success: false, message: "User not verified."});
+            }
+        }
+    })(req, res, next);
+})
 
+// display event details
+app.get('/getEvent', (req, res) => {
+    if (req.body.eventId != undefined) {
+        getEvent(req.body.eventId).then(documentSnapshot => {
+            if (documentSnapshot.exists) {
+                res.send({success: true, id: documentSnapshot.ref.id, data: documentSnapshot.data()});
+            }
+            else {
+                res.setDefaultEncoding({success: false, message: "Event not found."});
+            }
+        });
+    }
+    else {
+        res.send({success: false, message: "Field eventId is undefined"});
+    }
 })
 
 // log in
@@ -57,6 +155,24 @@ require('./routes/deleteAccount')(app);
 // user info
 require('./routes/userInfo')(app);
 
+// account info
+require('./routes/accountInfo')(app);
+
+// following
+require('./routes/following')(app);
+
+// planned
+require('./routes/planned')(app);
+
+// request verification
+require('./routes/requestVerification')(app);
+
+// status check
+require('./routes/verificationApplicationStatus')(app);
+
+// events for month
+require('./routes/eventsForMonth')(app);
+
 /*-------------------------------------------------------------------*/
 
 /*
@@ -66,75 +182,52 @@ two methods
 */
 
 // plan event
-app.post('/EventPage', (req,res) => {
-
-    /*
-    For now, I will do:
-    */
-    planEvent(req.body.eventId, req.body.Description, req.body.Title);
-})
+app.post('/planEvent', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send({success: false, message: info.message});
+        }
+        else {
+            planEvent(req.body.eventId, user.id).then(result => {
+                res.send({success: true, message: "Successfully planned event."});
+            });
+        }
+    })(req, res, next);
+});
 
 // unplan event
-app.post('/EventPage', (req,res) => {
-    /*
-    For now, I will do:
-    */
-    unplanEvent(req.body.eventId);
-})
+app.post('/unplanEvent', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err) {
+            console.log(err);
+        }
+        if (info != undefined) {
+            console.log(info.message);
+            res.send({success: false, message: info.message});
+        }
+        else {
+            unplanEvent(req.body.eventId, user.id).then(result => {
+                res.send({success: true, message: "Successfully unplanned event."});
+            });
+        }
+    })(req, res, next);
+});
 
 /*-------------------------------------------------------------------*/
 
 
-app.post('/follow', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
+// follow
+require('./routes/follow')(app);
 
-        if (info != undefined) {
-            console.log(info.message);
-            res.send(info.message);
-        }
-        else {
-            followHost(req.body.hostId, user.id)
-        }
-    })(req, res, next);
-});
-
-app.post('/unfollow', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-
-        if (info != undefined) {
-            console.log(info.message);
-            res.send(info.message);
-        }
-        else {
-            unfollowHost(req.body.hostId, user.id)
-        }
-    })(req, res, next);
-});
-
-// display event details
-app.get('/EventPage', (req,res) => {
-
-})
+// unfollow
+require('./routes/unfollow')(app);
 
 // display list of events by host
 app.get('/HostPage', (req,res) => {
-
-})
-
-
-// display list of planned events
-app.get('/Planned', (req,res) => {
-
-})
-
-// check if user is verified
-app.get('/CreateEventPage', (req,res) => {
 
 })
 

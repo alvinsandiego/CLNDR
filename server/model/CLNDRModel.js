@@ -1,43 +1,47 @@
 const {db} = require('./firebase');
 
 // app functions
-function createEvent(title, dateStart, timeStart, dateEnd, 
-                     timeEnd, description, keywords, cohosts, image) {
-     const id = db.collection('events').doc().id                  
-     db.collection('events').doc(id).set({
-     //sortId: to implement
-     eventId: id,
-     eventName: title,
-     startDate: dateStart,
-     endDate: dateEnd,
-     startTime: timeStart,
-     endTime: timeEnd,
-     eventDescription: description,
-     eventKeywords: keywords,
-     eventCohots: cohosts,
-     imgUrl: image
-    });  
-    console.log(title);
+function createEvent(title, hostingId, start,
+    end, description, keywords, cohosts,imageURL) {
+
+    //image
+	const id = db.collection('events').doc().id                  
+    return db.collection('events').doc(id).set({
+        sortId:  "placeholder",
+        eventId: id,
+        eventName: title,
+        hostID: hostingId,
+        start: start,
+        end: end,
+        eventDescription: description,
+        eventKeywords: keywords,
+        eventCohots: cohosts,
+        imageUrl: imageURL
+    });
 }
 
-function updateEvent(eventId, title, dateStart, timeStart, dateEnd, 
-                     timeEnd, description, keywords, cohosts) {
-    db.collection('events').doc(eventId).update({
-    eventName: title,
-    startDate: dateStart,
-    endDate: dateEnd,
-    startTime: timeStart,
-    endTime: timeEnd,
-    eventDescription: description,
-    eventKeywords: keywords,
-    eventCohots: cohosts
-   })
-   
+// these should be numbers not strings
+function readEventsForMonth(month, year) {
+    const begOfMonth = new Date(year, month - 1, 1);
+    const begOfNextMonth = new Date(year, month, 1);
+    return db.collection('events').where('start', '>=', begOfMonth).where('start', '<', begOfNextMonth).get();
+}
+
+function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL) {
+    return db.collection('events').doc(eventId).update({
+        eventName: title,
+        start: start,
+        end: end,
+        eventDescription: description,
+        eventKeywords: keywords,
+        eventCohots: cohosts,
+        imageUrl: imageURL
+   });
 }
 
 function deleteEvent(eventId){
     //check if event exists, unless firebase does it for you already
-	db.collection('events').doc(eventId).delete();
+	return db.collection('events').doc(eventId).delete();
 }
 
 /*
@@ -46,47 +50,16 @@ Thus it is temporarily deleted as needed. Also added description and title
 as needed into planEvent */
 
 
-function planEvent(eventId, Description, Title) {
-	
-    //Most likely going to work like that; haven't found a use for accountId yet
-    db.collection('events').doc(eventId).set({
-        description: Description,
-        title: Title
-    })
-    .then(function() {
-        console.log("Event successfully planned/overwritten");
-    })
-    .catch(function(error) {
-        console.error("Error writing document: ", error);
+function planEvent(eventId, accountId) {
+    return db.collection('users').doc(accountId).update({
+        planned_events: admin.firestore.FieldValue.arrayUnion(eventId)
     });
 }
 
-function unplanEvent(eventId) {
-    //I think this is how it goes. Else, just stop at "delete();"
-    db.collection('events').doc(eventId).delete().then(function() {
-        console.log("Event successfully unplanned");
-    })
-    .catch(function(error) {
-        console.log("Error removing document: ", error);
-    })
-}
-
-function followHost(hostId, accountId) {
-	db.collection('user').doc(accountId).update({
-		following: admin.firestore.FieldValue.arrayUnion(hostId)
-	})
-	.then(function() {
-        	console.log("Successfully Followed!");
-    	})
-}
-
-function unfollowHost(hostId, accountId) {
-	db.collection('user').doc(accountId).update({
-		following: admin.firestore.FieldValue.arrayRemove(hostId)
-	})
-	.then(function() {
-        	console.log("Successfully Unfollowed!");
-    	})
+function unplanEvent(eventId, accountId) {
+    return db.collection('users').doc(accountId).update({
+        planned_events: admin.firestore.FieldValue.arrayRemove(eventId)
+    });
 }
 
 function getHost(hostId) {
@@ -94,8 +67,8 @@ function getHost(hostId) {
 }
 
 function getEvent(eventId) {
-
+    return db.collection('events').doc(eventId).get();
 }
 
-module.exports = {createEvent, updateEvent, deleteEvent,
-                  planEvent, unplanEvent, followHost, unfollowHost};
+module.exports = {createEvent, updateEvent, deleteEvent, readEventsForMonth,
+                  planEvent, unplanEvent, getEvent};

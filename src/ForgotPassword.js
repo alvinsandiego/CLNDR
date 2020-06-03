@@ -25,32 +25,13 @@ class ForgotPassword extends Component {
             username:"21",
             securityQuestion:"What is 9+10",
             accMade : false,
-            secAnsError: 'Security Answer cannot be empty',
-            passError: 'Password must be at least 8 characters'
+            secAnsError: '',
+            passError: '',
+            confError: ''
 
         };
 
     };
-
-
-
-    componentDidMount() {
-        // call fetch
-        this.callBackendAPI().then(res => this.setState({ data: res.express })).catch(err => console.log(err));
-    }
-
-    callBackendAPI = async() => {
-        const response = await fetch('/test');
-        const body = await response.json();
-
-        if (response.status !== 200) {
-            throw Error(body.message);
-        }
-
-        return body;
-    };
-
-
 
     componentDidMount = () =>{
         axios.get("http://localhost:5000/userInfo?username="+this.props.username).then(response => {
@@ -66,18 +47,23 @@ class ForgotPassword extends Component {
         newPass = document.getElementById('newP').value;
         confPass = document.getElementById('conP').value;
 
-        if(newPass.length !==0 && confPass.length !==0
-            && newPass.length < 8 && secAns.length !==0 &&
-            newPass == confPass){
+        if(secAns.length > 0 && newPass.length > 0 && confPass == newPass){
             this.setState({
                 accMade: true
             })
 
-            axios.post("http://localhost:5000/login",
+            axios.post("http://localhost:5000/resetPassword",
                 {
                     securityAns: secAns,
                     newPassword: newPass
 
+                }).then(response => {
+                    if (response.data.success) {
+                        this.props.history.push('/');
+                    }
+                    else {
+
+                    }
                 })
         }
     }
@@ -95,13 +81,22 @@ class ForgotPassword extends Component {
             this.setState({secAnsError: ''})
         }
 
-        if(newPass.length<8){
-            this.setState({passError: 'Password must be at least 8 characters'})
+        if(newPass.length==0){
+            this.setState({passError: 'Please enter a password'})
+        }
+        else if(newPass!=confPass){
+            this.setState({passError: 'Password must match password confirmation'})
         }
         else{
             this.setState({passError: ''})
         }
 
+        if(confPass.length==0){
+            this.setState({confError: 'Please confirm password'})
+        }
+        else{
+            this.setState({confError: ''})
+        }
 
     }
 
@@ -109,75 +104,75 @@ class ForgotPassword extends Component {
 
 
     render() {
-        const confirm = this.state.accMade
+        const {errors} = this.state;
+        return (
+            <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
+                <div style= {styles.centerDiv}>
+                    <img src={logo} style= {{width: 100, height: 100}}/>
+                    <h1>Forgot Password</h1>
+                </div>
+                <div class='events'>
 
-        if(confirm) {
-            return (
-                <App/>
-            );
-        }
-        else{
-            const {errors} = this.state;
-            return (
-                <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
-                    <div style= {styles.centerDiv}>
-                        <img src={logo} style= {{width: 100, height: 100}}/>
-                        <h1>Forgot Password</h1>
-                    </div>
-                    <div class='events'>
+                <div class='left'>
+                    <label>Username: {this.state.username}</label>
+                </div>
+                <div class='left'>
+                    <label>Security Question:&nbsp;{this.state.securityQuestion}</label>
+                </div>
 
-                    <div class='left'>
-                        <label>Username: {this.state.username}</label>
-                    </div>
-                    <div class='left'>
-                        <label>Security Question:&nbsp;{this.state.securityQuestion}</label>
-                    </div>
+                <div class='left'>
+                    <label>Security Question Answer:&nbsp;</label>
+                    <input type="text" name='secQuestion' id="secQ"
+                            onChange={this.handleChange}/>
+                </div>
 
-                    <div class='left'>
-                        <label>Security Question Answer:&nbsp;</label>
-                        <input type="text" name='secQuestion' id="secQ"
-                               onChange={this.handleChange}/>
-                    </div>
+                <div class='left'>
+                    <label>New Password:&nbsp;</label>
+                    <input type="password" name='newPassword' id="newP"
+                            onChange={this.handleChange}/>
+                </div>
 
-                    <div class='left'>
-                        <label>New Password:&nbsp;</label>
-                        <input type="password" name='newPassword' id="newP"
-                               onChange={this.handleChange}/>
-                    </div>
-
-                    <div class='left'>
-                        <label>Confirm New Password:&nbsp;</label>
-                        <input type="password" name="confirmPass" id="conP"/>
-                    </div>
-
-                        <div class='left'>
-                            <b>{this.state.secAnsError}</b>
-                        </div>
-                        <div class='left'>
-                            <b>{this.state.passError}</b>
-                        </div>
+                <div class='left'>
+                    <label>Confirm New Password:&nbsp;</label>
+                    <input type="password" name="confirmPass" id="conP"
+                            onChange={this.handleChange}/>
 
                 </div>
 
 
-                    <div style={styles.centerDiv}>
-                        <button class='control_button' onClick={this.handleForgotPass.bind(this)}>
-                            Confirm
-                        </button>
-			<a href= "/">
-				<button class='control_button'>
-					Go Back
-				</button>
-			</a>
-                    </div>
-
-
-
+                <div style={styles.centerDiv}>
+                    <button class='control_button' onClick={this.handleForgotPass.bind(this)}>
+                        Confirm
+                    </button>
+                <a href= "/">
+                    <button class='control_button'>
+                        Go Back
+                    </button>
+                </a>
+                    
+                    
                 </div>
 
+                <div class='left'>
+                        <b>{this.state.secAnsError}</b>
+                    </div>
+                    <div class='left'>
+                        <b>{this.state.passError}</b>
+                    </div>
+                    <div class='left'>
+                        <b>{this.state.confError}</b>
+                    </div>
 
-            );
-        }
+            </div>
+
+
+
+
+
+            </div>
+
+
+        );
     }
 }
 
@@ -195,6 +190,6 @@ const styles = {
 };
 
 
-
+EventPage.defaultProps = {username: new String}
 
 export default ForgotPassword;

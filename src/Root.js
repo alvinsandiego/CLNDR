@@ -12,13 +12,14 @@ import CreateEvent from "./CreateEventPage"
 import EditAccountInfo from "./EditAccountInfo";
 import Page from "./Page";
 import EventPage from "./EventPage";
+import Verification from  "./Verification";
 
 const Root = () => {
     return (
         <BrowserRouter>
             <div>
                 <Switch>
-                    <Route component={EventPage} path="/eventpage"/>
+                    <Route component={EventPage} path="/eventpage/:id"/>
                     <Route component={CreateAccount} path="/createaccount" />
                     <Route component={ForgotPassword} path="/forgotpassword" />
                     <Route component={Page} path="/calendar" />
@@ -27,6 +28,7 @@ const Root = () => {
                     <Route component={Account} path="/account" />
                     <Route component={CreateEvent} path="/createevent" />
                     <Route component={EditAccountInfo} path="/editaccountinfo" />
+                    <Route component={Verification} path="/verification" />
                     <Route component={App} path="/" />
 
                 </Switch>

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import CreateEventButton from './CreateEventButton';
 import "./styles/CalendarView.css";
 import logo from './img/Logo-Semitransparent.png';
+import axios from "axios";
 
-const maxEvents = 1;
+const maxEvents = 3;
 const linkEvents = true;
 const moreEventsLink = true;
 
@@ -27,31 +28,13 @@ class CalendarView extends Component {
         }
 
         var eventsDict = {};
-
-        eventsDict[CalendarView.getMonthIdentifier(this.props.initialReferenceDate)] = testArray;
-
+        
         this.state = {
             eventsDict: eventsDict,
             referenceDate: this.props.initialReferenceDate,
             viewWeek: false
         };
     }
-
-    componentDidMount() {
-        // TODO: get the events for the month and map them into events array
-        this.callBackendAPI(this.state.referenceDate).catch(err => console.log(err));
-    }
-    
-    callBackendAPI = async(date) => {
-        // const response = await fetch('/getEvents?month=' + date.getMonth() + '&year=' + date.getYear());
-        // const body = await response.json();
-
-        // if (response.status !== 200) {
-        //     throw Error(body.message);
-        // }
-
-        // return body;
-    };
 
     incrementView() {
         var copyOfRef = new Date(this.state.referenceDate);
@@ -83,6 +66,25 @@ class CalendarView extends Component {
         });
     }
 
+    getEventsForMonth(month, year) {
+        axios.post("http://localhost:5000/eventsForMonth", {
+            month: month + 1,
+            year: year
+        }).then(response => {
+            if (response.data.success) {
+                var dictState = this.state.eventsDict;
+                const identifier = CalendarView.getMonthIdentifier(new Date(year, month, 1));
+                console.log(response.data.data);
+                dictState[identifier] = response.data.data;
+                this.setState({eventsDict: dictState});
+            }
+        });
+    }
+
+    eventsUndefined(date) {
+        return this.state.eventsDict[CalendarView.getMonthIdentifier(date)] === undefined;
+    }
+
     viewMonth() {
         this.setState({
             viewWeek: false
@@ -102,16 +104,16 @@ class CalendarView extends Component {
     calendarHeading(header) {
         return (
             <div class="calendar_heading">
-                        <span class="button_box left_justify">
-                            <a class="control_button" href="#" onClick={this.decrementView.bind(this)}>{"<"}</a>
-                            <a class="control_button" href="#" onClick={this.incrementView.bind(this)}>{">"}</a>
-                        </span>
-                        <span class="calendar_heading_text">{header}</span>
-                        <span class="button_box right_justify">
-                            <span class="view_text">View:</span>
-                            <a class="control_button" href="#" onClick={this.viewMonth.bind(this)}>Month</a>
-                            <a class="control_button" href="#" onClick={this.viewWeek.bind(this)}>Week</a>
-                        </span>
+                <span class="button_box left_justify">
+                    <a class="control_button" href="#" onClick={this.decrementView.bind(this)}>{"<"}</a>
+                    <a class="control_button" href="#" onClick={this.incrementView.bind(this)}>{">"}</a>
+                </span>
+                <span class="calendar_heading_text">{header}</span>
+                <span class="button_box right_justify">
+                    <span class="view_text">View:</span>
+                    <a class="control_button" href="#" onClick={this.viewMonth.bind(this)}>Month</a>
+                    <a class="control_button" href="#" onClick={this.viewWeek.bind(this)}>Week</a>
+                </span>
             </div>
         );
     }
@@ -135,6 +137,7 @@ class CalendarView extends Component {
             var events = this.state.eventsDict[header];
 
             if (events === undefined) {
+                this.getEventsForMonth(begOfMonth.getMonth(), begOfMonth.getFullYear());
                 events = emptyArrayOfArrays;
             }
 
@@ -142,7 +145,7 @@ class CalendarView extends Component {
             // at least 4 weeks, so do those unconditionally. Then, for the last 2 weeks a month 
             // could potentially occupy, only render them conditionally.
             return (
-                <div style={{ backgroundColor: '#d6f3ff' }} class="calendar">
+                <div class="calendar">
                     {this.calendarHeading(header)}
                     <table>
                         <tr class="weekdays">
@@ -214,6 +217,8 @@ class CalendarView extends Component {
                 const endMonthEvents = this.state.eventsDict[endOfWeekHeader];
 
                 if (begMonthEvents === undefined) {
+                    this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
+
                     for (var i = beginningOfWeek.getDate() - 1; 
                     i < beginningOfWeek.getDate() + 6 - endOfWeek.getDate(); i++) {
                         events.push([]);
@@ -227,6 +232,8 @@ class CalendarView extends Component {
                 }
 
                 if (endMonthEvents === undefined) {
+                    this.getEventsForMonth(endOfWeek.getMonth(), endOfWeek.getFullYear());
+
                     for (var i = 0; i < endOfWeek.getDate(); i++) {
                         events.push([]);
                     }
@@ -245,6 +252,7 @@ class CalendarView extends Component {
                 const monthEvents = this.state.eventsDict[header];
 
                 if (monthEvents === undefined) {
+                    this.getEventsForMonth(beginningOfWeek.getMonth(), beginningOfWeek.getFullYear());
                     for (var i = 0; i < 7; i++) {
                         events.push([]);
                     }
@@ -273,7 +281,7 @@ class CalendarView extends Component {
                                      day={beginningOfWeek.getDate()} events={events} 
                                      maxEvents={maxEvents} linkEvents={linkEvents} 
                                      moreEventsLink={moreEventsLink} 
-                                      beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
+                                     beginningOfPeriod={beginningOfWeek} viewWeek={true}/>
                     </table>
                 </div>
             );
@@ -340,10 +348,24 @@ class CalendarRow extends Component {
                                 item.map((event, index) => {
                                     if (this.props.maxEvents === -1 || index < this.props.maxEvents) {
                                         if (this.props.linkEvents) {
-                                            return (<div class="event"><a href={"/viewEvent?id=" + event.id}>{event.name}</a></div>)
+                                            return (
+                                                <div class="event">
+                                                    <a href={"/viewEvent?id=" + event.id}>{event.name}</a>
+                                                    {this.props.viewWeek &&
+                                                        <div class="description">{event.description}</div>
+                                                    }
+                                                </div>
+                                            );
                                         }
                                         else {
-                                            return (<div class="event">{event.name}</div>)
+                                            return (
+                                                <div class="event">
+                                                    <span>{event.name}</span>
+                                                    {this.props.viewWeek &&
+                                                        <div class="description">{event.description}</div>
+                                                    }
+                                                </div>
+                                            );
                                         }
                                     }
                                     else {

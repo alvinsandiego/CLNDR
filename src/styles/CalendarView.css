@@ -18,12 +18,12 @@
 
 .calendar-cell {
     vertical-align: top;
-    height: 5em;
+    height: 8em;
 }
 
 .calendar-cell-long {
     vertical-align: top;
-    height: 25em;
+    height: 40em;
 
 }
 
@@ -135,4 +135,8 @@
 
 .bold {
     font-weight: bold;
+}
+
+.description {
+    margin-bottom: 0.75em;
 }

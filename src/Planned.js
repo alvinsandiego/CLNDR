@@ -15,7 +15,7 @@ class Planned extends Component {
             userID: "user1",
             events: [{
                 id: "10",
-                eventName: "asdfasdfasdf",
+                eventName: <a href="eventpage/Garys Day"><button>Gary Day</button></a>,
                 hostName: "adfsasdf",
                 eventDate: "adfsasdf",
                 eventTime: "xxxxx"
@@ -26,7 +26,7 @@ class Planned extends Component {
 
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/Planned?userID=" + this.state.userID).then(response => {
+        axios.get("http://localhost:5000/planned").then(response => {
             this.setState({
                 eventIDs: response.data
             })

@@ -12,44 +12,56 @@ import NavBar from "./NavBar";
 import Root from "./Root";
 
 class Account extends Component {
-    constructor(props) {
-        super(props);
-
-
-
-        const userID = this.props.userID;
-
-        this.state = {
-
-         
-            userID: "user1",
-            viewForm: false,
-            username: "user1",
-            accountLevel: "User",
-            email: "user1@gmail.com",
-
-            deleteText: "Delete My Account",
-            editAccount: "false"
-        };
-    }
+  constructor(props) {
+  super(props);
+  this.state = {
+    username: null,
+    email: null,
+    accountLevel: null,
+    guest: true
+  }
+	}
 
 
     /*Get Account Details*/
-    componentDidMount = () =>{
-        axios.get("http://localhost:5000/userInfoe?userID="+this.state.userID).then(response => {
-            this.setState({
-                username: response.data.username,
-                email: response.data.email,
-            })
-        });
-
-        /*Check if user is verified*/
-        axios.get("http://localhost:5000/Verified?userID="+this.state.userID).then(response => {
-            if(response.data==true){
-                this.setState({accountLevel: "Verified"})
-            }
-        });
-    };
+  componentDidMount = () =>{
+    let userToken = localStorage.getItem('jwtToken');
+	if (userToken === null) {
+		this.setState({
+			userID: "log in for this",
+      viewForm: "log in for this",
+      username: "log in for this",
+      accountLevel: "log in for this",
+      email: "log in for this",
+      deleteText: "Delete My Account",
+      editAccount: "false",
+      guest: true
+		});
+	}
+	else {
+    axios.get('http://localhost:5000/accountInfo', {
+      headers: { Authorization: 'JWT ' + userToken },
+    })
+    .then(response => {
+      if(response.data.success){
+      this.setState({
+			userID: response.data.id,
+      viewForm: "log in for this",
+      username: response.data.data.username,
+      accountLevel: "registered",
+      email: "emial bois",
+      deleteText: "Delete My Account",
+      editAccount: "false",
+      guest: false
+      });
+      }
+      else{}
+    })
+    .catch(error => {
+      console.log(error.data);
+    });
+  }
+  }
 
 
 
@@ -83,7 +95,7 @@ class Account extends Component {
     render() {
 
 
-
+if(!this.state.guest){
         return (
 		<div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
 
@@ -115,9 +127,11 @@ class Account extends Component {
                 </div>
 		<br />	
 		<div style={styles.centerDiv}>
-                <button class = "control_button" onClick = {() => this.handleApplyForVerification()}>
+		<a href="/verification" >
+                <button class = "control_button">
                   Apply For Verification
-                </button>{' '}
+                </button>
+		</a>
 		</div> 
 		<br />
                 <div value="withConfirm2"style={styles.centerDiv}>
@@ -126,7 +140,39 @@ class Account extends Component {
                 </div>
                 </div>
 
-               );
+               );}
+      else{
+        return(
+		<div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+
+                <NavBar/>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+
+
+
+
+
+		<h1>Account Page</h1>
+
+		</div>
+                    <br />
+            <div value="withConfirm"style={styles.centerDiv}>
+                <a href="/createaccount">
+                <button class = "control_button" onClick = {() => this.handleLogout()}>
+                  Make an Account
+                </button>{' '}
+                </a>
+                </div>
+		<br />	
+		<div style={styles.centerDiv}>
+		</div> 
+		<br />
+                <div value="withConfirm2"style={styles.centerDiv}>
+                </div>
+                </div>
+
+
+        );}
 
     }
 }
