@@ -44,23 +44,6 @@ function deleteEvent(eventId){
 	return db.collection('events').doc(eventId).delete();
 }
 
-/*
-planEvent and unplanEvent, for the time-being, does not have accountId yet.
-Thus it is temporarily deleted as needed. Also added description and title
-as needed into planEvent */
-
-
-function planEvent(eventId, accountId) {
-    return db.collection('users').doc(accountId).update({
-        planned_events: admin.firestore.FieldValue.arrayUnion(eventId)
-    });
-}
-
-function unplanEvent(eventId, accountId) {
-    return db.collection('users').doc(accountId).update({
-        planned_events: admin.firestore.FieldValue.arrayRemove(eventId)
-    });
-}
 
 function getHost(hostId) {
 
@@ -71,4 +54,4 @@ function getEvent(eventId) {
 }
 
 module.exports = {createEvent, updateEvent, deleteEvent, readEventsForMonth,
-                  planEvent, unplanEvent, getEvent};
+                  getEvent};

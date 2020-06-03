@@ -1,4 +1,5 @@
 const Accounts = require('../model/accountsModel');
+const {getEvent} = require('../model/CLNDRModel');
 const passport = require('passport');
 
 module.exports = function(app) {
@@ -15,25 +16,49 @@ module.exports = function(app) {
             else {
                 const planned = user.data.planned_events;
                 var result = [];
+                var wantedSize = planned.length;
+
                 const processData = new Promise((resolve, reject) => {
                     planned.forEach((element, index, array) => {
-                        Accounts.readAccountByID(element).then(documentSnapshot => {
-                            console.log(element);
+                        getEvent(element).then(documentSnapshot => {
                             if (documentSnapshot.exists) {
                                 Accounts.readAccountByID(documentSnapshot.get('hostID')).then(hostSnapshot => {
                                     if (hostSnapshot.exists) {
-                                        result.push({id: element, name: documentSnapshot.get('eventName'), hostName: hostSnapshot.get('org_name'), description: documentSnapshot.get('eventDescription'), start: documentSnapshot.get('start'), end: documentSnapshot.get('end')});
+                                        result.push({id: element, name: documentSnapshot.get('eventName'), hostName: hostSnapshot.get('org_name'), description: documentSnapshot.get('eventDescription'), start: documentSnapshot.get('start')._seconds, end: documentSnapshot.get('end')._seconds});
+                                    }
+                                    else {
+                                        wantedSize--;
+                                    }
+
+                                    if (result.length === wantedSize) {
+                                        resolve();
                                     }
                                 })
-                            }
-
-                            if (index === array.length - 1) {
-                                resolve();
                             }
                         });
                     });
                 });
                 processData.then(() => {
+                    result.sort((a, b) => {
+                        if (a.start < b.start) {
+                            return -1;
+                        }
+                        else if (a.start > b.start) {
+                            return 1;
+                        }
+                        else {
+                            if (a.end < b.end) {
+                                return -1;
+                            }
+                            else if (a.end > b.end) {
+                                return 1;
+                            }
+                            else {
+                                return 0;
+                            }
+                        }
+                    });
+
                     res.send({success: true, data: result});
                 });           
             }
