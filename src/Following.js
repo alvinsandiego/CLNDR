@@ -35,29 +35,6 @@ class Following extends Component {
     };
 
 
-    // componentDidMount() {
-    //     this.setData();
-    // }
-
-    // setData() {
-
-    //     let newHosts = this.state.hostArray.slice();
-    //     for (var i = 0; i < this.state.hostIDs.size(); i++) {
-
-    //         var hostInfo = axios.get("http://localhost:5000/userInfo?userID=" + this.state.hostIDs[i])
-
-
-    //         newHosts.push({
-    //             id: i,
-    //             hostName: hostInfo.username,
-    //             hostEmail: hostInfo.email
-    //         })
-
-
-    //     }
-    //     this.setState({hostArray: newHosts});
-    // }
-
     renderTableData() {
         return (
             <tbody>
@@ -65,8 +42,7 @@ class Following extends Component {
                     const {id, org_name, username, contact_email} = host;
                     return (
                         <tr class="hosts" key={id}>
-                            <td>{id}</td>
-                            <td>{org_name}</td>
+                            <td><a href={'/hostpage/'+id}>{org_name}</a></td>
                             <td>{username}</td>
                             <td>{contact_email}</td>
                         </tr>
@@ -97,7 +73,6 @@ class Following extends Component {
 
                             <div style={styles.centerDiv}>
                                 <table class="host">
-                                    <th>No.</th>
                                     <th>Host Name</th>
                                     <th>Username</th>
                                     <th>Email</th>

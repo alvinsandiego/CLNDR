@@ -81,4 +81,29 @@ function unfollowHost(hostId, accountId) {
 	});
 }
 
-module.exports = {createAccount, createAccountMinimal, readAccountByUsername, readAccountByID, updateAccount, updateAccountVerifiedStatus, verifyAccount, followHost, unfollowHost, deleteAccount};
+function planEvent(eventId, accountId) {
+    return db.collection('users').doc(accountId).update({
+        planned_events: admin.firestore.FieldValue.arrayUnion(eventId)
+    });
+}
+
+function unplanEvent(eventId, accountId) {
+    return db.collection('users').doc(accountId).update({
+        planned_events: admin.firestore.FieldValue.arrayRemove(eventId)
+    });
+}
+
+module.exports = {
+    createAccount,
+    createAccountMinimal,
+    readAccountByUsername,
+    readAccountByID,
+    updateAccount,
+    updateAccountVerifiedStatus,
+    verifyAccount,
+    followHost,
+    unfollowHost,
+    planEvent,
+    unplanEvent,
+    deleteAccount
+};

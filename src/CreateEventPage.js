@@ -65,41 +65,41 @@ class CreateEvent extends Component {
 
 
     handleClick = () => {
-	           console.log("hehe"); 
-        /* CONTROLLER CALL */
-        var title = this.state.title;
-        var startDate = this.state.startDate;
-        var startTime = this.state.startTime;
-        var endDate = this.state.endDate;
-        var endTime = this.state.endTime;
-        var description = this.state.description;
-        var keywords = this.state.keywords;
-	            var cohosts = this.state.cohosts;
-        var imageUrl = this.state.imageURL;
-        var hostID = this.state.userID;
+        const userToken = localStorage.getItem('jwtToken');
+        if (userToken !== null) {
+          /* CONTROLLER CALL */
+          var title = this.state.title;
+          var startDate = this.state.startDate;
+          var startTime = this.state.startTime;
+          var endDate = this.state.endDate;
+          var endTime = this.state.endTime;
+          var description = this.state.description;
+          var keywords = this.state.keywords;
+          var cohosts = this.state.cohosts;
+          var imageUrl = this.state.imageURL;
+          var hostID = this.state.userID;
 
-        console.log(hostID);
-
-	          /* make a post request with the new tutor we are adding */
-        let config = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title,
-                hostID,
-                startDate,
-                startTime,
-                endDate,
-                endTime,
-                description,
-                keywords,
-              cohosts,
-                imageUrl
-            })
-        };
-     /* make the server call, which will make the database call to add the new tutor to the tutors list */
-        fetch('http://localhost:5000/CreateEventPage', config).catch(error => console.log(error));
-      /* END OF CONTROLLER CALL */
+        /* make the server call, which will make the database call to add the new tutor to the tutors list */
+        axios.post('http://localhost:5000/CreateEventPage', {
+            title: title,
+            hostID: hostID,
+            startDate: startDate,
+            startTime: startTime,
+            endDate: endDate,
+            endTime: endTime,
+            description: description,
+            keywords: keywords,
+            cohosts: cohosts,
+            imageUrl: imageUrl
+        }, {
+            headers: { Authorization: 'JWT ' + userToken }
+        }).then(response => {
+            if (response.data.success) {
+                this.props.history.push("/calendar");
+            }
+        }).catch(error => console.log(error));
+        /* END OF CONTROLLER CALL */
+      }
 }
 
 
@@ -111,8 +111,8 @@ class CreateEvent extends Component {
             <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
 		      <NavBar/>
 		  <br />
-            <h1 class="center">Create Event</h1>
-            <form class="center create-event-form">
+            <h1 class="center ">Create Event</h1>
+            <div class="center create-event-form">
                 <div class="form-input">
                     <label>Event Title:</label>
 		     <input onChange={this.handleInputChange} type="text" name="title" id="title" placeholder="Event Title"/>
@@ -149,9 +149,8 @@ class CreateEvent extends Component {
                 </div>
 
                 <br/><br/>
-                <input style={styles.allButton} type="submit" onClick={this.handleClick} value="Submit"/>
-	
-            </form>
+                <button style={styles.allButton} onClick={this.handleClick}>Submit</button>
+            </div>
         </div>
         </div>
         );

@@ -173,6 +173,7 @@ require('./routes/verificationApplicationStatus')(app);
 // events for month
 require('./routes/eventsForMonth')(app);
 
+<<<<<<< HEAD
 /*-------------------------------------------------------------------*/
 
 /*
@@ -181,44 +182,13 @@ of the body. If this is not true, please revisit the code for the
 two methods
 */
 
+=======
+>>>>>>> dd6c3dea80e97b9451b3dad182a98231a800b0f2
 // plan event
-app.post('/planEvent', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info != undefined) {
-            console.log(info.message);
-            res.send({success: false, message: info.message});
-        }
-        else {
-            planEvent(req.body.eventId, user.id).then(result => {
-                res.send({success: true, message: "Successfully planned event."});
-            });
-        }
-    })(req, res, next);
-});
+require('./routes/planEvent')(app);
 
 // unplan event
-app.post('/unplanEvent', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info != undefined) {
-            console.log(info.message);
-            res.send({success: false, message: info.message});
-        }
-        else {
-            unplanEvent(req.body.eventId, user.id).then(result => {
-                res.send({success: true, message: "Successfully unplanned event."});
-            });
-        }
-    })(req, res, next);
-});
-
-/*-------------------------------------------------------------------*/
-
+require('./routes/unplanEvent')(app);
 
 // follow
 require('./routes/follow')(app);
@@ -227,8 +197,6 @@ require('./routes/follow')(app);
 require('./routes/unfollow')(app);
 
 // display list of events by host
-app.get('/HostPage', (req,res) => {
-
-})
+require('./routes/eventsForHost')(app);
 
 module.exports = app;

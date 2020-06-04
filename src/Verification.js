@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
-import App from './App.js';
-
-import firebase from './firebase'
-import EventPage from "./EventPage";
 import axios from "axios";
 
 var email;
@@ -16,22 +12,41 @@ class Verification extends Component {
     constructor(props) {
         super(props);
 
-        const eventID = this.props.username;
-
-
         this.state = {
-            data: null,
-            changeDone: false,
-            username:"21",
-            securityQuestion:"What is 9+10",
-            accMade : false,
-            secAnsError: '',
-            passError: '',
-            confError: ''
+            applicationError: '',
+            emailError: '',
+            orgError: '',
+            picError: ''
 
         };
-
     };
+
+    validateFields() {
+        var email = document.getElementById('email').value;
+        var org = document.getElementById( 'oName').value;
+        var pic = document.getElementById( 'pic').value;
+
+        if(email.length==0){
+            this.setState({emailError: 'Please enter an email'})
+        }
+        else{
+            this.setState({emailError: ''})
+        }
+
+        if(org.length==0){
+            this.setState({orgError: 'Please enter an organization name'})
+        }
+        else{
+            this.setState({orgError: ''})
+        }
+
+        if(pic.length==0){
+            this.setState({picError: 'Please provide a profile picture URL'})
+        }
+        else{
+            this.setState({picError: ''})
+        }
+    }
 
 
     handleVerify(){
@@ -42,77 +57,63 @@ class Verification extends Component {
         
 
         if(email.length > 0 && org.length > 0 && pic.length > 0){
+            const userToken = localStorage.getItem('jwtToken');
 
-            alert("Sweet! Your application has been submitted. A representative of CLNDR will be in contact with you through your submitted email!");
-
-            this.setState({
-                accMade: true
-            })
-
-            axios.post("http://localhost:5000/requestVerification",
+            if (userToken !== null) {
+                axios.post("http://localhost:5000/requestVerification",
                 {
                     contact_email: email,
                     org_name: org,
                     profile_pic_url: pic
 
-                })
+                },
+                {
+                    headers: { Authorization: 'JWT ' + userToken },
+                }).then(response => {
+                    if (response.data.success) {
+                        alert("Sweet! Your application has been submitted. A representative of CLNDR will be in contact with you through your submitted email!");
+                        this.props.history.push('/account');
+                    }
+                    else {
+                        this.setState({
+                            applicationError: response.data.message
+                        });
+                    }
+                });
+            }
+            else {
+                this.setState({
+                    applicationError: "You must be logged in to do this."
+                });
+            }
+        }
+        else {
+            this.validateFields();
         }
     }
-
 
     handleChange = () => {
-        var email = document.getElementById('email').value;
-        var org = document.getElementById( 'oName').value;
-        var pic = document.getElementById( 'pic').value;
-
-        if(email.length==0){
-            this.setState({secAnsError: 'Please enter an email'})
-        }
-        else{
-            this.setState({secAnsError: ''})
-        }
-
-        if(org.length==0){
-            this.setState({passError: 'Please enter an organization name'})
-        }
-        else{
-            this.setState({passError: ''})
-        }
-
-        if(pic.length==0){
-            this.setState({confError: 'Please provide a profile picture URL'})
-        }
-        else{
-            this.setState({confError: ''})
-        }
-
+        this.validateFields();
     }
 
-
-
-
     render() {
-        const confirm = this.state.accMade
-
-            const {errors} = this.state;
-            return (
-                <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
-                    <div style= {styles.centerDiv}>
-                        <img src={logo} style= {{width: 100, height: 100}}/>
-                        <h1>Verification Application</h1>
-                    </div>
-                    <div class='events'>
-
+        return (
+            <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
+                <div style= {styles.centerDiv}>
+                    <img src={logo} style= {{width: 100, height: 100}}/>
+                    <h1>Verification Application</h1>
+                </div>
+                <div class='events'>
                     <div class='left'>
                         <label>Contact Email:&nbsp;</label>
                         <input type="text" name='contEmail' id="email"
-                               onChange={this.handleChange}/>
+                                onChange={this.handleChange}/>
                     </div>
 
                     <div class='left'>
                         <label>Organization Name:&nbsp;</label>
                         <input type="text" name='orgName' id="oName"
-                               onChange={this.handleChange}/>
+                                onChange={this.handleChange}/>
                     </div>
 
                     <div class='left'>
@@ -126,31 +127,39 @@ class Verification extends Component {
                         <button class='control_button' onClick={this.handleVerify.bind(this)}>
                             Confirm
                         </button>
-			        <a href= "/">
-				        <button class='control_button'>
-					        Go Back
-				        </button>
-			        </a>
-                        
-                        
+                        <a href= "/account">
+                            <button class='control_button'>
+                                Go Back
+                            </button>
+                        </a>
                     </div>
 
-                    <div class='left'>
-                            <b>{this.state.secAnsError}</b>
-                        </div>
+                    {this.state.applicationError.length > 0 &&
                         <div class='left'>
-                            <b>{this.state.passError}</b>
-                        </div>
+                            <b>{this.state.applicationError}</b>
+                        </div>                
+                    }
+
+                    {this.state.emailError.length > 0 &&
                         <div class='left'>
-                            <b>{this.state.confError}</b>
+                            <b>{this.state.emailError}</b>
+                        </div>                
+                    }
+
+                    {this.state.orgError.length > 0 &&
+                        <div class='left'>
+                            <b>{this.state.orgError}</b>
                         </div>
+                    }
 
+                    {this.state.picError.length > 0 &&
+                        <div class='left'>
+                            <b>{this.state.picError}</b>
+                        </div>
+                    }
                 </div>
-
-                </div>
-
-
-            );
+            </div>
+        );
     }
 }
 
@@ -167,7 +176,5 @@ const styles = {
     }
 };
 
-
-EventPage.defaultProps = {username: new String}
 
 export default Verification;
