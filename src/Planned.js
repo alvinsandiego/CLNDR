@@ -41,14 +41,14 @@ class Planned extends Component {
         return (
             <tbody>
             {this.state.events.map((event, index) => {
-                const {id, name, hostName, description, start, end} = event;
+                const {id, name, hostName, description, start, end, hostID} = event;
                 const startDate = Planned.dateString(new Date(start * 1000));
                 const endDate = Planned.dateString(new Date(end * 1000));
 
                 return (
                     <tr class="events" key={id}>
-                        <td>{name}</td>
-                        <td>{hostName}</td>
+                        <td><a href={'/eventpage/'+id}>{name}</a></td>
+                        <td><a href={'/hostpage/'+hostName}>{hostName}</a></td>
                         <td>{startDate}</td>
                         <td>{endDate}</td>
                     </tr>
