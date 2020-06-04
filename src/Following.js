@@ -42,7 +42,6 @@ class Following extends Component {
                     const {id, org_name, username, contact_email} = host;
                     return (
                         <tr class="hosts" key={id}>
-                            <td>{id}</td>
                             <td><a href={'/hostpage/'+id}>{org_name}</a></td>
                             <td>{username}</td>
                             <td>{contact_email}</td>
@@ -74,7 +73,6 @@ class Following extends Component {
 
                             <div style={styles.centerDiv}>
                                 <table class="host">
-                                    <th>No.</th>
                                     <th>Host Name</th>
                                     <th>Username</th>
                                     <th>Email</th>
