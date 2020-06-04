@@ -186,8 +186,6 @@ require('./routes/follow')(app);
 require('./routes/unfollow')(app);
 
 // display list of events by host
-app.get('/HostPage', (req,res) => {
-
-})
+require('./routes/eventsForHost')(app);
 
 module.exports = app;
