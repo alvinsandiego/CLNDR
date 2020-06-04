@@ -26,6 +26,7 @@ function readAccountByUsername(username) {
 }
 
 function readAccountByID(uid) {
+    console.log(uid);
     return db.collection('users').doc(uid).get();
 }
 

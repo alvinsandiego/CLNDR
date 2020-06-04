@@ -48,6 +48,7 @@ function deleteEvent(eventId){
 
 
 function getEvent(eventId) {
+    console.log(db.collection('events').doc(eventId).get());
     return db.collection('events').doc(eventId).get();
 }
 

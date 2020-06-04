@@ -138,6 +138,24 @@ app.get('/getEvent', (req, res) => {
     }
 })
 
+// display event details
+app.get('/EventPages', (req,res) => {
+    console.log(req.query.eventID);
+if (req.query.eventID != undefined){
+    getEvent(req.query.eventID).then(response =>{
+        if(response.exists){
+            res.send(response.data());
+        }
+        else{
+            res.setDefaultEncoding({success: false, message: "Event not found."});
+        }
+    });
+}
+else{
+    res.send({success: false, message: "Field eventId is undefined"})
+}
+})
+
 // log in
 require('./routes/login')(app);
 

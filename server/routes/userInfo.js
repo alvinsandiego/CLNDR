@@ -2,6 +2,8 @@ const Accounts = require('../model/accountsModel');
 
 module.exports = function(app) {
     app.get("/userInfo", (req, res) => {
+        console.log("in userinfo");
+        console.log(req);
         if (req.body.userID != undefined) {
             Accounts.readAccountByID(req.body.userID).then(documentSnapshot => {
                 if (documentSnapshot.exists) {

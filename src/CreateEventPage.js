@@ -39,21 +39,7 @@ class CreateEvent extends Component {
 	    });
 	}
 	else {
-    axios.get('http://localhost:5000/accountInfo', {
-      headers: { Authorization: 'JWT ' + userToken },
-    })
-    .then(response => {
-      if(response.data.success){
-      this.setState({
-	  userID: response.data.id,
-      });
-      console.log(this.state.userID);
-      }
-      else{}
-    })
-    .catch(error => {
-      console.log(error.data);
-    });
+    
   }
 }
 
