@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Switch, Route, Redirect } from 'react-router-dom';
 import './styles/App.css';
 import axios from "axios";
 import EventPage from "./EventPage";
@@ -18,7 +18,8 @@ class Account extends Component {
     username: null,
     email: null,
     accountLevel: null,
-    guest: true
+    guest: true,
+    verified: false
   }
 	}
 
@@ -52,7 +53,8 @@ class Account extends Component {
       email: "emial bois",
       deleteText: "Delete My Account",
       editAccount: "false",
-      guest: false
+      guest: false,
+      verified: response.data.data.verified
       });
       }
       else{}
@@ -70,9 +72,11 @@ class Account extends Component {
             this.setState({deleteText: "Confirm Delete Account"})
         }
         else{
-            axios.post("http://localhost:5000/DeleteAccount?userID="+this.state.userID)
+            //axios.post("http://localhost:5000/DeleteAccount?userID="+this.state.userID)
+            alert("Account deleted!")
+            localStorage.clear()
+            this.setState({deleteText: "Confirm Delete Account"})
         }
-
     }
 
 
@@ -92,89 +96,99 @@ class Account extends Component {
 
 
 
-    render() {
-
-
-if(!this.state.guest){
-        return (
-		<div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
-
-                <NavBar/>
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-
-
-
-
-
-		<h1>Account Page</h1>
-
-		</div>
+  render() {
+    if(this.state.verified){
+      return (
+		    <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+          <NavBar/>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+		      <h1>Account Page</h1>
+		    </div>
         <div class='profileInfo'>
             <p>Username: {this.state.username}</p><br/>
             <p>Email: {this.state.email}</p><br/>
             <p>Account Level: {this.state.accountLevel}</p><br/>
-
-
             <a href="/editaccountinfo"><button className="control_button">Edit Account Info</button></a>
         </div>
-            <br />
-            <div value="withConfirm"style={styles.centerDiv}>
-                <a href="/">
-                <button class = "control_button" onClick = {() => this.handleLogout()}>
-                  Log Out
-                </button>{' '}
-                </a>
-                </div>
-		<br />	
-		<div style={styles.centerDiv}>
-		<a href="/verification" >
-                <button class = "control_button">
-                  Apply For Verification
-                </button>
-		</a>
-		</div> 
-		<br />
-                <div value="withConfirm2"style={styles.centerDiv}>
-                <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}
-                </button>{' '}
-                </div>
-                </div>
-
-               );}
-      else{
-        return(
-		<div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
-
-                <NavBar/>
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-
-
-
-
-
-		<h1>Account Page</h1>
-
-		</div>
-                    <br />
-            <div value="withConfirm"style={styles.centerDiv}>
-                <a href="/createaccount">
-                <button class = "control_button" onClick = {() => this.handleLogout()}>
-                  Make an Account
-                </button>{' '}
-                </a>
-                </div>
-		<br />	
-		<div style={styles.centerDiv}>
-		</div> 
-		<br />
-                <div value="withConfirm2"style={styles.centerDiv}>
-                </div>
-                </div>
-
-
-        );}
-
+        <br />
+        <div value="withConfirm"style={styles.centerDiv}>
+          <a href="/">
+            <button class = "control_button" onClick = {() => this.handleLogout()}>
+              Log Out
+            </button>{' '}
+          </a>
+        </div>
+		    <br /><br /><br /><br /><br /><br /><br /><br />
+		    <br />
+        <div value="withConfirm2"style={styles.centerDiv}>
+          <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}
+          </button>{' '}
+        </div>
+        </div>
+      );
     }
+    else if(!this.state.guest) {
+      return(
+		    <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+          <NavBar/>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+		      <h1>Account Page</h1>
+		    </div>
+        <div class='profileInfo'>
+            <p>Username: {this.state.username}</p><br/>
+            <p>Email: {this.state.email}</p><br/>
+            <p>Account Level: {this.state.accountLevel}</p><br/>
+            <a href="/editaccountinfo"><button className="control_button">Edit Account Info</button></a>
+        </div>
+        <br />
+        <div value="withConfirm"style={styles.centerDiv}>
+          <a href="/">
+            <button class = "control_button" onClick = {() => this.handleLogout()}>
+              Log Out
+            </button>{' '}
+          </a>
+        </div>
+		    <br />	
+		    <div style={styles.centerDiv}>
+		      <a href="/verification" >
+            <button class = "control_button">
+              Apply For Verification
+            </button>
+		      </a>
+		    </div> 
+		    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <div value="withConfirm2"style={styles.centerDiv}>
+          <button class = "control_button" onClick = {() => this.handleDeleteAccount()}>{this.state.deleteText}
+          </button>{' '}
+        </div>
+        </div>
+      );
+    }
+    else {
+      return(
+		    <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
+          <NavBar/>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+		        <h1>Account Page</h1>
+		      </div>
+          <br />
+          <div value="withConfirm"style={styles.centerDiv}>
+            <a href="/createaccount">
+              <button class = "control_button" onClick = {() => this.handleLogout()}>
+                Make an Account
+              </button>{' '}
+            </a>
+          </div>
+		      <br />	
+		      <div style={styles.centerDiv}>
+		      </div> 
+		      <br />
+          <div value="withConfirm2"style={styles.centerDiv}>
+          </div>
+        </div>
+      );
+    }
+  }
 }
 
 
