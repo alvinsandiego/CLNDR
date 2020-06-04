@@ -350,7 +350,7 @@ class CalendarRow extends Component {
                                         if (this.props.linkEvents) {
                                             return (
                                                 <div class="event">
-                                                    <a href={"/viewEvent?id=" + event.id}>{event.name}</a>
+                                                    <a href={"/eventpage/" + event.id}>{event.name}</a>
                                                     {this.props.viewWeek &&
                                                         <div class="description">{event.description}</div>
                                                     }
