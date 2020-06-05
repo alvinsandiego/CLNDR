@@ -4,6 +4,7 @@ import './styles/App.css';
 import axios from "axios";
 import Account from "./Account";
 import moment from 'moment'
+import NavBar from './NavBar';
 
 class HostPage extends Component {
     constructor(props) {
@@ -155,7 +156,6 @@ class HostPage extends Component {
             var theEndDate = moment(new Date(end*1000)).format('LLL');
             return (
                 <tr class="events" key={id}>
-                    <td>{id}</td>
                     <td><a href={'/eventpage/'+id}>{eventName}</a></td>
                     <td>{theStartDate}</td>
                     <td>{theEndDate}</td>
@@ -170,14 +170,12 @@ class HostPage extends Component {
     render() {
         return (
             <div>
+            <NavBar/>
 
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <h1>Host Page</h1>
-            </div>
-            <div style={{display: 'inline', justifyContent: 'center', alignItems: 'center'}}>
-            <h3>{this.state.hostName}</h3>
+            <h1>{this.state.hostName}</h1>
+            </div> <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <h5>Email: {this.state.hostEmail}</h5>
-            <h5>Host ID: {this.state.hostId}</h5>
             </div>
             <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <button className={"button button1"}
@@ -192,7 +190,6 @@ class HostPage extends Component {
                 <h2>{this.state.hostName}'s Events</h2>
                 <div style={styles.centerDiv}>
                 <table class="events" id="events">
-                    <th>Event ID</th>
                     <th>Event</th>
                     <th>Start Date/Time</th>
                     <th>End Date/Time</th>
