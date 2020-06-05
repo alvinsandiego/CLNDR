@@ -1,3 +1,5 @@
+
+  
 import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
@@ -35,7 +37,7 @@ class ForgotPassword extends Component {
 
     componentDidMount = () =>{
         axios.post("http://localhost:5000/userInfo", {
-            username: this.props.match.params.id
+            params: {username: this.props.match.params.id}
         }).then(response => {
             if(response.data.success){
                this.setState({
@@ -202,5 +204,3 @@ const styles = {
 
 
 EventPage.defaultProps = {username: new String}
-
-export default ForgotPassword;
