@@ -38,7 +38,6 @@ class Planned extends Component {
     }
 
     renderTableData(){
-<<<<<<< HEAD
         return this.state.events.map((event, index) => {
             const {id, eventName, hostName, eventDate, eventTime} = event
             return (
@@ -51,7 +50,6 @@ class Planned extends Component {
                 </tr>
             )
         })
-=======
         return (
             <tbody>
             {this.state.events.map((event, index) => {
@@ -70,7 +68,6 @@ class Planned extends Component {
             })}
             </tbody>
         );
->>>>>>> dd6c3dea80e97b9451b3dad182a98231a800b0f2
     }
 
 

@@ -196,4 +196,7 @@ require('./routes/unfollow')(app);
 // display list of events by host
 require('./routes/eventsForHost')(app);
 
+// forgot password
+require('./routes/forgotPassword')(app);
+
 module.exports = app;
