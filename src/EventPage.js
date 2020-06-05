@@ -34,7 +34,7 @@ class EventPage extends Component {
     componentDidMount = () =>{
         let userToken = localStorage.getItem('jwtToken');
         const { handle } = this.props.match.params;
-        axios.get(apiHost + `5000/getEvent`,{
+        axios.get(apiHost + ':5000/getEvent',{
             params: {
                 eventId: this.props.match.params.id
             },
