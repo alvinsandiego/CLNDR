@@ -1,7 +1,7 @@
 const Accounts = require('../model/accountsModel');
 
 module.exports = function(app) {
-    app.get("/userInfo", (req, res) => {
+    app.post("/userInfo", (req, res) => {
         if (req.body.userID != undefined) {
             Accounts.readAccountByID(req.body.userID).then(documentSnapshot => {
                 if (documentSnapshot.exists) {
@@ -24,8 +24,8 @@ module.exports = function(app) {
                     var userData = firstUser.data();
                     delete userData.password;
                     delete userData.sec_answer;
-                    delete data.following;
-                    delete data.planned_events;
+                    delete userData.following;
+                    delete userData.planned_events;
                     res.status(200).send({success: true, id: firstUser.ref.id, data: userData});
                 }
                 else {
