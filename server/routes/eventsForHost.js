@@ -1,13 +1,16 @@
 const {readEventsByHost} = require('../model/CLNDRModel');
 
 module.exports = function(app) {
-    app.post('/eventsForHost', (req, res) => {
-        if (req.body.hostID === undefined) {
+    app.get('/eventsForHost', (req, res) => {
+        
+        console.log(req.query.hostID);
+        if (req.query.hostID === undefined) {
             res.send({success: false});
         }
         else {
-            readEventsByHost(req.body.hostID).then(querySnapshot => {
+            readEventsByHost(req.query.hostID).then(querySnapshot => {
                 var arrayOfEvents = [];
+                //console.log(querySnapshot);
                 querySnapshot.forEach(documentSnapshot => {
                     var dataForCurrent = documentSnapshot.data();
                     delete dataForCurrent.start;

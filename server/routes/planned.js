@@ -24,7 +24,8 @@ module.exports = function(app) {
                             if (documentSnapshot.exists) {
                                 Accounts.readAccountByID(documentSnapshot.get('hostID')).then(hostSnapshot => {
                                     if (hostSnapshot.exists) {
-                                        result.push({id: element, name: documentSnapshot.get('eventName'), hostName: hostSnapshot.get('org_name'), description: documentSnapshot.get('eventDescription'), start: documentSnapshot.get('start')._seconds, end: documentSnapshot.get('end')._seconds});
+                                        console.log("here");
+                                        result.push({id: element, name: documentSnapshot.get('eventName'), hostName: hostSnapshot.get('org_name'), description: documentSnapshot.get('eventDescription'), start: documentSnapshot.get('start')._seconds, end: documentSnapshot.get('end')._seconds,hostID: documentSnapshot.get('hostID')});
                                     }
                                     else {
                                         wantedSize--;
@@ -58,7 +59,6 @@ module.exports = function(app) {
                             }
                         }
                     });
-
                     res.send({success: true, data: result});
                 });           
             }

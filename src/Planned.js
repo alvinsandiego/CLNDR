@@ -5,6 +5,7 @@ import axios from "axios";
 import './styles/App.css';
 import NavBar from "./NavBar";
 import apiHost from './config'
+
 class Planned extends Component {
 
     constructor(props){
@@ -24,6 +25,7 @@ class Planned extends Component {
             {
                 headers: { Authorization: 'JWT ' + userToken }
             }).then(response => {
+                console.log(response.data.data);
                 if (response.data.success) {
                     console.log(response.data.data);
                     this.setState({
@@ -45,11 +47,12 @@ class Planned extends Component {
                 const {id, name, hostName, description, start, end, hostID} = event;
                 const startDate = Planned.dateString(new Date(start * 1000));
                 const endDate = Planned.dateString(new Date(end * 1000));
+                console.log(hostID);
 
                 return (
                     <tr class="events" key={id}>
                         <td><a href={'/eventpage/'+id}>{name}</a></td>
-                        <td><a href={'/hostpage/'+hostName}>{hostName}</a></td>
+                        <td><a href={'/hostpage/'+hostID}>{hostName}</a></td>
                         <td>{startDate}</td>
                         <td>{endDate}</td>
                     </tr>
