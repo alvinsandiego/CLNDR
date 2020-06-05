@@ -10,7 +10,8 @@ class NavBar extends Component {
         this.state = {
             verified: false,
             account: false,
-            awaiting: true
+            awaiting: true,
+            username: "Guest"
         }
     }
 
@@ -23,21 +24,37 @@ class NavBar extends Component {
         axios.get('http://localhost:5000/accountInfo', {
             headers: { Authorization: 'JWT ' + userToken },
         })
-            .then(response => {
-                
-                if (response.data.success) {
-                    this.setState({ account: true, verified: response.data.data.verified, awaiting: false});
-                }
-                else {
-                    this.setState({awaiting: false});
-                }
-            })
-            .catch(error => {
-                console.log(error.data);
+        .then(response => {
+            
+            if (response.data.success) {
+                this.setState({ account: true, verified: response.data.data.verified, awaiting: false, username: response.data.data.username});
+            }
+            else {
                 this.setState({awaiting: false});
-            })
+            }
+        })
+        .catch(error => {
+            console.log(error.data);
+            this.setState({awaiting: false});
+        })
 
     }
+
+    renderUsername() {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'white',
+                borderBottom: "0.5em solid white",
+                fontSize: "1.25em"
+            }}>
+                Hello, {this.state.username}
+            </div>
+        );
+    }
+
     render() {
         const ver = this.state.verified;
         const acc = this.state.account;
@@ -63,7 +80,7 @@ class NavBar extends Component {
             );
         }
 
-        //Renders if the user is a guest
+        //Renders if the user is a verified user
         if (ver) {
             return (
 
@@ -79,6 +96,8 @@ class NavBar extends Component {
                         <input type="text" style={{ width: 180 }} />
                         <button style={{ width: 95 }}>Search</button>
                     </div>
+                    
+                    {this.renderUsername()}
 
                     <div style={{ backgroundColor: "#004d6e", textAlign: "center" }}>
                         <a href="/calendar">
@@ -128,6 +147,8 @@ class NavBar extends Component {
                         <button style={{ width: 95 }}>Search</button>
                     </div>
 
+                    {this.renderUsername()}
+
                     <div style={{ backgroundColor: "#004d6e", textAlign: "center" }}>
                         <a href="/calendar">
                             <button class="control_button" style={styles.allButton}>
@@ -171,6 +192,8 @@ class NavBar extends Component {
                         <button style={{ width: 95 }}>Search</button>
                     </div>
 
+                    {this.renderUsername()}
+                    
                     <div style={{ backgroundColor: "#004d6e", textAlign: "center" }}>
                         <a href="/calendar">
                             <button class="control_button" style={styles.allButton}>
@@ -180,6 +203,11 @@ class NavBar extends Component {
                         <a href="/account">
                             <button class="control_button" style={styles.allButton}>
                                 Account
+                        </button>
+                        </a>
+                        <a href="/">
+                            <button class="control_button" style={styles.allButton}>
+                                Log In
                         </button>
                         </a>
                     </div>
