@@ -4,7 +4,7 @@ import logo from './img/Logo-Semitransparent.png';
 import NavBar from "./NavBar";
 import axios from "axios";
 import { Timestamp } from '@google-cloud/firestore';
-
+import apiHost from './config'
 class CreateEvent extends Component {
 
     constructor(props) {
@@ -66,7 +66,7 @@ class CreateEvent extends Component {
           var hostID = this.state.userID;
 
         /* make the server call, which will make the database call to add the new tutor to the tutors list */
-        axios.post('http://localhost:5000/CreateEventPage', {
+        axios.post(apiHost + ':5000/CreateEventPage', {
             title: title,
             hostID: hostID,
             startDate: startDate,

@@ -3,7 +3,7 @@ import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Root from './Root';
 import axios from "axios";
-
+import apiHost from './config'
 class NavBar extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +21,7 @@ class NavBar extends Component {
         if (userToken == null) {
             console.log("NULLLLL");
         }
-        axios.get('http://localhost:5000/accountInfo', {
+        axios.get(apiHost + ':5000/accountInfo', {
             headers: { Authorization: 'JWT ' + userToken },
         })
         .then(response => {

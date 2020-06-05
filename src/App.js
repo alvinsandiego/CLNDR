@@ -4,7 +4,7 @@ import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Page from './Page';
 import axios from "axios";
-
+import apiHost from './config'
 import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
 
@@ -21,7 +21,7 @@ class App extends Component {
 
 		const userToken = localStorage.getItem('jwtToken');
 		if (userToken !== null) {
-			axios.get('http://localhost:5000/accountInfo', {
+			axios.get(apiHost + ':5000/accountInfo', {
 				headers: { Authorization: 'JWT ' + userToken },
 			}).then(response => {
 				if(response.data.success){
@@ -40,7 +40,7 @@ class App extends Component {
 		user = document.getElementById('userN').value;
 		pass = document.getElementById( 'passW').value;
 		if (user.length > 0 && pass.length > 0){
-			axios.post("http://localhost:5000/login",
+			axios.post(apiHost + ":5000/login",
 			{
 				username: user,
 				password: pass

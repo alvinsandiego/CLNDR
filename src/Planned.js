@@ -4,7 +4,7 @@ import Account from "./Account";
 import axios from "axios";
 import './styles/App.css';
 import NavBar from "./NavBar";
-
+import apiHost from './config'
 class Planned extends Component {
 
     constructor(props){
@@ -20,7 +20,7 @@ class Planned extends Component {
     componentDidMount = () => {
         const userToken = localStorage.getItem('jwtToken');
         if (userToken !== null) {
-            axios.get("http://localhost:5000/planned",
+            axios.get(apiHost + ":5000/planned",
             {
                 headers: { Authorization: 'JWT ' + userToken }
             }).then(response => {

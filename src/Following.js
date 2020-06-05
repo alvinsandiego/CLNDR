@@ -4,7 +4,7 @@ import logo from './img/Logo-Semitransparent.png';
 import Account from "./Account";
 import axios from "axios";
 import NavBar from "./NavBar"
-
+import apiHost from './config'
 class Following extends Component {
 
     constructor(props){
@@ -21,7 +21,7 @@ class Following extends Component {
     componentDidMount = () => {
         let userToken = localStorage.getItem('jwtToken');
         if (userToken !== null) {
-            axios.get("http://localhost:5000/following",
+            axios.get(apiHost + ":5000/following",
             {
                 headers: { Authorization: 'JWT ' + userToken },
             }).then(response => {

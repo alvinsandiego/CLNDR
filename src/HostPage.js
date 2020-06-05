@@ -3,7 +3,7 @@ import { Button } from 'reactstrap';
 import './styles/App.css';
 import axios from "axios";
 import Account from "./Account";
-
+import apiHost from './config'
 class HostPage extends Component {
     constructor(props) {
         super(props);
@@ -35,19 +35,19 @@ class HostPage extends Component {
         if(this.state.followButtonColor != "#b8b8b8"){
             this.setState({followButtonColor: "#b8b8b8"})
             this.setState({followButtonText: "Unfollow"})
-            axios.post("http://localhost:5000/followHost?userID="+"&hostID="+this.props.hostID);
+            axios.post(apiHost + ":5000/followHost?userID="+"&hostID="+this.props.hostID);
         }
         else{
             this.setState({followButtonColor: "#789ade"})
             this.setState({followButtonText: "Follow"})
-            axios.post("http://localhost:5000/unfollowHost?userID="+"&hostID="+this.props.hostID);
+            axios.post(apiHost + ":5000/unfollowHost?userID="+"&hostID="+this.props.hostID);
         }
 
     }
 
 
     componentDidMount = () => {
-        axios.get("http://localhost:5000/userInfo?hostID=" + this.state.hostID).then(response => {
+        axios.get(apiHost + ":5000/userInfo?hostID=" + this.state.hostID).then(response => {
             this.setState({
                 hostName: response.data.username,
                 hostEmail: response.data.email,
@@ -67,7 +67,7 @@ class HostPage extends Component {
         let newEvents = this.state.events.slice();
         for(var i=0; i<this.state.hostedEventsList.size(); i++){
 
-            var eventInfo = axios.get("http://localhost:5000/EventInfo?eventID=" + this.state.hostedEventsList[i])
+            var eventInfo = axios.get(apiHost + ":5000/EventInfo?eventID=" + this.state.hostedEventsList[i])
 
 
             newEvents.push({id: eventInfo.id,

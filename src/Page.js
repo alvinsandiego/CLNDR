@@ -3,6 +3,7 @@ import logo from './img/Logo-Semitransparent.png';
 import CalendarView from './CalendarView';
 import NavBar from './NavBar';
 import './styles/App.css';
+import apiHost from './config'
 import Root from './Root';
 // this file render both NavBar and CalendarView whenever the routhe /calendar is called
 

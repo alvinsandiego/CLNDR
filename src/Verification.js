@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import axios from "axios";
-
+import apiHost from './config'
 var email;
 var org;
 var pic;
@@ -60,7 +60,7 @@ class Verification extends Component {
             const userToken = localStorage.getItem('jwtToken');
 
             if (userToken !== null) {
-                axios.post("http://localhost:5000/requestVerification",
+                axios.post(apiHost + ":5000/requestVerification",
                 {
                     contact_email: email,
                     org_name: org,

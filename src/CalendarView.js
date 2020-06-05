@@ -3,7 +3,7 @@ import CreateEventButton from './CreateEventButton';
 import "./styles/CalendarView.css";
 import logo from './img/Logo-Semitransparent.png';
 import axios from "axios";
-
+import apiHost from './config'
 const maxEvents = 3;
 const linkEvents = true;
 const moreEventsLink = true;
@@ -67,7 +67,7 @@ class CalendarView extends Component {
     }
 
     getEventsForMonth(month, year) {
-        axios.post("http://localhost:5000/eventsForMonth", {
+        axios.post(apiHost + ":5000/eventsForMonth", {
             month: month + 1,
             year: year
         }).then(response => {

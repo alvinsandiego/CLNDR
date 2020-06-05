@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import App from './App.js';
-
+import apiHost from './config'
 import firebase from './firebase'
 import EventPage from "./EventPage";
 import axios from "axios";
@@ -36,7 +36,7 @@ class ForgotPassword extends Component {
     };
 
     componentDidMount = () =>{
-        axios.post("http://localhost:5000/userInfo", {
+        axios.post(apiHost + ":5000/userInfo", {
             params: {username: this.props.match.params.id}
         }).then(response => {
             if(response.data.success){
@@ -63,7 +63,7 @@ class ForgotPassword extends Component {
                 accMade: true
             })
 
-            axios.post("http://localhost:5000/forgotPassword",
+            axios.post(apiHost + ":5000/forgotPassword",
                 {
                     username: this.state.username,
                     sec_answer: secAns,
@@ -189,6 +189,8 @@ class ForgotPassword extends Component {
     }
 }
 
+export default ForgotPassword;
+
 
 const styles = {
     centerDiv: {
@@ -204,4 +206,3 @@ const styles = {
 
 
 EventPage.defaultProps = {username: new String}
-export default ForgotPassword

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import App from './App.js';
-
+import apiHost from './config'
 import firebase from './firebase'
 import axios from "axios";
 
@@ -106,7 +106,7 @@ class EditAccountInfo extends Component {
                 accMade: true
             })
 
-            axios.post("http://localhost:5000/updateAccount",
+            axios.post(apiHost + ":5000/updateAccount",
                 {
                     userName: user,
                     password: pass,

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import apiHost from './config'
 import App from "./App";
 import CreateAccount from "./CreateAccount";
 import ForgotPassword from "./ForgotPassword";

@@ -5,7 +5,7 @@ import axios from "axios";
 import EventPage from "./EventPage";
 import CreateEventPage from "./CreateEventPage";
 import EditAccountInfo from "./EditAccountInfo";
-
+import apiHost from './config'
 import { Button } from 'reactstrap';
 import logo from './img/Logo-Semitransparent.png';
 import NavBar from "./NavBar";
@@ -40,7 +40,7 @@ class Account extends Component {
 		});
 	}
 	else {
-    axios.get('http://localhost:5000/accountInfo', {
+    axios.get(apiHost + ':5000/accountInfo', {
       headers: { Authorization: 'JWT ' + userToken },
     })
     .then(response => {
@@ -74,7 +74,7 @@ class Account extends Component {
         }
         else{
             let userToken = localStorage.getItem('jwtToken');
-            axios.get('http://localhost:5000/deleteAccount', {
+            axios.get(apiHost + ':5000/deleteAccount', {
 		          headers: { Authorization: 'JWT ' + userToken },
 		        })
             alert("Account deleted!")
@@ -92,7 +92,7 @@ class Account extends Component {
 
 
     handleApplyForVerification(){
-        axios.post("http://localhost:5000/applyForVerification?userID="+this.state.userID)
+        axios.post(apiHost + ":5000/applyForVerification?userID="+this.state.userID)
 
     }
 

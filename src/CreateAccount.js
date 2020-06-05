@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import App from './App.js';
-
+import apiHost from './config'
 import firebase from './firebase'
 import axios from "axios";
 
@@ -95,7 +95,7 @@ class CreateAccount extends Component {
         answ = document.getElementById('ans').value;
         
         if (user.length > 0 && pass.length > 0 && pass === pCon && ques.length > 0 && answ.length > 0){
-            axios.post("http://localhost:5000/register",
+            axios.post(apiHost + ":5000/register",
             {
                 username: user,
                 password: pass,
