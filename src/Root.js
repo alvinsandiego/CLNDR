@@ -23,7 +23,7 @@ const Root = () => {
                     <Route component={EventPage} path="/eventpage/:id"/>
                     <Route component={HostPage} path="/hostpage/:id"/>
                     <Route component={CreateAccount} path="/createaccount" />
-                    <Route component={ForgotPassword} path="/forgotpassword" />
+                    <Route component={ForgotPassword} path="/forgotpassword/:id" />
                     <Route component={Page} path="/calendar" />
                     <Route component={Planned} path="/planned" />
                     <Route component={Following} path="/following" />

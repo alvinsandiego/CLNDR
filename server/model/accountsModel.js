@@ -32,17 +32,17 @@ function readAccountByID(uid) {
 
 function updateAccount(uid, payload) {
     var updateBody = {}
-    if (payload.username != undefined) {
+    if (payload.username != undefined && payload.username !== '') {
         updateBody.username = payload.username;
     }
-    if (payload.password != undefined) {
+    if (payload.password != undefined && payload.password !== '') {
         const encryptPW = bcrypt.hashSync(payload.password, HASH_ROUNDS);
         updateBody.password = encryptPW;
     }
-    if (payload.sec_question != undefined) {
+    if (payload.sec_question != undefined && payload.sec_question !== '') {
         updateBody.sec_question = payload.sec_question;
     }
-    if (payload.sec_answer != undefined) {
+    if (payload.sec_answer != undefined && payload.sec_answer !== '') {
         const encryptAnswer = bcrypt.hashSync(payload.sec_answer, HASH_ROUNDS);
         updateBody.sec_answer = encryptAnswer;
     }

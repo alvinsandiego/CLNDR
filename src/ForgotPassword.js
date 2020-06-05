@@ -22,8 +22,8 @@ class ForgotPassword extends Component {
         this.state = {
             data: null,
             changeDone: false,
-            username:"21",
-            securityQuestion:"What is 9+10",
+            username:"",
+            securityQuestion:"",
             accMade : false,
             secAnsError: '',
             passError: '',
@@ -34,10 +34,19 @@ class ForgotPassword extends Component {
     };
 
     componentDidMount = () =>{
-        axios.get("http://localhost:5000/userInfo?username="+this.props.username).then(response => {
-            this.setState({
-                securityQuestion: response.data.sec_question
-            })
+        axios.post("http://localhost:5000/userInfo", {
+            username: this.props.match.params.id
+        }).then(response => {
+            if(response.data.success){
+               this.setState({
+                    username: response.data.data.username,
+                    securityQuestion: response.data.data.sec_question
+                })
+            }
+            else{
+                alert(this.props.match.params.id);
+                this.props.history.push('/');
+            }
         });
     };
 
@@ -52,17 +61,19 @@ class ForgotPassword extends Component {
                 accMade: true
             })
 
-            axios.post("http://localhost:5000/resetPassword",
+            axios.post("http://localhost:5000/forgotPassword",
                 {
-                    securityAns: secAns,
-                    newPassword: newPass
+                    username: this.state.username,
+                    sec_answer: secAns,
+                    new_password: newPass
 
                 }).then(response => {
                     if (response.data.success) {
+                        alert("Sweet! Your password has been reset. Please log in.")
                         this.props.history.push('/');
                     }
                     else {
-
+                        alert(response.data.message);
                     }
                 })
         }
