@@ -5,6 +5,7 @@ import axios from "axios";
 import Account from "./Account";
 import moment from 'moment'
 import NavBar from './NavBar';
+import apiHost from './config'
 
 class HostPage extends Component {
     constructor(props) {
@@ -30,12 +31,12 @@ class HostPage extends Component {
     componentDidMount = () => {
         //hostedEventsList: response.data.hostedEventsList,
         let userToken = localStorage.getItem('jwtToken');
-            axios.get('http://localhost:5000/userInfo',{
+            axios.get(apiHost + ':5000/userInfo',{
                 params: {
                    userID: this.props.match.params.id
                 },
             }).then(response => {
-                axios.get('http://localhost:5000/eventsForHost',{
+                axios.get(apiHost + ':5000/eventsForHost',{
                     params: {
                         hostID: this.props.match.params.id
                     }
@@ -70,7 +71,7 @@ class HostPage extends Component {
             console.log("userToken is null");
 	    }
 	    else {
-            axios.get('http://localhost:5000/accountInfo', {
+            axios.get(apiHost + ':5000/accountInfo', {
             headers: { Authorization: 'JWT ' + userToken },
         })
         .then(response => {
@@ -115,7 +116,7 @@ class HostPage extends Component {
             this.setState({followButtonColor: "#b8b8b8"})
             this.setState({followButtonText: "Unfollow"})
             if (userToken !== null) {
-                axios.post("http://localhost:5000/follow",
+                axios.post(apiHost + ":5000/follow",
                 {
                     hostId: this.props.match.params.id,
                 },
@@ -132,7 +133,7 @@ class HostPage extends Component {
             this.setState({followButtonColor: "#789ade"})
             this.setState({followButtonText: "Follow"})
             if (userToken !== null) {
-                axios.post("http://localhost:5000/unfollow",
+                axios.post(apiHost + ":5000/unfollow",
                 {
                     hostId: this.props.match.params.id,
                 },

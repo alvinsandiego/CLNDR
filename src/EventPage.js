@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import Planned from "./Planned"
 import { Timestamp } from '@google-cloud/firestore';
 import moment from 'moment'
+import apiHost from './config'
 
 class EventPage extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class EventPage extends Component {
     componentDidMount = () =>{
         let userToken = localStorage.getItem('jwtToken');
         const { handle } = this.props.match.params;
-        axios.get(`http://localhost:5000/getEvent`,{
+        axios.get(apiHost + `5000/getEvent`,{
             params: {
                 eventId: this.props.match.params.id
             },
@@ -41,7 +42,7 @@ class EventPage extends Component {
         }).then(response => {
             //for host that created the event
             //to check if user has used the 
-            axios.get('http://localhost:5000/userInfo',{
+            axios.get(apiHost + ':5000/userInfo',{
                 params: {
                    userID: response.data.data.hostID
                 },
@@ -85,7 +86,7 @@ class EventPage extends Component {
 	if (userToken === null) {
 	}
 	else {
-    axios.get('http://localhost:5000/accountInfo', {
+    axios.get(apiHost + ':5000/accountInfo', {
       headers: { Authorization: 'JWT ' + userToken },
     })
     .then(response => {
@@ -126,7 +127,7 @@ class EventPage extends Component {
             this.setState({planEventButtonColor: "#b8b8b8"})
             this.setState({planEventButtonText: "Remove from planned events"})
             if (userToken !== null) {
-                axios.post("http://localhost:5000/planEvent",
+                axios.post(apiHost + ":5000/planEvent",
                 {
                     eventId: this.props.match.params.id,
                 },
@@ -145,7 +146,7 @@ class EventPage extends Component {
             this.setState({planEventButtonColor: "#789ade"})
             this.setState({planEventButtonText: "Add to planned events"})
             if (userToken !== null) {
-                axios.post("http://localhost:5000/unplanEvent",
+                axios.post(apiHost + ":5000/unplanEvent",
                 {
                     eventId: this.props.match.params.id,
                 },
@@ -167,7 +168,7 @@ class EventPage extends Component {
         console.log(value);
         let userToken = localStorage.getItem('jwtToken');
         if (userToken !== null) {
-        axios.post('http://localhost:5000/incrementInterest', {
+        axios.post(apiHost + ':5000/incrementInterest', {
             eventId: this.props.match.params.id,
             interestCount: value
         },{
