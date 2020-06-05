@@ -173,7 +173,6 @@ require('./routes/verificationApplicationStatus')(app);
 // events for month
 require('./routes/eventsForMonth')(app);
 
-<<<<<<< HEAD
 /*-------------------------------------------------------------------*/
 
 /*
@@ -182,8 +181,6 @@ of the body. If this is not true, please revisit the code for the
 two methods
 */
 
-=======
->>>>>>> dd6c3dea80e97b9451b3dad182a98231a800b0f2
 // plan event
 require('./routes/planEvent')(app);
 

@@ -73,10 +73,12 @@ class Account extends Component {
             this.setState({deleteText: "Confirm Delete Account"})
         }
         else{
-            //axios.post("http://localhost:5000/DeleteAccount?userID="+this.state.userID)
+            axios.post("http://localhost:5000/deleteAccount" {
+		username: this.state.userID
+	    })
             alert("Account deleted!")
             localStorage.clear()
-            this.setState({deleteText: "Confirm Delete Account"})
+            //this.setState({deleteText: "Confirm Delete Account"})
         }
     }
 
