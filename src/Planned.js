@@ -25,6 +25,7 @@ class Planned extends Component {
                 headers: { Authorization: 'JWT ' + userToken }
             }).then(response => {
                 if (response.data.success) {
+                    console.log(response.data.data);
                     this.setState({
                         events: response.data.data
                     });
@@ -65,14 +66,11 @@ class Planned extends Component {
                 <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
 
                     <NavBar/>
-
-
                     <br />
                     <div class="events">
                         <div class = "events2">
                     <body>
-                    <h2>Planned Events</h2>
-	                    
+                    <h2>Planned Events</h2>   
                     <div style={styles.centerDiv}>
                     <table class="events" id="events">
                         <th>Event Name</th>
@@ -102,8 +100,5 @@ const styles = {
         width: 175
     }
 };
-
-
-
 
 export default Planned

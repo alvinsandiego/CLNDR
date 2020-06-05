@@ -2,94 +2,88 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import axios from "axios";
 import NavBar from "./NavBar";
+import Planned from "./Planned"
+import { Timestamp } from '@google-cloud/firestore';
+import moment from 'moment'
 
 class EventPage extends Component {
     constructor(props) {
         super(props);
-
-
-
-
         this.state = {
-            planEventButtonColor: "#789ade",
-            planEventButtonText: "Add to planned events",
-            reminderButtonColor: "#789ade",
-            reminderButtonText: "Add reminder",
-            hostName: "Alex Wang",
-            eventName: "Event name",
-            eventDate: "May 7, 2020",
-            startTime: "12:00",
-            endTime: "15:00",
-            interestCount: "25",
-            eventDescription: "Blaha blah blah blah blah blah blah blah blah blah blah blah blah " +
-                "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " +
-                "blah blah blah blah blah blah blah blah blah blah blah blah",
-            eventID: "E1234123",
-
-
+            planEventButtonColor: "",
+            planEventButtonText: "",
+            reminderButtonColor: "",
+            reminderButtonText: "",
+            hostName: "",
+            eventName: "",
+            eventStartDate: "",
+            eventStartTime: "",
+            eventEndTime: "",
+            eventEndDate: "",
+            interestCount: "",
+            eventDescription: "",
+            eventID: "",
             userID: "",
-            eventHostID: ""
+            eventHostID: "",
 
         };
     };
-
-    /*Get Event Details*/
-    /*
+    
+    /*Get Account Details*/
     componentDidMount = () =>{
-        axios.get("http://localhost:5000/EventPage?eventID="+this.props.match.params.id).then(response => {
-            this.setState({
-                eventName: response.data.eventName,
-                hostName: response.data.hostName,
-                eventDate: response.data.eventDate,
-                interestCount: response.data.interestCount,
-                eventDescription: response.data.eventDescription,
-                eventID: response.data.eventID,
-                eventHostID: response.data.eventHostID,
-                startTime: response.data.startTime,
-                endTime: response.data.endTime
-            })
-        });
-
-
-        /*Check if user is already following event
-        let userToken = localStorage.getItem(jwtToken);
-
-        axios.get("http://localhost:5000/Planned?userID=").then(response => {
-            if(response.data.contains(this.state.eventID)){
-                this.setState({planEventButtonColor: "#b8b8b8"})
-                this.setState({planEventButtonText: "Remove from planned events"})
+        const { handle } = this.props.match.params;
+        axios.get(`http://localhost:5000/getEvent`,{
+            params: {
+                eventId: this.props.match.params.id
             }
+        }).then(response => {
+            //for host that created the event
+            //to check if user has used the 
+            let userToken = localStorage.getItem('jwtToken');
+            axios.get('http://localhost:5000/userInfo',{
+                params: {
+                   userID: response.data.data.hostID
+                }
+                //need to figure this out tmw ask Kevin
+            }).then(response =>{
+                console.log(response);
+                if(response.data.success){
+                    if(response.data.data.org_name == null){
+                        this.setState({
+                            hostName: response.data.data.username
+                        })
+                    }
+                    else{
+                        this.setState({
+                            hostName: response.data.data.org_name
+                        })
+                    }
+                  }
+                  else{
+                  }
+            })
 
-        });
-
-
-
-        /*get the user id
-        axios.get("http://localhost:5000/userInfo?userID=").then(response => {
-            this.setState({userID: response.data.userID})
-        });
-
-    };
-*/
-        /*Get Account Details*/
-  
-
-  componentDidMount = () =>{
-	  console.log("wtf")
-    axios.get(`http://localhost:5000/EventPage${this.props.match.params.id}`).then(response => {
+        var theStartDate = new Date(response.data.data.start._seconds*1000);
+        var theEndDate = new Date(response.data.data.end._seconds*1000);
+        console.log(response.data);
+        console.log("yabababababab");
+        console.log(response.data.data.interestCount);
         this.setState({
             eventName: response.data.data.eventName,
-            hostName: response.data.data.hostName,
-            eventDate: response.data.data.eventDate,
-            interestCount: "69",
+            eventStartDate: moment(theStartDate).format('LL'),
+            eventStartTime: moment(theStartDate).format('LT'),
+            eventEndDate: moment(theEndDate).format('LL'),
+            eventEndTime: moment(theEndDate).format('LT'),
             eventDescription: response.data.data.eventDescription,
-            eventID: response.data.data.eventID,
-            eventHostID: response.data.data.eventHostID,
-            startTime: response.data.data.startTime,
-            endTime: response.data.data.endTime
-        })
-    }); 
+            eventID: this.props.match.params.id,
+            interestCount: response.data.data.interestCount
+            })
+        }).catch(error => {
+            console.log("in componentDidMount");
+            console.log(error.data);
+        }); 
 
+    //to check if user has used the 
     let userToken = localStorage.getItem('jwtToken');
 	if (userToken === null) {
 	}
@@ -98,44 +92,103 @@ class EventPage extends Component {
       headers: { Authorization: 'JWT ' + userToken },
     })
     .then(response => {
-      if(response.data.success){
-        this.setState({planEventButtonColor: "#b8b8b8"})
-        this.setState({planEventButtonText: "Remove from planned events"});
-      }
-      else{}
+      console.log(response.data);
+      console.log(response.data.data.planned_events);
+      this.checkIfEventIsPlanned(response.data.data.planned_events)
     })
     .catch(error => {
       console.log(error.data);
     });
-  }
+    }
   }
 
+  //check if this event has already been planned
+  checkIfEventIsPlanned(listEvent){
+            console.log(listEvent.includes(this.state.eventID))
+            if(listEvent.includes(this.state.eventID)){
+                this.setState({
+                    planEventButtonColor: "#b8b8b8",
+                    planEventButtonText: "Remove from planned events",
+                })
+            }
+            else{
+                this.setState({
+                    planEventButtonColor: "#789ade",
+                    planEventButtonText: "Add to planned events",
+                })
+            }
+  }
 
     //Handles the button to add planned event
     handleClickPlanEvent(){
+        let userToken = localStorage.getItem('jwtToken');
         if(this.state.planEventButtonColor != "#b8b8b8"){
             this.setState({planEventButtonColor: "#b8b8b8"})
             this.setState({planEventButtonText: "Remove from planned events"})
-            axios.post("http://localhost:5000/planEvent?userID="+"&eventID="+this.props.eventID);
+            if (userToken !== null) {
+                axios.post("http://localhost:5000/planEvent",
+                {
+                    eventId: this.props.match.params.id,
+                },
+                {
+                    headers: { Authorization: 'JWT ' + userToken },
+                }).then(response => {
+                    if(response.data.success){
+                        console.log(this.state.interestCount+1);
+                        this.handleInterestCount(this.state.interestCount+1);
+                    }
+                })
+            }
         }
+
         else{
             this.setState({planEventButtonColor: "#789ade"})
             this.setState({planEventButtonText: "Add to planned events"})
-            axios.post("http://localhost:5000/unplanEvent?userID="+"&eventID="+this.props.eventID);
+            if (userToken !== null) {
+                axios.post("http://localhost:5000/unplanEvent",
+                {
+                    eventId: this.props.match.params.id,
+                },
+                {
+                    headers: { Authorization: 'JWT ' + userToken },
+                }).then(response => {
+                    if(response.data.success){
+                        console.log(this.state.interestCount+1);
+                        this.handleInterestCount(this.state.interestCount-1);
+                    }
+                    console.log(response);
+                })
+            }
         }
 
     }
+
+    handleInterestCount(value){
+        console.log(value);
+        let userToken = localStorage.getItem('jwtToken');
+        if (userToken !== null) {
+        axios.post('http://localhost:5000/incrementInterest', {
+            eventId: this.props.match.params.id,
+            interestCount: value
+        },{
+            headers: { Authorization: 'JWT ' + userToken }
+        }).then(response => {
+            console.log(response);
+        if (response.data.success) {
+            this.setState({
+                interestCount: value
+            })
+        }
+    }).catch(error => console.log(error));
+    }
+}
 
 
     render() {
 
         return (
-
-
             <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
-
-                <NavBar/>
-
+            <NavBar/>
             <body>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
@@ -153,8 +206,8 @@ class EventPage extends Component {
                             </h6>
                             <div className="w3-container">
                                 <h3><b>{this.state.eventName}</b></h3>
-                                <h5>{this.props.match.params.id}, <span className="w3-opacity">{this.state.eventDate}</span></h5>
-                                <h5><span className="w3-opacity">{this.state.startTime}-{this.state.endTime}</span></h5>
+                                <h5>{this.state.hostName}, <span className="w3-opacity">{this.state.eventStartDate}</span></h5>
+                                <h5><span className="w3-opacity">{this.state.eventStartTime}-{this.state.eventEndTime}</span></h5>
                             </div>
 
                             <div className="w3-container">

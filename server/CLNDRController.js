@@ -1,5 +1,5 @@
 const {createEvent, updateEvent, deleteEvent,
-       planEvent, unplanEvent, followHost, unfollowHost, getEvent} = require('./model/CLNDRModel');
+       planEvent, unplanEvent, followHost, unfollowHost, getEvent, incrementInterestCount} = require('./model/CLNDRModel');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -38,7 +38,7 @@ app.post('/CreateEventPage', (req, res, next) => {
             if (user.data.verified) {
                 const start = new Date(req.body.startDate + 'T' + req.body.startTime);
                 const end = new Date (req.body.endDate + 'T' + req.body.endTime);
-                createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl).then(result => {
+                createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl,req.body.interestCount).then(result => {
                     res.send({success: true, message: "Created event."});
                 });
             }
@@ -51,12 +51,15 @@ app.post('/CreateEventPage', (req, res, next) => {
 
 // update event
 app.post('/updateEvent', (req, res, next) => {
+    
+    console.log(req.body);
     passport.authenticate('jwt', { session: false }, (err, user, info) => {
         if (err) {
             console.log(err);
         }
         if (info != undefined) {
             console.log(info.message);
+            console.log("checking 1 2 3 in updateEvent");
             res.send({success: false, message: info.message});
         }
         else {
@@ -123,8 +126,8 @@ app.post('/deleteEvent', (req, res, next) => {
 
 // display event details
 app.get('/getEvent', (req, res) => {
-    if (req.body.eventId != undefined) {
-        getEvent(req.body.eventId).then(documentSnapshot => {
+    if (req.query.eventId != undefined) {
+        getEvent(req.query.eventId).then(documentSnapshot => {
             if (documentSnapshot.exists) {
                 res.send({success: true, id: documentSnapshot.ref.id, data: documentSnapshot.data()});
             }
@@ -136,6 +139,21 @@ app.get('/getEvent', (req, res) => {
     else {
         res.send({success: false, message: "Field eventId is undefined"});
     }
+})
+
+
+//display interest counts
+app.post('/incrementInterest', (req, res, next) => {
+    console.log("check INterests count bitchhh");
+    console.log(req.body.interestCount);
+    if (req.body.eventId != undefined) {
+        incrementInterestCount(req.body.eventId, req.body.interestCount).then(result => {
+            res.send({success: true, message: "Updated Increment"});
+        });
+    }
+    else {
+        res.send({success: false, message: "Field eventId is undefined"});
+    } 
 })
 
 // log in
