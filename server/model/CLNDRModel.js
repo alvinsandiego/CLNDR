@@ -2,7 +2,7 @@ const {db} = require('./firebase');
 
 // app functions
 function createEvent(title, hostingId, start,
-    end, description, keywords, cohosts,imageURL) {
+    end, description, keywords, cohosts,imageURL,countInterest) {
 
     //image
 	const id = db.collection('events').doc().id                  
@@ -14,7 +14,9 @@ function createEvent(title, hostingId, start,
         eventDescription: description,
         eventKeywords: keywords,
         eventCohosts: cohosts,
-        imageUrl: imageURL
+        imageUrl: imageURL,
+        interestCount:countInterest
+
     });
 }
 
@@ -29,7 +31,7 @@ function readEventsByHost(hostID) {
     return db.collection('events').where('hostID', '==', hostID).get();
 }
 
-function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL) {
+function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL,interestCount) {
     return db.collection('events').doc(eventId).update({
         eventName: title,
         start: start,
@@ -48,8 +50,18 @@ function deleteEvent(eventId){
 
 
 function getEvent(eventId) {
-    console.log(db.collection('events').doc(eventId).get());
     return db.collection('events').doc(eventId).get();
+}
+
+//update interest count
+function incrementInterestCount(eventId,incrementedValue){
+    console.log("i am in incrementModel");
+    db.collection('events').doc(eventId).get().then(response=>{
+        console.log(response.data());
+    });
+    return db.collection('events').doc(eventId).update({
+        "interestCount":incrementedValue
+    });
 }
 
 module.exports = {
@@ -58,4 +70,4 @@ module.exports = {
     deleteEvent,
     readEventsForMonth,
     readEventsByHost,
-    getEvent};
+    getEvent, incrementInterestCount};
