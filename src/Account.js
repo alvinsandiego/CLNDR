@@ -73,10 +73,14 @@ class Account extends Component {
             this.setState({deleteText: "Confirm Delete Account"})
         }
         else{
-            //axios.post("http://localhost:5000/DeleteAccount?userID="+this.state.userID)
+            let userToken = localStorage.getItem('jwtToken');
+            axios.get('http://localhost:5000/deleteAccount', {
+		          headers: { Authorization: 'JWT ' + userToken },
+		        })
             alert("Account deleted!")
             localStorage.clear()
-            this.setState({deleteText: "Confirm Delete Account"})
+            this.props.history.push('/')
+            
         }
     }
 
