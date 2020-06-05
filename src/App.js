@@ -59,8 +59,15 @@ class App extends Component {
         }
 	}
 
-	handleForgotPassword(){
+
+	handleForgot(){
 		user = document.getElementById('userN').value;
+		if(user.length === 0){
+			alert("Type your username in before selecting forgot password.")
+		}
+		else{
+			this.props.history.push("/forgotPassword/" + user)
+		}
 	}
 
   	render() {
@@ -96,11 +103,9 @@ class App extends Component {
 						Login
 					</button>
 			
-					<a href="/forgotpassword">  
-						<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgotPassword()}>
-							Forgot Password
-						</button>
-					</a>
+					<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgot()}>
+						Forgot Password
+					</button>
 				</div>
 
 				<br />
