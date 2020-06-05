@@ -4,12 +4,12 @@ import logo from './img/Logo-Semitransparent.png';
 import NavBar from "./NavBar";
 import axios from "axios";
 import { Timestamp } from '@google-cloud/firestore';
-import apiHost from './config'
+
 class CreateEvent extends Component {
 
     constructor(props) {
         super(props)
-	          this.state = {
+	 this.state = {
         title:"",
         startDate:"",
         endDate:"",
@@ -24,7 +24,8 @@ class CreateEvent extends Component {
         username: null,
         email: null,
         accountLevel: null,
-        guest: true
+        guest: true,
+        interestCount: 0
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -39,7 +40,21 @@ class CreateEvent extends Component {
 	    });
 	}
 	else {
-    
+    axios.get('http://localhost:5000/accountInfo', {
+      headers: { Authorization: 'JWT ' + userToken },
+    })
+    .then(response => {
+      if(response.data.success){
+      this.setState({
+	  userID: response.data.id,
+      });
+      console.log(this.state.userID);
+      }
+      else{}
+    })
+    .catch(error => {
+      console.log(error.data);
+    });
   }
 }
 
@@ -52,6 +67,7 @@ class CreateEvent extends Component {
 
     handleClick = () => {
         const userToken = localStorage.getItem('jwtToken');
+        console.log(this.state.userID);
         if (userToken !== null) {
           /* CONTROLLER CALL */
           var title = this.state.title;
@@ -66,7 +82,7 @@ class CreateEvent extends Component {
           var hostID = this.state.userID;
 
         /* make the server call, which will make the database call to add the new tutor to the tutors list */
-        axios.post(apiHost + ':5000/CreateEventPage', {
+        axios.post('http://localhost:5000/CreateEventPage', {
             title: title,
             hostID: hostID,
             startDate: startDate,
@@ -76,7 +92,8 @@ class CreateEvent extends Component {
             description: description,
             keywords: keywords,
             cohosts: cohosts,
-            imageUrl: imageUrl
+            imageUrl: imageUrl,
+            interestCount: 0
         }, {
             headers: { Authorization: 'JWT ' + userToken }
         }).then(response => {
@@ -86,7 +103,7 @@ class CreateEvent extends Component {
         }).catch(error => console.log(error));
         /* END OF CONTROLLER CALL */
       }
-}
+    }
 
 
     render(){
