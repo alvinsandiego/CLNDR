@@ -204,3 +204,4 @@ const styles = {
 
 
 EventPage.defaultProps = {username: new String}
+export default ForgotPassword
