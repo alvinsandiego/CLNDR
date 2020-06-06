@@ -31,7 +31,7 @@ const Root = () => {
                     <Route component={Account} path="/account" />
                     <Route component={CreateEvent} path="/createevent" />
                     <Route component={EditAccountInfo} path="/editaccountinfo" />
-                    <Route component={EditEventInfo} path="/editeventinfo" />
+                    <Route component={EditEventInfo} path="/editeventinfo/:id" />
                     <Route component={Verification} path="/verification" />
                     <Route component={App} path="/" />
 

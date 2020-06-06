@@ -277,9 +277,12 @@ class EventPage extends Component {
                                             className="w3-tag">{this.state.interestCount}</span></span></p>
                                     </div>
                                 </div>
-                            <button class='control_button' onClick={() => this.handleEditEvent()}>
-                              Edit Event
-                            </button>
+                            <a href={"/editeventinfo/"+ this.props.match.params.id}>
+                                <button class='control_button'>
+                                  Edit Event
+                                </button>
+                            </a>
+
                             </div>
                         </div>
 
