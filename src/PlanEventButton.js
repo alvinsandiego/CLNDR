@@ -14,7 +14,11 @@ class PlanEventButton extends Component {
         this.state = {
             awaiting: true,
             renderPlanButton: false,
-            eventIsPlanned: false
+            eventIsPlanned: false,
+            notFirstLoad: false,
+            //created this variable so I can have a temp to store the increment value
+            value:0,
+            interestCount:0
         }
     }
 
@@ -48,6 +52,7 @@ class PlanEventButton extends Component {
                 renderPlanButton: false
             });
         }
+        this.handleInterestCount(this.state.eventIsPlanned, this.state.firstLoad);
     }
 
     planEvent() {
@@ -60,8 +65,10 @@ class PlanEventButton extends Component {
             }).then(response => {
                 if (response.data.success) {
                     this.setState({
-                        eventIsPlanned: true
+                        eventIsPlanned: true,
+                        notFirstLoad: true,
                     });
+                    this.handleInterestCount(this.state.eventIsPlanned, this.state.firstLoad);
                 }
             })
         }
@@ -77,8 +84,10 @@ class PlanEventButton extends Component {
             }).then(response => {
                 if (response.data.success) {
                     this.setState({
-                        eventIsPlanned: false
+                        eventIsPlanned: false,
+                        notFirstLoad: true,
                     });
+                    this.handleInterestCount(this.state.eventIsPlanned, this.state.firstLoad);
                 }
             })
         }
@@ -88,6 +97,55 @@ class PlanEventButton extends Component {
         alert("Log In to Plan Events");
     }
 
+    //used async because we need to get the data first
+    handleInterestCount = async (eventIsPlanned, firstLoad) => {
+
+        const data = await axios.get(apiHost + ':5000/getEvent',{
+            params: {
+                eventId: this.props.eventID
+            },
+           
+        });
+
+    
+        this.setState({
+            value:data.data.data.interestCount,
+            interestCount:data.data.data.interestCount
+        })
+
+        //this makes sure this runs only when the buttons have been pressed
+        if(this.state.notFirstLoad){
+        if(eventIsPlanned){
+            this.setState({
+                value: this.state.value+1
+        })
+        }
+        else{
+            if(this.state.value > 0){
+            this.setState({
+                value: this.state.value-1
+            })
+          }
+        }
+         let userToken = localStorage.getItem('jwtToken');
+            if (userToken !== null) {
+                axios.post(apiHost + ':5000/incrementInterest', {
+                    eventId: this.props.eventID,
+                    interestCount: this.state.value
+            },{
+                headers: { Authorization: 'JWT ' + userToken }
+            }).then(response => {
+            console.log(response);
+            if (response.data.success) {
+            this.setState({
+                interestCount: this.state.value
+            })
+        }
+        }).catch(error => console.log(error));
+        }
+        } 
+}
+
     render() {
         if (this.state.awaiting) {
             return null;
@@ -96,31 +154,61 @@ class PlanEventButton extends Component {
             if (this.state.eventIsPlanned) {
                 // want to give option to unplan
                 return (
-                    <button className={"button button1"} 
-                            onClick={() => this.unplanEvent()}
-                            style={{backgroundColor: "#b8b8b8"}}>
+                    <div className="w3-row">
+                    <div className="w3-col m8 s12">
+                    <p>
+                        <button className={"button button1"} 
+                        onClick={() => this.unplanEvent()}
+                        style={{backgroundColor: "#b8b8b8"}}>
                         Remove from Planned Events
                     </button>
+                    </p>
+                    </div>
+                    <div className="w3-col m4 w3-hide-small">
+                    <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
+                    className="w3-tag">{this.state.interestCount}</span></span></p>
+                    </div>  
+                    </div>
                 ); 
             }
             else {
                 // want to give option to plan
                 return (
+                    <div className="w3-row">
+                    <div className="w3-col m8 s12">
+                    <p>
                     <button className={"button button1"} 
                             onClick={() => this.planEvent()}
                             style={{backgroundColor: "#789ade"}}>
                         Add to Planned Events
                     </button>
+                    </p>
+                    </div>
+                    <div className="w3-col m4 w3-hide-small">
+                    <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
+                    className="w3-tag">{this.state.interestCount}</span></span></p>
+                    </div>  
+                    </div>
                 ); 
             }
         }
         else {
             return (
+                <div className="w3-row">
+                <div className="w3-col m8 s12">
+                <p>
                 <button className={"button button1"} 
                         onClick={() => this.notLoggedIn()}
                         style={{backgroundColor: "#b8b8b8"}}>
                     Log In to Plan Events
                 </button>
+                </p>
+                    </div>
+                    <div className="w3-col m4 w3-hide-small">
+                    <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
+                    className="w3-tag">{this.state.interestCount}</span></span></p>
+                    </div>  
+                    </div>
             );
         }
     }
