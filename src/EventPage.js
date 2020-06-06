@@ -182,17 +182,7 @@ class EventPage extends Component {
                             <div className="w3-container">
                                 <p>Description:</p>
                                 <p>{this.state.eventDescription}</p>
-                                <div className="w3-row">
-                                    <div className="w3-col m8 s12">
-                                        <p>
-                                        <PlanEventButton eventID={this.props.match.params.id} />
-
-                                        </p>
-
-                                    </div>
-                                    <div className="w3-col m4 w3-hide-small">
-                                    </div>
-                                </div>
+                                <PlanEventButton eventID={this.props.match.params.id} />  
                             <a href={"/editeventpage/"+ this.props.match.params.id}>
                                 <button style={{marginBottom: '1em'}} class='control_button'>
                                   Edit Event
