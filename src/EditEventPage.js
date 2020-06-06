@@ -47,7 +47,9 @@ class EditEventPage extends Component {
         ohostid:"",
 	okeywords:"",
 	oimage:"",
-	ocohosts:""
+	ocohosts:"",
+	
+	goodbye: "Delete Event"
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -146,7 +148,35 @@ class EditEventPage extends Component {
         });
       }
 
+    handleByeBye = () => {
+        if(this.state.ohostid !== this.state.userID) {
+          alert("You are not the host of this event")
+        }
+        else if(this.state.goodbye == "Delete Event"){
+            this.setState({goodbye: "Confirm Delete Event"})
+        }
+        else if(this.state.goodbye == "Confirm Delete Event"){
+            this.setState({goodbye: "Confirm Again"})
+        }
+        else {
+            let userToken = localStorage.getItem('jwtToken');
+            var place = this.props.match.params.id
+            axios.post(apiHost + ':5000/deleteEvent', {
+              eventId: place
+            }, {
+		          headers: { Authorization: 'JWT ' + userToken },
+		        }).then(response => {
+              if(response.data.success){
+                
+              }
+            })
 
+            alert("Event deleted!")
+            this.props.history.push('/account')
+            
+        }
+
+    }
     handleClick = () => {
 
       //check if user is host
@@ -280,6 +310,12 @@ class EditEventPage extends Component {
                   </button>
                 </a>
             </div>
+          <div style={styles.centerDiv}>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+          <button style={styles.allButton} onClick = {() => this.handleByeBye()}>{this.state.goodbye}</button>
+          </div>
         </div>
         </div>
         );
