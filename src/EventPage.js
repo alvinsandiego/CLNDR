@@ -13,7 +13,7 @@ class EventPage extends Component {
         super(props);
         this.state = {
             planEventButtonColor: "",
-            planEventButtonText: "",
+            planEventButtonText: "Log in to plan events",
             reminderButtonColor: "",
             reminderButtonText: "",
             hostName: "",
@@ -102,6 +102,8 @@ class EventPage extends Component {
 
   //check if this event has already been planned
   checkIfEventIsPlanned(listEvent){
+        let userToken = localStorage.getITem('jwtToken');
+        
             if(listEvent != null){
             console.log(listEvent.includes(this.state.eventID))
             if(listEvent.includes(this.state.eventID)){
@@ -142,6 +144,7 @@ class EventPage extends Component {
                     }
                 })
             }
+          else{ alert('Log in to plan events') }	
         }
 
         else{
