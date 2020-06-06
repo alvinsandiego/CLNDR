@@ -21,6 +21,7 @@ class HostPage extends Component {
             hostID: "",
             hostName: "",
             hostEmail:"",
+            image:"",	
             hostedEventsList: [],
             events: []
 
@@ -54,6 +55,7 @@ class HostPage extends Component {
                         this.setState({
                             hostName: response.data.data.org_name,
                             hostEmail: response.data.data.contact_email,
+                            image: response.data.data.profile_pic_url
                     })
                 }
                 else{
@@ -174,6 +176,10 @@ class HostPage extends Component {
 
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <h1>{this.state.hostName}</h1>
+                </div>
+
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <img src={this.state.image} class="centerImage" height="200"/>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <h3>Email: {this.state.hostEmail}</h3>
