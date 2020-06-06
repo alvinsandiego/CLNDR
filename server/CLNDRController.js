@@ -171,8 +171,6 @@ app.get('/getEvent', (req, res) => {
 
 //display interest counts
 app.post('/incrementInterest', (req, res, next) => {
-    console.log("check INterests count bitchhh");
-    console.log(req.body.interestCount);
     if (req.body.eventId != undefined) {
         incrementInterestCount(req.body.eventId, req.body.interestCount).then(result => {
             res.send({success: true, message: "Updated Increment"});
