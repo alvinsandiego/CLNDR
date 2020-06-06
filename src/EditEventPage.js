@@ -119,10 +119,10 @@ class EditEventPage extends Component {
         var theEndDate = new Date(response.data.data.end._seconds*1000);
         this.setState({
             otitle: response.data.data.eventName,
-            ostartdate: new Date(response.data.data.start._seconds*1000),
-            ostarttime: moment(theStartDate).format('LT'),
-            oenddate: new Date(response.data.data.end._seconds*1000),
-            oendtime: moment(theEndDate).format('LT'),
+            ostartdate: moment(theStartDate).format('YYYY-MM-DD'),
+            ostarttime: moment(theStartDate).format('HH:mm'),
+            oenddate: moment(theEndDate).format('YYYY-MM-DD'),
+            oendtime: moment(theEndDate).format('HH:mm'),
             odescription: response.data.data.eventDescription,
             })
         }).catch(error => {
@@ -224,6 +224,7 @@ class EditEventPage extends Component {
 		  <br />
             <h1 class="center ">Update Event</h1>
             <div class="center update-event-form">
+          <h3>Only fill in the fields that you want changed</h3>
                 <div class="form-input">
                     <label>Event Title:</label>
 		     <input onChange={this.handleInputChange} type="text" name="title" id="title" placeholder="Event Title"/>
