@@ -36,7 +36,7 @@ class ForgotPassword extends Component {
     };
 
     componentDidMount = () =>{
-        axios.post(apiHost + ":5000/userInfo", {
+        axios.get(apiHost + ":5000/userInfo", {
             params: {username: this.props.match.params.id}
         }).then(response => {
             if(response.data.success){
