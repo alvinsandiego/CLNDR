@@ -285,7 +285,7 @@ class EventPage extends Component {
                                     </div>
                                 </div>
                             <a href={"/editeventinfo/"+ this.props.match.params.id}>
-                                <button class='control_button'>
+                                <button style={{marginBottom: '1em'}} class='control_button'>
                                   Edit Event
                                 </button>
                             </a>
