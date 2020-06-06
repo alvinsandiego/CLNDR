@@ -46,7 +46,7 @@ class ForgotPassword extends Component {
                 })
             }
             else{
-                alert(this.props.match.params.id);
+                alert("Not a valid username");
                 this.props.history.push('/');
             }
         });
