@@ -44,6 +44,7 @@ class EditEventPage extends Component {
         oenddate:"",
         oendtime:"",
         odescription:"",
+        ohostid:"",
 	okeywords:"",
 	oimage:"",
 	ocohosts:""
@@ -129,8 +130,8 @@ class EditEventPage extends Component {
             odescription: response.data.data.eventDescription,
 	          okeywords: response.data.data.eventKeywords,
             oimage: response.data.data.imageUrl,
-            ocohosts: response.data.data.eventCohosts
-
+            ocohosts: response.data.data.eventCohosts,
+            ohostid: response.data.data.hostID
             })
         }).catch(error => {
             console.log("in componentDidMount");
@@ -148,7 +149,8 @@ class EditEventPage extends Component {
 
     handleClick = () => {
 
-
+      //check if user is host
+      if(this.state.ohostid !== this.state.userID) {alert("You are not the host of this event")}
 
 
 
@@ -272,6 +274,11 @@ class EditEventPage extends Component {
 
                 <br/><br/>
                 <button style={styles.allButton} onClick={this.handleClick}>Submit</button>
+                <a href={"/eventpage/"+this.props.match.params.id}>
+                  <button style={styles.allButton}>
+                    Go Back
+                  </button>
+                </a>
             </div>
         </div>
         </div>
