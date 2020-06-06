@@ -254,7 +254,7 @@ class EventPage extends Component {
                             </h6>
                             <div className="w3-container">
                                 <h3><b>{this.state.eventName}</b></h3>
-                                <h5>{this.state.hostName}, <span className="w3-opacity">{this.state.eventStartDate}</span></h5>
+                                <h5><a href={'/hostpage/'+this.state.eventHostID}>{this.state.hostName}</a>, <span className="w3-opacity">{this.state.eventStartDate}</span></h5>
                                 <h5><span className="w3-opacity">{this.state.eventStartTime}-{this.state.eventEndTime}</span></h5>
                             </div>
 
