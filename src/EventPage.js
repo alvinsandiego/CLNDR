@@ -226,7 +226,8 @@ class EventPage extends Component {
       console.log(error.data);
     });
         if(this.state.userID === this.state.eventHostID){
-          this.props.history.push('/hostpage/'+this.state.userID)
+          this.props.history.push('/editeventpage/'+this.state.eventID)
+
       }
   }
 
@@ -283,9 +284,11 @@ class EventPage extends Component {
                                             className="w3-tag">{this.state.interestCount}</span></span></p>
                                     </div>
                                 </div>
-                            <button class='control_button' style={{marginBottom: "1em"}} onClick={() => this.handleEditEvent()}>
-                              Edit Event
-                            </button>
+                            <a href={"/editeventinfo/"+ this.props.match.params.id}>
+                                <button class='control_button'>
+                                  Edit Event
+                                </button>
+                            </a>
                             </div>
                         </div>
 
