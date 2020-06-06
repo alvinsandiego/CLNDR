@@ -43,7 +43,10 @@ class EditEventPage extends Component {
         ostartdate:"",
         oenddate:"",
         oendtime:"",
-        odescription:""
+        odescription:"",
+	okeywords:"",
+	oimage:"",
+	ocohosts:""
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -124,6 +127,10 @@ class EditEventPage extends Component {
             oenddate: moment(theEndDate).format('YYYY-MM-DD'),
             oendtime: moment(theEndDate).format('HH:mm'),
             odescription: response.data.data.eventDescription,
+	          okeywords: response.data.data.eventKeywords,
+            oimage: response.data.data.imageUrl,
+            ocohosts: response.data.data.eventCohosts
+
             })
         }).catch(error => {
             console.log("in componentDidMount");
@@ -186,6 +193,9 @@ class EditEventPage extends Component {
           if(startTime.length === 0) { startTime = this.state.ostarttime }
           if(endDate.length === 0) { endDate = this.state.oenddate }
           if(endTime.length === 0) { endTime = this.state.oendtime }
+          if(keywords.length === 0) { keywords = this.state.okeywords }
+          if(cohosts.length === 0) { cohosts = this.state.ocohosts }
+          if(imageUrl.length === 0) { imageUrl = this.state.oimage }
           if(description.length === 0) { description = this.state.odescription }
 
 
