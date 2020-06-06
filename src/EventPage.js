@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import axios from "axios";
 import NavBar from "./NavBar";
-import Planned from "./Planned"
-import { Timestamp } from '@google-cloud/firestore';
 import moment from 'moment'
 import apiHost from './config'
-import EditEventButton from './EditEventButton'
+import PlanEventButton from './PlanEventButton'
 
 class EventPage extends Component {
     constructor(props) {
@@ -81,93 +79,9 @@ class EventPage extends Component {
         }).catch(error => {
             console.log("in componentDidMount");
             console.log(error.data);
-        }); 
-
-
-    //to check if user has planned the event before
-	if (userToken === null) {
-	}
-	else {
-    axios.get(apiHost + ':5000/accountInfo', {
-      headers: { Authorization: 'JWT ' + userToken },
-    })
-    .then(response => {
-            this.checkIfEventIsPlanned(response.data.data.planned_events);
-    })
-    .catch(error => {
-      console.log(error.data);
-    });
-    } 
-  }
-
-  //check if this event has already been planned
-  checkIfEventIsPlanned(listEvent){
-        let userToken = localStorage.getITem('jwtToken');
-        
-            if(listEvent != null){
-            console.log(listEvent.includes(this.state.eventID))
-            if(listEvent.includes(this.state.eventID)){
-                this.setState({
-                    planEventButtonColor: "#b8b8b8",
-                    planEventButtonText: "Remove from planned events",
-                })
-            }
-            else{
-                this.setState({
-                    planEventButtonColor: "#789ade",
-                    planEventButtonText: "Add to planned events",
-                })
-            }
-        }
-        else{
-            console.log("There was no plannedList")
-        }
-  }
-
-    //Handles the button to add planned event
-    handleClickPlanEvent(){
-        let userToken = localStorage.getItem('jwtToken');
-        if(this.state.planEventButtonColor != "#b8b8b8"){
-            this.setState({planEventButtonColor: "#b8b8b8"})
-            this.setState({planEventButtonText: "Remove from planned events"})
-            if (userToken !== null) {
-                axios.post(apiHost + ":5000/planEvent",
-                {
-                    eventId: this.props.match.params.id,
-                },
-                {
-                    headers: { Authorization: 'JWT ' + userToken },
-                }).then(response => {
-                    if(response.data.success){
-                        console.log(this.state.interestCount+1);
-                        this.handleInterestCount(this.state.interestCount+1);
-                    }
-                })
-            }
-          else{ alert('Log in to plan events') }	
-        }
-
-        else{
-            this.setState({planEventButtonColor: "#789ade"})
-            this.setState({planEventButtonText: "Add to planned events"})
-            if (userToken !== null) {
-                axios.post(apiHost + ":5000/unplanEvent",
-                {
-                    eventId: this.props.match.params.id,
-                },
-                {
-                    headers: { Authorization: 'JWT ' + userToken },
-                }).then(response => {
-                    if(response.data.success){
-                        console.log(this.state.interestCount+1);
-                        this.handleInterestCount(this.state.interestCount-1);
-                    }
-                    console.log(response);
-                })
-            }
-        }
-
+        });
     }
+
 
     handleInterestCount(value){
         console.log(value);
@@ -270,11 +184,7 @@ class EventPage extends Component {
                                 <div className="w3-row">
                                     <div className="w3-col m8 s12">
                                         <p>
-                                            <button className={"button button1"}
-                                                    onClick={() => this.handleClickPlanEvent()}
-                                                    style={{backgroundColor: this.state.planEventButtonColor}}>
-                                                {this.state.planEventButtonText}
-                                            </button>
+                                        <PlanEventButton eventID={this.props.match.params.id} />
 
                                         </p>
 
