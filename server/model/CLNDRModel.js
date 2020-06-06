@@ -55,7 +55,6 @@ function getEvent(eventId) {
 
 //update interest count
 function incrementInterestCount(eventId,incrementedValue){
-    console.log("i am in incrementModel");
     db.collection('events').doc(eventId).get().then(response=>{
         console.log(response.data());
     });
