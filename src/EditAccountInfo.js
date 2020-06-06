@@ -2,219 +2,232 @@ import React, { Component } from 'react';
 import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import App from './App.js';
-import apiHost from './config'
+
 import firebase from './firebase'
+import EventPage from "./EventPage";
 import axios from "axios";
 
-var user;
-var pass;
-var pCon;
-var ques;
-var answ;
+var secAns;
+var newPass;
+var confPass;
+var secQuest;
+var userName;
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
+
 class EditAccountInfo extends Component {
-    state = {
-        data     : null,
-        userName : null,
-        passWord : null,
-        secQuest : null,
-        secAns   : null,
-        accMade  : false,
-        errors : {
-            userName : '',
-            passWord : '',
-            passConf : '',
-            secQuest : '',
-            secAns   : ''
+
+    constructor(props) {
+        super(props);
+
+        const eventID = this.props.username;
+
+
+        this.state = {
+            data: null,
+            changeDone: false,
+            username:"",
+            passW:"",
+            securityQuestion:"",
+            securityAnswer:"",
+            accMade : false,
+            secAnsError: '',
+            passError: '',
+            confError: ''
+
+        };
+
+    };
+
+    componentDidMount = () => {
+        let userToken = localStorage.getItem('jwtToken');
+        if (userToken === null) {
+            this.setState({
+                userID: "log in for this",
+                viewForm: "log in for this",
+                username: "log in for this",
+                accountLevel: "log in for this",
+                email: "log in for this",
+                deleteText: "Delete My Account",
+                editAccount: "false",
+                guest: true
+            });
         }
+        else {
+            axios.get('http://localhost:5000/accountInfo', {
+                headers: { Authorization: 'JWT ' + userToken },
+            })
+                .then(response => {
+                    if (response.data.success) {
+                        this.setState({
+                            username: response.data.data.username,
+                            securityQuestion: response.data.data.sec_question
+                        });
+                    }
+                    else { }
+                })
+                .catch(error => {
+                    console.log(error.data);
+                });
+        }
+        axios.post("http://localhost:5000/userInfo", {
+            username: this.props.match.params.id
+        }).then(response => {
+            if (response.data.success) {
+                this.setState({
+                    username: response.data.data.username,
+                    passW: response.data.data.password,
+                    securityQuestion: response.data.data.sec_question,
+                    securityAnswer: response.data.data.sec_answer
+                })
+            }
+            else {
+                alert(this.props.match.params.id);
+                this.props.history.push('/');
+            }
+        });
     };
 
 
-    // validity check for user inputs
-    handleChange = (event) => {
-        event.preventDefault();
-        const { name, value } = event.target;
-        let errors = this.state.errors;
-
-        switch (name) {
-            case 'userName' :
-                errors.userName =
-                    value.length < 5
-                        ? 'User Name must be at least 5 characters long'
-                        : '';
-                break;
-            case 'passWord' :
-                errors.passWord =
-                    value.length < 8
-                        ? 'Password must be at least 8 characters long'
-                        : '';
-                break;
-            /*
-        case 'passConf' :
-            errors.passConf =
-                value !== errors.passWord.value
-            ? 'passwords must match'
-                    : '';
-            break;
-             */
-            case 'secQuest' :
-                errors.secQuest =
-                    value.length < 12
-                        ? 'Security Question must be at least 12 characters long'
-                        : '';
-                break;
-            case 'secAns' :
-                errors.secAns =
-                    value.length === 0
-                        ? 'Security Answer cannot be empty'
-                        : '';
-                break;
-            default :
-                break;
-        }
-
-        this.setState({errors, [name]: value});
-    }
-
-    componentDidMount() {
-        // call fetch
-        this.callBackendAPI().then(res => this.setState({ data: res.express })).catch(err => console.log(err));
-    }
-
-    callBackendAPI = async() => {
-        const response = await fetch('/test');
-        const body = await response.json();
-
-        if (response.status !== 200) {
-            throw Error(body.message);
-        }
-
-        return body;
-    };
-
-    //change state
-    made() {
-        // Inputs by user
-        user = document.getElementById('userN').value;
-        pass = document.getElementById('passW').value;
-        pCon = document.getElementById('passC').value;
-        ques = document.getElementById('q').value;
-        answ = document.getElementById('ans').value;
-
-        if (pass === pCon && user.length < 5 && pass.length < 8
-            && ques.length < 12 && answ.length !== 0) {
+    handleUpdateAccount() {
+        let userToken = localStorage.getItem('jwtToken');
+        if (true) {
             this.setState({
                 accMade: true
             })
-
-            axios.post(apiHost + ":5000/updateAccount",
-                {
-                    userName: user,
-                    password: pass,
-                    securityQuestion: ques,
-                    securityAnswer: answ
-                })
-
-
+            axios.post('http://localhost:5000/updateAccount', {
+                username: document.getElementById('newUsername').value,
+                sec_question: document.getElementById('secQ').value,
+                sec_answer: document.getElementById('secA').value,
+                password: document.getElementById('newP').value
+            }, {
+                headers: { Authorization: 'JWT ' + userToken }
+            })
+                .then(response => {
+                    if (response.data.success) {
+                        alert("Sweet! Your account info has been updated. Please log in.")
+                        this.props.history.push("/account");
+                    }
+                    else {
+                        alert(response.data.message);
+                    }
+            })
         }
     }
+
+
+    handleChange = () => {
+        var secQuest = document.getElementById('secQ').value;
+        var secAns = document.getElementById('secA').value;
+        var newPass = document.getElementById( 'newP').value;
+        var confPass = document.getElementById( 'conP').value;
+        var userName = document.getElementById('newUsername').value;
+
+        if(secAns.length==0){
+            this.setState({secAnsError: 'Security Answer cannot be empty'})
+        }
+        else{
+            this.setState({secAnsError: ''})
+        }
+
+        if(newPass.length==0){
+            this.setState({passError: 'Please enter a password'})
+        }
+        else if(newPass!=confPass){
+            this.setState({passError: 'Password must match password confirmation'})
+        }
+        else{
+            this.setState({passError: ''})
+        }
+
+        if(confPass.length==0){
+            this.setState({confError: 'Please confirm password'})
+        }
+        else{
+            this.setState({confError: ''})
+        }
+
+    }
+
+
+
 
     render() {
-        const login = this.state.accMade
-
-        if(login) {
-            return (
-                <App/>
-            );
-        }
-        else {
-            const {errors} = this.state;
-            return <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
-                <div style={styles.centerDiv}>
-                    <img src={logo} style={{width: 100, height: 100}}/>
-                    <h1>Edit Account Info</h1>
+        const {errors} = this.state;
+        return (
+            <div style={{backgroundColor: '#d6f3ff', height: 1000}}>
+                <div style= {styles.centerDiv}>
+                    <img src={logo} style= {{width: 100, height: 100}}/>
+                    <h1>{userName} + {secQuest}</h1>
                 </div>
+                <div class='events'>
 
-                <div className='userName' style={styles.centerDiv}>
+                <div class='left'>
                     <label>Username:&nbsp;</label>
-                    <input type="text" name='userName' id="userN"
-                           onChange={this.handleChange} />
-
+                    <input type="text" name='username' id="newUsername" defaultValue={this.state.username}
+                            onChange={this.handleChange}/>
                 </div>
-
-                <div className='passWord' style={styles.centerDiv}>
-                    <label>Password:&nbsp;</label>
-                    <input type="password" name='passWord' id="passW"
-                           onChange={this.handleChange} />
-
-                </div>
-
-                <div className='passConf' style={styles.centerDiv}>
-                    <label>Confirm Password:&nbsp;</label>
-                    <input type="password" name='passConf' id="passC"
-                           onChange={this.handleChange} />
-
-                </div>
-
-                <div className='secQuest' style={styles.centerDiv}>
+                <div class='left'>
                     <label>Security Question:&nbsp;</label>
-                    <input type="text" name='secQuest' id="q"
-                           onChange={this.handleChange} />
-
+                    <input type="text" name='secQuestion' id="secQ" defaultValue={this.state.securityQuestion}
+                            onChange={this.handleChange}/>
                 </div>
 
-                <div className='secAns' style={styles.centerDiv}>
+                <div class='left'>
                     <label>Security Question Answer:&nbsp;</label>
-                    <input type="text" name='secAns' id="ans"
-                           onChange={this.handleChange} />
+                    <input type="text" name='secAnswer' id="secA"
+                            onChange={this.handleChange}/>
+                </div>
+
+                <div class='left'>
+                    <label>New Password:&nbsp;</label>
+                    <input type="password" name='newPassword' id="newP"
+                            onChange={this.handleChange}/>
+                </div>
+
+                <div class='left'>
+                    <label>Confirm New Password:&nbsp;</label>
+                    <input type="password" name="confirmPass" id="conP"
+                            onChange={this.handleChange}/>
 
                 </div>
 
+
                 <div style={styles.centerDiv}>
-                    <button class= 'login_button' style={styles.allButton} onClick={this.made.bind(this)}>
-                        Confirm Changes
+                    <button class='control_button' onClick={this.handleUpdateAccount.bind(this)}>
+                        Confirm
                     </button>
-                    <a href="./account">
-                      <button class= 'login_button' style={styles.allButton}>
+                <a href= "/account">
+                    <button class='control_button'>
                         Go Back
-                      </button>
-                    </a>
+                    </button>
+                </a>
+                    
+                    
                 </div>
 
-                <div style={styles.centerDiv}>
-                    {errors.userName.length > 0 &&
-                    <span className='error'>
-                        {errors.userName}</span>}
-                </div>
+                <div class='left'>
+                        <b>{this.state.secAnsError}</b>
+                    </div>
+                    <div class='left'>
+                        <b>{this.state.passError}</b>
+                    </div>
+                    <div class='left'>
+                        <b>{this.state.confError}</b>
+                    </div>
 
-                <div style={styles.centerDiv}>
-                    {errors.passWord.length > 0 &&
-                    <span className='error'>
-                        {errors.passWord}</span>}
-                </div>
-
-                <div style={styles.centerDiv}>
-                    {errors.passConf.length > 0 &&
-                    <span className='error'>
-                        {errors.passConf}</span>}
-                </div>
+            </div>
 
 
-                <div style={styles.centerDiv}>
-                    {errors.secQuest.length > 0 &&
-                    <span className='error'>
-                        {errors.secQuest}</span>}
-                </div>
 
-                <div style={styles.centerDiv}>
-                    {errors.secAns.length > 0 &&
-                    <span className='error'>
-                        {errors.secAns}</span>}
-                </div>
 
-            </div>;
-        }
+
+            </div>
+
+
+        );
     }
 }
+
 
 const styles = {
     centerDiv: {
@@ -227,5 +240,8 @@ const styles = {
         width: 175
     }
 };
+
+
+EventPage.defaultProps = {username: new String}
 
 export default EditAccountInfo;
