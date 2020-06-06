@@ -25,6 +25,7 @@ class EventPage extends Component {
             eventID: "",
             userID: "6",
             eventHostID: "",
+            image:""	
 
         };
     };
@@ -74,7 +75,8 @@ class EventPage extends Component {
             eventDescription: response.data.data.eventDescription,
             eventID: this.props.match.params.id,
             interestCount: response.data.data.interestCount,
-            eventHostID: response.data.data.hostID
+            eventHostID: response.data.data.hostID,
+            image: response.data.data.imageUrl
             })
         }).catch(error => {
             console.log("in componentDidMount");
@@ -167,8 +169,7 @@ class EventPage extends Component {
 
                         <div className="w3-card-4 w3-margin w3-white">
                             <h6>
-                                <img src="https://media-exp1.licdn.com/dms/image/C561BAQFQ0VKpQYqWrQ/company-background_10000/0?e=2159024400&v=beta&t=8CKJUP2zIu6rhdntDcjvJsB8qI5Eug22v_uHZ8gdlA8"
-                                     class="centerImage"/>
+                                <img src={this.state.image} class="centerImage"/>
                             </h6>
                             <div className="w3-container">
                                 <h2><b>{this.state.eventName}</b></h2>
@@ -190,8 +191,6 @@ class EventPage extends Component {
 
                                     </div>
                                     <div className="w3-col m4 w3-hide-small">
-                                        <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
-                                            className="w3-tag">{this.state.interestCount}</span></span></p>
                                     </div>
                                 </div>
                             <a href={"/editeventpage/"+ this.props.match.params.id}>

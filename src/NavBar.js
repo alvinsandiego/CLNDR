@@ -99,8 +99,6 @@ class NavBar extends Component {
                     }}>
                         <img src={logo} style={{ width: 100, height: 100 }} />
                         <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
-                        <input type="text" style={{ width: 180 }} />
-                        <button style={{ width: 95 }}>Search</button>
                     </div>
                     
                     {this.renderUsername()}
@@ -154,8 +152,6 @@ class NavBar extends Component {
                     }}>
                         <img src={logo} style={{ width: 100, height: 100 }} />
                         <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
-                        <input type="text" style={{ width: 180 }} />
-                        <button style={{ width: 95 }}>Search</button>
                     </div>
 
                     {this.renderUsername()}
@@ -199,8 +195,6 @@ class NavBar extends Component {
                     }}>
                         <img src={logo} style={{ width: 100, height: 100 }} />
                         <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
-                        <input type="text" style={{ width: 180 }} />
-                        <button style={{ width: 95 }}>Search</button>
                     </div>
 
                     {this.renderUsername()}
