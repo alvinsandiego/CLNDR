@@ -26,23 +26,22 @@ function readAccountByUsername(username) {
 }
 
 function readAccountByID(uid) {
-    console.log(uid);
     return db.collection('users').doc(uid).get();
 }
 
 function updateAccount(uid, payload) {
     var updateBody = {}
-    if (payload.username != undefined && payload.username !== '') {
+    if (payload.username !== undefined && payload.username !== '') {
         updateBody.username = payload.username;
     }
-    if (payload.password != undefined && payload.password !== '') {
+    if (payload.password !== undefined && payload.password !== '') {
         const encryptPW = bcrypt.hashSync(payload.password, HASH_ROUNDS);
         updateBody.password = encryptPW;
     }
-    if (payload.sec_question != undefined && payload.sec_question !== '') {
+    if (payload.sec_question !== undefined && payload.sec_question !== '') {
         updateBody.sec_question = payload.sec_question;
     }
-    if (payload.sec_answer != undefined && payload.sec_answer !== '') {
+    if (payload.sec_answer !== undefined && payload.sec_answer !== '') {
         const encryptAnswer = bcrypt.hashSync(payload.sec_answer, HASH_ROUNDS);
         updateBody.sec_answer = encryptAnswer;
     }

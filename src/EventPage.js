@@ -256,12 +256,15 @@ class EventPage extends Component {
                                      class="centerImage"/>
                             </h6>
                             <div className="w3-container">
-                                <h3><b>{this.state.eventName}</b></h3>
-                                <h5><a href={'/hostpage/'+this.state.eventHostID}>{this.state.hostName}</a>, <span className="w3-opacity">{this.state.eventStartDate}</span></h5>
-                                <h5><span className="w3-opacity">{this.state.eventStartTime}-{this.state.eventEndTime}</span></h5>
+                                <h2><b>{this.state.eventName}</b></h2>
+                                <h4>Hosted By: <a href={'/hostpage/'+this.state.eventHostID}>{this.state.hostName}</a></h4>
+                                <br/>
+                                <h5><span className="w3-opacity">Start: {this.state.eventStartDate} {this.state.eventStartTime}</span></h5>
+                                <h5><span className="w3-opacity">End: {this.state.eventEndDate} {this.state.eventEndTime}</span></h5>
                             </div>
 
                             <div className="w3-container">
+                                <p>Description:</p>
                                 <p>{this.state.eventDescription}</p>
                                 <div className="w3-row">
                                     <div className="w3-col m8 s12">
@@ -280,7 +283,7 @@ class EventPage extends Component {
                                             className="w3-tag">{this.state.interestCount}</span></span></p>
                                     </div>
                                 </div>
-                            <button class='control_button' onClick={() => this.handleEditEvent()}>
+                            <button class='control_button' style={{marginBottom: "1em"}} onClick={() => this.handleEditEvent()}>
                               Edit Event
                             </button>
                             </div>
