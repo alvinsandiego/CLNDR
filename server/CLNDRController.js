@@ -38,9 +38,14 @@ app.post('/CreateEventPage', (req, res, next) => {
             if (user.data.verified) {
                 const start = new Date(req.body.startDate + 'T' + req.body.startTime);
                 const end = new Date (req.body.endDate + 'T' + req.body.endTime);
-                createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl,req.body.interestCount).then(result => {
-                    res.send({success: true, message: "Created event."});
-                });
+                if (end < start) {
+                    res.send({success: false, message: "End date/time cannot be before start date/time."});
+                }
+                else {
+                    createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl,req.body.interestCount).then(result => {
+                        res.send({success: true, message: "Created event."});
+                    });
+                }
             }
             else {
                 res.send({success: false, message: "User not verified."});
@@ -69,9 +74,15 @@ app.post('/updateEvent', (req, res, next) => {
                         if (user.id === documentSnapshot.get("hostID")) {
                             const start = new Date(req.body.startDate + 'T' + req.body.startTime);
                             const end = new Date (req.body.endDate + 'T' + req.body.endTime);
-                            updateEvent(req.body.title, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl).then(result => {
-                                res.send({success: true, message: "Updated event."});
-                            });
+
+                            if (end < start) {
+                                res.send({success: false, message: "End date/time cannot be before start date/time."});
+                            }
+                            else {
+                                updateEvent(req.body.title, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl).then(result => {
+                                    res.send({success: true, message: "Updated event."});
+                                });                                
+                            }
                         }
                         else {
                             res.send({success: false, message: "User is not owner of event."});
