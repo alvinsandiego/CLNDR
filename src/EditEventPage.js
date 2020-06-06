@@ -218,7 +218,7 @@ class EditEventPage extends Component {
             headers: { Authorization: 'JWT ' + userToken }
         }).then(response => {
             if (response.data.success) {
-                this.props.history.push("/calendar");
+                this.props.history.push("/eventpage/"+this.props.match.params.id);
             }
         }).catch(error => console.log(error));
         /* END OF CONTROLLER CALL */
