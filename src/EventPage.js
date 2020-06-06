@@ -194,7 +194,7 @@ class EventPage extends Component {
                                             className="w3-tag">{this.state.interestCount}</span></span></p>
                                     </div>
                                 </div>
-                            <a href={"/editeventinfo/"+ this.props.match.params.id}>
+                            <a href={"/editeventpage/"+ this.props.match.params.id}>
                                 <button style={{marginBottom: '1em'}} class='control_button'>
                                   Edit Event
                                 </button>

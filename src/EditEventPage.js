@@ -4,7 +4,11 @@ import logo from './img/Logo-Semitransparent.png';
 import NavBar from "./NavBar";
 import axios from "axios";
 import { Timestamp } from '@google-cloud/firestore';
+import apiHost from './config'
+import moment from 'moment'
+
 var hostId;
+
 class EditEventPage extends Component {
     /*Well, in this context, we don't really need
     to create completely new ones, right? We should be
@@ -31,12 +35,20 @@ class EditEventPage extends Component {
         username: null,
         email: null,
         accountLevel: null,
-        guest: true //Will keep true for now
+        guest: true, //Will keep true for now
+
+        // old details
+        otitle:"",
+        ostarttime:"",
+        ostartdate:"",
+        oenddate:"",
+        oendtime:"",
+        odescription:""
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     }
-	
+
   /*Get Account Details*/
   
   /*  
@@ -70,6 +82,54 @@ class EditEventPage extends Component {
       console.log(error.data);
     });
   }
+
+    //here
+            const { handle } = this.props.match.params;
+        axios.get(apiHost + ':5000/getEvent',{
+            params: {
+                eventId: this.props.match.params.id
+            },
+           
+        }).then(response => {
+            //for host that created the event
+            //to check if user has used the 
+            axios.get(apiHost + ':5000/userInfo',{
+                params: {
+                   userID: response.data.data.hostID
+                },
+            }).then(response =>{
+                console.log(response);
+                if(response.data.success){
+                    if(response.data.data.org_name == null){
+                        this.setState({
+                            hostName: response.data.data.username
+                        })
+                    }
+                    else{
+                        this.setState({
+                            hostName: response.data.data.org_name
+                        })
+                    }
+                  }
+                  else{
+                  }
+            })
+
+        var theStartDate = new Date(response.data.data.start._seconds*1000);
+        var theEndDate = new Date(response.data.data.end._seconds*1000);
+        this.setState({
+            otitle: response.data.data.eventName,
+            ostartdate: new Date(response.data.data.start._seconds*1000),
+            ostarttime: moment(theStartDate).format('LT'),
+            oenddate: new Date(response.data.data.end._seconds*1000),
+            oendtime: moment(theEndDate).format('LT'),
+            odescription: response.data.data.eventDescription,
+            })
+        }).catch(error => {
+            console.log("in componentDidMount");
+            console.log(error.data);
+        });
+    //there
 }
 
     handleInputChange(event) {
@@ -80,8 +140,20 @@ class EditEventPage extends Component {
 
 
     handleClick = () => {
+
+
+
+
+
+
+
+
+
+
+
+
+        let userToken = localStorage.getItem('jwtToken');
         /*-------------------Added Code--------------------*/
-        const { handle } = this.props.match.params;
             axios.get('http://localhost:5000/EventPages/',{
                 params: { eventID: this.props.match.params.id }
                 
@@ -89,7 +161,6 @@ class EditEventPage extends Component {
                 var hostId = response.data.data.hostID;
             });
         /*-------------------------------------------------*/
-        const userToken = localStorage.getItem('jwtToken');
 
         //If null, verified, and has same hostID as the user's ID(which maps host to the event)
         /*To be used in the event that the hostID of the specific event to edit is found*/
@@ -110,6 +181,13 @@ class EditEventPage extends Component {
           var cohosts = this.state.cohosts;
           var imageUrl = this.state.imageURL;
           var hostID = this.state.userID;
+          if(title.length === 0) { title = this.state.otitle }
+          if(startDate.length === 0) { startDate = this.state.ostartdate }
+          if(startTime.length === 0) { startTime = this.state.ostarttime }
+          if(endDate.length === 0) { endDate = this.state.oenddate }
+          if(endTime.length === 0) { endTime = this.state.oendtime }
+          if(description.length === 0) { description = this.state.odescription }
+
 
         /* make the server call, which will make the database call to add the new tutor to the tutors list */
         axios.post('http://localhost:5000/updateEvent', { 
