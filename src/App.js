@@ -75,7 +75,7 @@ class App extends Component {
 			<div style={{backgroundColor: '#d6f3ff', height: 1000}}>
 				<div style= {styles.centerDiv}>
 					<img src={logo} style= {{width: 100, height: 100}}/>
-					<h1>Login</h1>
+					<h1>CLNDR</h1>
 				</div>
 
 				<br />

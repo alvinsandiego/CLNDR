@@ -38,9 +38,14 @@ app.post('/CreateEventPage', (req, res, next) => {
             if (user.data.verified) {
                 const start = new Date(req.body.startDate + 'T' + req.body.startTime);
                 const end = new Date (req.body.endDate + 'T' + req.body.endTime);
-                createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl,req.body.interestCount).then(result => {
-                    res.send({success: true, message: "Created event."});
-                });
+                if (end < start) {
+                    res.send({success: false, message: "End date/time cannot be before start date/time."});
+                }
+                else {
+                    createEvent(req.body.title, req.body.hostID, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl,req.body.interestCount).then(result => {
+                        res.send({success: true, message: "Created event."});
+                    });
+                }
             }
             else {
                 res.send({success: false, message: "User not verified."});
@@ -80,11 +85,14 @@ app.post('/updateEvent', (req, res, next) => {
                             const howdy = 0;
                             const start = new Date(req.body.startDate + 'T' + req.body.startTime);
                             const end = new Date (req.body.endDate + 'T' + req.body.endTime);
-                            console.log("updateEvent UPDATED! 6.25");
-                            updateEvent(req.body.eventId, req.body.title, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl, howdy).then(result => {
-                                res.send({success: true, message: "Updated event."});
-                            });
-                            console.log("updateEvent UPDATED! 6.5");
+                            if (end < start) {
+                                res.send({success: false, message: "End date/time cannot be before start date/time."});
+                            }
+                            else {
+                               updateEvent(req.body.eventId, req.body.title, start, end, req.body.description, req.body.keywords, req.body.cohosts, req.body.imageUrl, howdy).then(result => {
+                                    res.send({success: true, message: "Updated event."});
+                                });                                
+                            }
                         }
                         else {
                             console.log("updateEvent UPDATED! 7");
