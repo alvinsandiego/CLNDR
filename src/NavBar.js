@@ -11,7 +11,8 @@ class NavBar extends Component {
             verified: false,
             account: false,
             awaiting: true,
-            username: "Guest"
+            username: "Guest",
+		id: ""
         }
     }
 
@@ -27,7 +28,12 @@ class NavBar extends Component {
         .then(response => {
             
             if (response.data.success) {
-                this.setState({ account: true, verified: response.data.data.verified, awaiting: false, username: response.data.data.username});
+                this.setState({ account: true, 
+			verified: response.data.data.verified, 
+			awaiting: false, 
+			username: response.data.data.username,
+			id: response.data.id
+		});
             }
             else {
                 this.setState({awaiting: false});
@@ -123,6 +129,11 @@ class NavBar extends Component {
                         <a href="/createevent">
                             <button class="control_button" style={styles.allButton}>
                                 Create Event
+                        </button>
+                        </a>
+		    	                        <a href={"/hostpage/"+this.state.id}>
+                            <button class="control_button" style={styles.allButton}>
+                                Your Host Page
                         </button>
                         </a>
                     </div>
