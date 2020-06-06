@@ -93,7 +93,8 @@ const styles = {
 
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '2em'
     },
     allButton: {
         height: 40,

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
 import './styles/App.css';
 import axios from "axios";
 import Account from "./Account";
@@ -19,9 +18,9 @@ class HostPage extends Component {
             viewForm: false,
             followButtonColor: "#789ade",
             followButtonText: "Follow",
-            hostID: "H1234",
-            hostName: "Host1",
-            hostEmail:"Host1@gmail.com",
+            hostID: "",
+            hostName: "",
+            hostEmail:"",
             hostedEventsList: [],
             events: []
 
@@ -171,34 +170,32 @@ class HostPage extends Component {
     render() {
         return (
             <div>
-            <NavBar/>
+                <NavBar/>
 
-            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <h1>{this.state.hostName}</h1>
-            </div> <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <h5>Email: {this.state.hostEmail}</h5>
-            </div>
-            <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button className={"button button1"}
-                        onClick={() => this.handleFollow()}
-                        style={{backgroundColor: this.state.followButtonColor}}>
-                    {this.state.followButtonText}
-                </button>
-            </div>
-            <br />
-
-                <body>
-                <h2>{this.state.hostName}'s Events</h2>
-                <div style={styles.centerDiv}>
-                <table class="events" id="events">
-                    <th>Event</th>
-                    <th>Start Date/Time</th>
-                    <th>End Date/Time</th>
-                    {this.renderTableData()}
-                </table>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h1>{this.state.hostName}</h1>
                 </div>
-                </body>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h3>Email: {this.state.hostEmail}</h3>
+                </div>
+                <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <button className={"button button1"}
+                            onClick={() => this.handleFollow()}
+                            style={{backgroundColor: this.state.followButtonColor}}>
+                        {this.state.followButtonText}
+                    </button>
+                </div>
+                <br />
 
+                <h2 style={{textAlign: "center"}}>{this.state.hostName}'s Events</h2>
+                <div class="events" style={styles.centerDiv}>
+                    <table class="events" id="events">
+                        <th>Event Name</th>
+                        <th>Start Date/Time</th>
+                        <th>End Date/Time</th>
+                        {this.renderTableData()}
+                    </table>
+                </div>
             </div>
             );
     }
@@ -208,7 +205,8 @@ const styles = {
     centerDiv: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '2em'
     },
     allButton: {
         height: 40,
