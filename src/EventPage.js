@@ -223,7 +223,8 @@ class EventPage extends Component {
       console.log(error.data);
     });
         if(this.state.userID === this.state.eventHostID){
-          this.props.history.push('/hostpage/'+this.state.userID)
+          this.props.history.push('/editeventpage/'+this.state.eventID)
+
       }
   }
 

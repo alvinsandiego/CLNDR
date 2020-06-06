@@ -84,6 +84,7 @@ class EditEventPage extends Component {
         const { handle } = this.props.match.params;
             axios.get('http://localhost:5000/EventPages/',{
                 params: { eventID: this.props.match.params.id }
+                
             }).then(response => {
                 var hostId = response.data.data.hostID;
             });
@@ -96,7 +97,8 @@ class EditEventPage extends Component {
 
         //Assumes that accountLevel not being null makes it verified; may need to change the code
         //if that assumption is wrong
-        if (userToken !== null && hostId === this.state.userID){
+        //if (userToken !== null && hostId === this.state.userID){
+        if (userToken !== null){
           /* CONTROLLER CALL */
           var title = this.state.title;
           var startDate = this.state.startDate;
@@ -110,11 +112,12 @@ class EditEventPage extends Component {
           var hostID = this.state.userID;
 
         /* make the server call, which will make the database call to add the new tutor to the tutors list */
-        axios.post('http://localhost:5000/updateEvent', {
+        axios.post('http://localhost:5000/updateEvent', { 
             title: title,
             hostID: hostID,
             startDate: startDate,
             startTime: startTime,
+            eventId: this.props.match.params.id,
             endDate: endDate,
             endTime: endTime,
             description: description,
