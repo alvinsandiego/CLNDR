@@ -35,7 +35,7 @@ class EditAccountInfo extends Component {
         const { name, value } = event.target;
         let errors = this.state.errors;
 
-        switch (name) {
+        switch (name) {/*
             case 'userName' :
                 errors.userName =
                     value.length < 5
@@ -48,14 +48,14 @@ class EditAccountInfo extends Component {
                         ? 'Password must be at least 8 characters long'
                         : '';
                 break;
-            /*
+            */
         case 'passConf' :
             errors.passConf =
                 value !== errors.passWord.value
             ? 'passwords must match'
                     : '';
             break;
-             */
+             /*
             case 'secQuest' :
                 errors.secQuest =
                     value.length < 12
@@ -67,7 +67,7 @@ class EditAccountInfo extends Component {
                     value.length === 0
                         ? 'Security Answer cannot be empty'
                         : '';
-                break;
+                break;*/
             default :
                 break;
         }

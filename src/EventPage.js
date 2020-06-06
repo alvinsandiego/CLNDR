@@ -6,6 +6,7 @@ import Planned from "./Planned"
 import { Timestamp } from '@google-cloud/firestore';
 import moment from 'moment'
 import apiHost from './config'
+import EditEventButton from './EditEventButton'
 
 class EventPage extends Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class EventPage extends Component {
             interestCount: "",
             eventDescription: "",
             eventID: "",
-            userID: "",
+            userID: "6",
             eventHostID: "",
 
         };
@@ -74,7 +75,8 @@ class EventPage extends Component {
             eventEndTime: moment(theEndDate).format('LT'),
             eventDescription: response.data.data.eventDescription,
             eventID: this.props.match.params.id,
-            interestCount: response.data.data.interestCount
+            interestCount: response.data.data.interestCount,
+            eventHostID: response.data.data.hostID
             })
         }).catch(error => {
             console.log("in componentDidMount");
@@ -184,6 +186,51 @@ class EventPage extends Component {
     }
 }
 
+    handleEditEvent(){
+      // get event id and host id
+      const { handle } = this.props.match.params;
+        axios.get(apiHost + ':5000/getEvent',{
+            params: {
+                eventId: this.props.match.params.id
+            },
+           
+        }).then(response => {
+        this.setState({
+            eventID: this.props.match.params.id,
+            eventHostID: response.data.data.hostID
+            })
+        }).catch(error => {
+            console.log(error.data);
+        }); 
+
+// get user id
+    let userToken = localStorage.getItem('jwtToken');
+	if (userToken === null) {
+	}
+	else {
+    axios.get(apiHost + ':5000/accountInfo', {
+      headers: { Authorization: 'JWT ' + userToken },
+    })
+    .then(response => {
+      if(response.data.success){
+      this.setState({
+			userID: response.data.id,
+     });
+      }
+      else{}
+    })
+    .catch(error => {
+      console.log(error.data);
+    });
+        if(this.state.userID === this.state.eventHostID){
+          this.props.history.push('/hostpage/'+this.state.userID)
+      }
+  }
+
+
+
+    }
+
 
     render() {
 
@@ -230,13 +277,15 @@ class EventPage extends Component {
                                             className="w3-tag">{this.state.interestCount}</span></span></p>
                                     </div>
                                 </div>
+                            <button class='control_button' onClick={() => this.handleEditEvent()}>
+                              Edit Event
+                            </button>
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-
 
 
             </body>

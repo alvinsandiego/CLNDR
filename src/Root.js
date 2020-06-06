@@ -9,6 +9,7 @@ import Planned from "./Planned";
 import Following from "./Following";
 import Account from "./Account";
 import CreateEvent from "./CreateEventPage"
+import EditEventInfo from "./EditEventPage";
 import EditAccountInfo from "./EditAccountInfo";
 import Page from "./Page";
 import EventPage from "./EventPage";
@@ -30,6 +31,7 @@ const Root = () => {
                     <Route component={Account} path="/account" />
                     <Route component={CreateEvent} path="/createevent" />
                     <Route component={EditAccountInfo} path="/editaccountinfo" />
+                    <Route component={EditEventInfo} path="/editeventinfo" />
                     <Route component={Verification} path="/verification" />
                     <Route component={App} path="/" />
 
