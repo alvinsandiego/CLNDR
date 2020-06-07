@@ -1,6 +1,5 @@
 const Accounts = require('../model/accountsModel');
 const {getEvent} = require('../model/CLNDRModel');
-const{unplanEvent} = require('../model/accountsModel');
 const passport = require('passport');
 
 module.exports = function(app) {
@@ -38,7 +37,7 @@ module.exports = function(app) {
                                 })
                             }
                             else{
-                                unplanEvent(element, req.query.userID);
+                                Accounts.unplanEvent(element, req.query.userID);
                                 wantedSize--;
                             }
                         });
