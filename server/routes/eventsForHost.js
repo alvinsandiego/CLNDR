@@ -21,6 +21,25 @@ module.exports = function(app) {
                     arrayOfEvents.push({id: documentSnapshot.ref.id, ...dataForCurrent});
                 });
 
+                arrayOfEvents.sort((a, b) => {
+                    if (a.start < b.start) {
+                        return -1;
+                    }
+                    else if (a.start > b.start) {
+                        return 1;
+                    }
+                    else {
+                        if (a.end < b.end) {
+                            return -1;
+                        }
+                        else if (a.end > b.end) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    }
+                });
                 res.send({success: true, data: arrayOfEvents});
             });
         }

@@ -4,9 +4,9 @@ import "./styles/CalendarView.css";
 import logo from './img/Logo-Semitransparent.png';
 import axios from "axios";
 import apiHost from './config'
-const maxEvents = 3;
+const maxEvents = 10;
 const linkEvents = true;
-const moreEventsLink = true;
+const moreEventsLink = false;
 
 var emptyArrayOfArrays = [];
 for (var i = 0; i < 31; i++) {
