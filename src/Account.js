@@ -19,7 +19,8 @@ class Account extends Component {
     email: null,
     accountLevel: null,
     guest: true,
-    verified: false
+    verified: false,
+    eventList: "yup"
   }
 	}
 
@@ -56,19 +57,22 @@ class Account extends Component {
       guest: false,
       orgName: response.data.data.org_name,
       verified: response.data.data.verified
+
       });
       }
       else{}
     })
     .catch(error => {
       console.log(error.data);
-    });
+    })
+
   }
   }
 
 
 
     handleDeleteAccount(){
+        if(this.state.verified){alert("be sure to delete all your events first")}
         if(this.state.deleteText == "Delete My Account"){
             this.setState({deleteText: "Confirm Delete Account"})
         }
