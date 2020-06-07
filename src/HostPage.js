@@ -5,6 +5,7 @@ import Account from "./Account";
 import moment from 'moment'
 import NavBar from './NavBar';
 import apiHost from './config'
+import FollowButton from './FollowButton';
 
 class HostPage extends Component {
     constructor(props) {
@@ -16,8 +17,6 @@ class HostPage extends Component {
 
         this.state = {
             viewForm: false,
-            followButtonColor: "#789ade",
-            followButtonText: "Follow",
             hostID: "",
             hostName: "",
             hostEmail:"",
@@ -66,87 +65,6 @@ class HostPage extends Component {
                 }
             }
         });
-
-         //to check if user has planned the event before
-	    if (userToken === null) {
-            console.log("userToken is null");
-	    }
-	    else {
-            axios.get(apiHost + ':5000/accountInfo', {
-            headers: { Authorization: 'JWT ' + userToken },
-        })
-        .then(response => {
-            console.log("hereeeeee");
-            console.log(response.data.data);
-            this.checkIfEventIsPlanned(response.data.data.following);
-        })
-        .catch(error => {
-        console.log(error.data);
-        });
-      }
-
-    }
-
-  //check if this event has already been planned
-  checkIfEventIsPlanned(listHost){
-    console.log("we got a problem");
-    console.log(listHost.includes(this.props.match.params.id))
-    if(listHost != null){
-    if(listHost.includes(this.props.match.params.id)){
-        this.setState({
-            followButtonColor: "#b8b8b8",
-            followButtonText: "Unfollow",
-        })
-    }
-    else{
-        this.setState({
-            followButtonColor: "#789ade",
-            followButtonText: "Follow",
-        })
-      }
-    }
-    else{
-    console.log("There was no plannedList")
-    }
-}
-
-    //Handles the button to follow
-    handleFollow(){
-        let userToken = localStorage.getItem('jwtToken');
-        if(this.state.followButtonColor != "#b8b8b8"){
-            this.setState({followButtonColor: "#b8b8b8"})
-            this.setState({followButtonText: "Unfollow"})
-            if (userToken !== null) {
-                axios.post(apiHost + ":5000/follow",
-                {
-                    hostId: this.props.match.params.id,
-                },
-                {
-                    headers: { Authorization: 'JWT ' + userToken },
-                }).then(response => {
-                    if(response.data.success){
-                    }
-                })
-            }
-        }
-
-        else{
-            this.setState({followButtonColor: "#789ade"})
-            this.setState({followButtonText: "Follow"})
-            if (userToken !== null) {
-                axios.post(apiHost + ":5000/unfollow",
-                {
-                    hostId: this.props.match.params.id,
-                },
-                {
-                    headers: { Authorization: 'JWT ' + userToken },
-                }).then(response => {
-                    if(response.data.success){
-                    }
-                })
-            }
-        }
-
     }
 
     renderTableData(){
@@ -184,12 +102,8 @@ class HostPage extends Component {
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <h3>Email: {this.state.hostEmail}</h3>
                 </div>
-                <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <button className={"button button1"}
-                            onClick={() => this.handleFollow()}
-                            style={{backgroundColor: this.state.followButtonColor}}>
-                        {this.state.followButtonText}
-                    </button>
+                <div value="withConfirm" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <FollowButton hostID={this.props.match.params.id} />
                 </div>
                 <br />
 

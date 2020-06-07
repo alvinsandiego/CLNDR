@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styles/App.css';
 import axios from "axios";
-import apiHost from './config'
+import apiHost from './config';
 
 /**
  * Props should be:
@@ -9,7 +9,7 @@ import apiHost from './config'
  */
 class PlanEventButton extends Component {
     constructor (props) {
-        super(props)
+        super(props);
 
         this.state = {
             awaiting: true,
@@ -19,7 +19,7 @@ class PlanEventButton extends Component {
             //created this variable so I can have a temp to store the increment value
             value:0,
             interestCount:0
-        }
+        };
     }
 
     componentDidMount = () => {
@@ -52,6 +52,7 @@ class PlanEventButton extends Component {
                 renderPlanButton: false
             });
         }
+
         this.handleInterestCount(this.state.eventIsPlanned, this.state.firstLoad);
     }
 
@@ -104,47 +105,48 @@ class PlanEventButton extends Component {
             params: {
                 eventId: this.props.eventID
             },
-           
         });
 
     
         this.setState({
-            value:data.data.data.interestCount,
-            interestCount:data.data.data.interestCount
-        })
+            value: data.data.data.interestCount,
+            interestCount: data.data.data.interestCount
+        });
 
         //this makes sure this runs only when the buttons have been pressed
-        if(this.state.notFirstLoad){
-        if(eventIsPlanned){
-            this.setState({
-                value: this.state.value+1
-        })
-        }
-        else{
-            if(this.state.value > 0){
-            this.setState({
-                value: this.state.value-1
-            })
-          }
-        }
-         let userToken = localStorage.getItem('jwtToken');
+        if(this.state.notFirstLoad) {
+            if(eventIsPlanned){
+                this.setState({
+                    value: this.state.value+1
+                });
+            }
+
+            else {
+                if(this.state.value > 0){
+                    this.setState({
+                        value: this.state.value-1
+                    });
+                }
+            }
+
+            const userToken = localStorage.getItem('jwtToken');
             if (userToken !== null) {
                 axios.post(apiHost + ':5000/incrementInterest', {
                     eventId: this.props.eventID,
                     interestCount: this.state.value
-            },{
-                headers: { Authorization: 'JWT ' + userToken }
-            }).then(response => {
-            console.log(response);
-            if (response.data.success) {
-            this.setState({
-                interestCount: this.state.value
-            })
-        }
-        }).catch(error => console.log(error));
-        }
+                }, {
+                    headers: { Authorization: 'JWT ' + userToken }
+                }).then(response => {
+                    console.log(response);
+                    if (response.data.success) {
+                        this.setState({
+                            interestCount: this.state.value
+                        });
+                    }
+                }).catch(error => console.log(error));
+            }
         } 
-}
+    }
 
     render() {
         if (this.state.awaiting) {
@@ -155,19 +157,27 @@ class PlanEventButton extends Component {
                 // want to give option to unplan
                 return (
                     <div className="w3-row">
-                    <div className="w3-col m8 s12">
-                    <p>
-                        <button className={"button button1"} 
-                        onClick={() => this.unplanEvent()}
-                        style={{backgroundColor: "#b8b8b8"}}>
-                        Remove from Planned Events
-                    </button>
-                    </p>
-                    </div>
-                    <div className="w3-col m4 w3-hide-small">
-                    <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
-                    className="w3-tag">{this.state.interestCount}</span></span></p>
-                    </div>  
+                        <div className="w3-col m8 s12">
+                            <p>
+                                <button className={"button button1"} 
+                                        onClick={() => this.unplanEvent()}
+                                        style={{backgroundColor: "#b8b8b8"}}>
+                                    Remove from Planned Events
+                                </button>
+                            </p>
+                        </div>
+                        <div className="w3-col m4 w3-hide-small">
+                            <p>
+                                <span className="w3-padding-large w3-right">
+                                    <b>
+                                        Interest Count  
+                                    </b>
+                                    <span className="w3-tag">
+                                        {this.state.interestCount}
+                                    </span>
+                                </span>
+                            </p>
+                        </div>  
                     </div>
                 ); 
             }
@@ -175,19 +185,27 @@ class PlanEventButton extends Component {
                 // want to give option to plan
                 return (
                     <div className="w3-row">
-                    <div className="w3-col m8 s12">
-                    <p>
-                    <button className={"button button1"} 
-                            onClick={() => this.planEvent()}
-                            style={{backgroundColor: "#789ade"}}>
-                        Add to Planned Events
-                    </button>
-                    </p>
-                    </div>
-                    <div className="w3-col m4 w3-hide-small">
-                    <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
-                    className="w3-tag">{this.state.interestCount}</span></span></p>
-                    </div>  
+                        <div className="w3-col m8 s12">
+                            <p>
+                                <button className={"button button1"} 
+                                        onClick={() => this.planEvent()}
+                                        style={{backgroundColor: "#789ade"}}>
+                                    Add to Planned Events
+                                </button>
+                            </p>
+                        </div>
+                        <div className="w3-col m4 w3-hide-small">
+                            <p>
+                                <span className="w3-padding-large w3-right">
+                                    <b>
+                                        Interest Count  
+                                    </b>
+                                    <span className="w3-tag">
+                                        {this.state.interestCount}
+                                    </span>
+                                </span>
+                            </p>
+                        </div>  
                     </div>
                 ); 
             }
@@ -195,20 +213,28 @@ class PlanEventButton extends Component {
         else {
             return (
                 <div className="w3-row">
-                <div className="w3-col m8 s12">
-                <p>
-                <button className={"button button1"} 
-                        onClick={() => this.notLoggedIn()}
-                        style={{backgroundColor: "#b8b8b8"}}>
-                    Log In to Plan Events
-                </button>
-                </p>
+                    <div className="w3-col m8 s12">
+                        <p>
+                            <button className={"button button1"} 
+                                    onClick={() => this.notLoggedIn()}
+                                    style={{backgroundColor: "#b8b8b8"}}>
+                                Log In to Plan Events
+                            </button>
+                        </p>
                     </div>
                     <div className="w3-col m4 w3-hide-small">
-                    <p><span className="w3-padding-large w3-right"><b>Interest Count  </b> <span
-                    className="w3-tag">{this.state.interestCount}</span></span></p>
+                        <p>
+                            <span className="w3-padding-large w3-right">
+                                <b>
+                                    Interest Count  
+                                </b>
+                                <span className="w3-tag">
+                                    {this.state.interestCount}
+                                </span>
+                            </span>
+                        </p>
                     </div>  
-                    </div>
+                </div>
             );
         }
     }
