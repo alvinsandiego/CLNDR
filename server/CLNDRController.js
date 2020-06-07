@@ -27,9 +27,6 @@ require('./routes/deleteEvent')(app);
 // display event details
 require('./routes/getEvent')(app);
 
-//display interest counts
-require('./routes/incrementInterest')(app);
-
 // log in
 require('./routes/login')(app);
 
@@ -57,8 +54,8 @@ require('./routes/planned')(app);
 // request verification
 require('./routes/requestVerification')(app);
 
-// status check
-require('./routes/verificationApplicationStatus')(app);
+// status check (unused)
+// require('./routes/verificationApplicationStatus')(app);
 
 // events for month
 require('./routes/eventsForMonth')(app);

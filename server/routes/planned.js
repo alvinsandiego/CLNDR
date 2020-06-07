@@ -64,7 +64,6 @@ module.exports = function(app) {
                             }
                         }
                     });
-                    console.log(result);
                     
                     res.send({success: true, data: result});
                 });           

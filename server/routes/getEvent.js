@@ -5,7 +5,15 @@ module.exports = function(app) {
         if (req.query.eventId != undefined) {
             getEvent(req.query.eventId).then(documentSnapshot => {
                 if (documentSnapshot.exists) {
-                    res.send({success: true, id: documentSnapshot.ref.id, data: documentSnapshot.data()});
+                    var workingData = documentSnapshot.data();
+                    
+                    if (documentSnapshot.get('interest') !== undefined) {
+                        delete workingData.interest;
+                        delete workingData.interestCount;
+                        workingData["interestCount"] = documentSnapshot.get('interest').length;
+                    }
+
+                    res.send({success: true, id: documentSnapshot.ref.id, data: workingData});
                 }
                 else {
                     res.setDefaultEncoding({success: false, message: "Event not found."});

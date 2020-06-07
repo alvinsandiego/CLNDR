@@ -113,39 +113,39 @@ class PlanEventButton extends Component {
             interestCount: data.data.data.interestCount
         });
 
-        //this makes sure this runs only when the buttons have been pressed
-        if(this.state.notFirstLoad) {
-            if(eventIsPlanned){
-                this.setState({
-                    value: this.state.value+1
-                });
-            }
+        // //this makes sure this runs only when the buttons have been pressed
+        // if(this.state.notFirstLoad) {
+        //     if(eventIsPlanned){
+        //         this.setState({
+        //             interestCount: this.state.value+1
+        //         });
+        //     }
 
-            else {
-                if(this.state.value > 0){
-                    this.setState({
-                        value: this.state.value-1
-                    });
-                }
-            }
+        //     else {
+        //         if(this.state.value > 0){
+        //             this.setState({
+        //                 interestCount: this.state.value-1
+        //             });
+        //         }
+        //     }
 
-            const userToken = localStorage.getItem('jwtToken');
-            if (userToken !== null) {
-                axios.post(apiHost + ':5000/incrementInterest', {
-                    eventId: this.props.eventID,
-                    interestCount: this.state.value
-                }, {
-                    headers: { Authorization: 'JWT ' + userToken }
-                }).then(response => {
-                    console.log(response);
-                    if (response.data.success) {
-                        this.setState({
-                            interestCount: this.state.value
-                        });
-                    }
-                }).catch(error => console.log(error));
-            }
-        } 
+            // const userToken = localStorage.getItem('jwtToken');
+            // if (userToken !== null) {
+            //     axios.post(apiHost + ':5000/incrementInterest', {
+            //         eventId: this.props.eventID,
+            //         interestCount: this.state.value
+            //     }, {
+            //         headers: { Authorization: 'JWT ' + userToken }
+            //     }).then(response => {
+            //         console.log(response);
+            //         if (response.data.success) {
+            //             this.setState({
+            //                 interestCount: this.state.value
+            //             });
+            //         }
+            //     }).catch(error => console.log(error));
+            // }
+        // } 
     }
 
     render() {

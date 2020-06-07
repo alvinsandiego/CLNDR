@@ -1,4 +1,5 @@
 const Accounts = require('../model/accountsModel');
+const {addToInterest} = require('../model/CLNDRModel');
 const passport = require('passport');
 
 module.exports = function(app) {
@@ -13,7 +14,9 @@ module.exports = function(app) {
             }
             else {
                 Accounts.planEvent(req.body.eventId, user.id).then(result => {
-                    res.send({success: true, message: "Successfully planned event."});
+                    addToInterest(req.body.eventId, user.id).then(result2 => {
+                        res.send({success: true, message: "Successfully planned event."});
+                    });
                 });
             }
         })(req, res, next);
