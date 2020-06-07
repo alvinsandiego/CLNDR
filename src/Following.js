@@ -14,15 +14,29 @@ class Following extends Component {
         this.state = {
             userID: "user1",
             hostIDs: [],
-            hostArray: []
+            hostArray: [],
+            userID:""
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         let userToken = localStorage.getItem('jwtToken');
+        const data = await axios.get(apiHost + ':5000/accountInfo', {
+            headers: { Authorization: 'JWT ' + userToken },
+            })
+            .then(response => {
+            //console.log(response);
+            if(response.data.success){
+                this.setState({
+                     userID: response.data.id
+                })
+            }
+        }); 
+
         if (userToken !== null) {
             axios.get(apiHost + ":5000/following",
             {
+                params: {userID : this.state.userID},
                 headers: { Authorization: 'JWT ' + userToken },
             }).then(response => {
                 if (response.data.success){
