@@ -7,7 +7,7 @@ import Following from './routes/Following';
 import Planned from './routes/Planned';
 import EventPage from './routes/EventPage';
 import HostPage from './routes/HostPage';
-
+import apiHost from './config'
 // This file contains the main page of the app that allows the user
 // to navigate to all the other pages
 

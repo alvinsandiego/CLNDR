@@ -3,7 +3,7 @@ import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Root from './Root';
 import axios from "axios";
-
+import apiHost from './config'
 class NavBar extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +11,8 @@ class NavBar extends Component {
             verified: false,
             account: false,
             awaiting: true,
-            username: "Guest"
+            username: "Guest",
+		id: ""
         }
     }
 
@@ -21,13 +22,18 @@ class NavBar extends Component {
         if (userToken == null) {
             console.log("NULLLLL");
         }
-        axios.get('http://localhost:5000/accountInfo', {
+        axios.get(apiHost + ':5000/accountInfo', {
             headers: { Authorization: 'JWT ' + userToken },
         })
         .then(response => {
             
             if (response.data.success) {
-                this.setState({ account: true, verified: response.data.data.verified, awaiting: false, username: response.data.data.username});
+                this.setState({ account: true, 
+			verified: response.data.data.verified, 
+			awaiting: false, 
+			username: response.data.data.username,
+			id: response.data.id
+		});
             }
             else {
                 this.setState({awaiting: false});
@@ -93,8 +99,6 @@ class NavBar extends Component {
                     }}>
                         <img src={logo} style={{ width: 100, height: 100 }} />
                         <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
-                        <input type="text" style={{ width: 180 }} />
-                        <button style={{ width: 95 }}>Search</button>
                     </div>
                     
                     {this.renderUsername()}
@@ -125,6 +129,11 @@ class NavBar extends Component {
                                 Create Event
                         </button>
                         </a>
+		    	                        <a href={"/hostpage/"+this.state.id}>
+                            <button class="control_button" style={styles.allButton}>
+                                Your Host Page
+                        </button>
+                        </a>
                     </div>
                     <br />
                 </div>
@@ -143,8 +152,6 @@ class NavBar extends Component {
                     }}>
                         <img src={logo} style={{ width: 100, height: 100 }} />
                         <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
-                        <input type="text" style={{ width: 180 }} />
-                        <button style={{ width: 95 }}>Search</button>
                     </div>
 
                     {this.renderUsername()}
@@ -188,8 +195,6 @@ class NavBar extends Component {
                     }}>
                         <img src={logo} style={{ width: 100, height: 100 }} />
                         <h1 style={{ width: 500 }}>CLN<span className="goldText">DR</span></h1>
-                        <input type="text" style={{ width: 180 }} />
-                        <button style={{ width: 95 }}>Search</button>
                     </div>
 
                     {this.renderUsername()}

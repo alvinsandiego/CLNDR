@@ -4,7 +4,7 @@ import logo from './img/Logo-Semitransparent.png';
 import './styles/App.css';
 import Page from './Page';
 import axios from "axios";
-
+import apiHost from './config'
 import ForgotPassword from './ForgotPassword';
 import CreateAccount from './CreateAccount';
 
@@ -21,7 +21,7 @@ class App extends Component {
 
 		const userToken = localStorage.getItem('jwtToken');
 		if (userToken !== null) {
-			axios.get('http://localhost:5000/accountInfo', {
+			axios.get(apiHost + ':5000/accountInfo', {
 				headers: { Authorization: 'JWT ' + userToken },
 			}).then(response => {
 				if(response.data.success){
@@ -40,7 +40,7 @@ class App extends Component {
 		user = document.getElementById('userN').value;
 		pass = document.getElementById( 'passW').value;
 		if (user.length > 0 && pass.length > 0){
-			axios.post("http://localhost:5000/login",
+			axios.post(apiHost + ":5000/login",
 			{
 				username: user,
 				password: pass
@@ -59,8 +59,15 @@ class App extends Component {
         }
 	}
 
-	handleForgotPassword(){
+
+	handleForgot(){
 		user = document.getElementById('userN').value;
+		if(user.length === 0){
+			alert("Type your username in before selecting forgot password.")
+		}
+		else{
+			this.props.history.push("/forgotPassword/" + user)
+		}
 	}
 
   	render() {
@@ -68,7 +75,7 @@ class App extends Component {
 			<div style={{backgroundColor: '#d6f3ff', height: 1000}}>
 				<div style= {styles.centerDiv}>
 					<img src={logo} style= {{width: 100, height: 100}}/>
-					<h1>Login</h1>
+					<h1>CLNDR</h1>
 				</div>
 
 				<br />
@@ -96,11 +103,9 @@ class App extends Component {
 						Login
 					</button>
 			
-					<a href="/forgotpassword">  
-						<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgotPassword()}>
-							Forgot Password
-						</button>
-					</a>
+					<button class= 'login_button' style= {{width: 130}} onClick={() => this.handleForgot()}>
+						Forgot Password
+					</button>
 				</div>
 
 				<br />

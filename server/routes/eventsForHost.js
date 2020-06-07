@@ -1,13 +1,16 @@
 const {readEventsByHost} = require('../model/CLNDRModel');
 
 module.exports = function(app) {
-    app.post('/eventsForHost', (req, res) => {
-        if (req.body.hostID === undefined) {
+    app.get('/eventsForHost', (req, res) => {
+        
+        console.log(req.query.hostID);
+        if (req.query.hostID === undefined) {
             res.send({success: false});
         }
         else {
-            readEventsByHost(req.body.hostID).then(querySnapshot => {
+            readEventsByHost(req.query.hostID).then(querySnapshot => {
                 var arrayOfEvents = [];
+                //console.log(querySnapshot);
                 querySnapshot.forEach(documentSnapshot => {
                     var dataForCurrent = documentSnapshot.data();
                     delete dataForCurrent.start;
@@ -18,6 +21,25 @@ module.exports = function(app) {
                     arrayOfEvents.push({id: documentSnapshot.ref.id, ...dataForCurrent});
                 });
 
+                arrayOfEvents.sort((a, b) => {
+                    if (a.start < b.start) {
+                        return -1;
+                    }
+                    else if (a.start > b.start) {
+                        return 1;
+                    }
+                    else {
+                        if (a.end < b.end) {
+                            return -1;
+                        }
+                        else if (a.end > b.end) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    }
+                });
                 res.send({success: true, data: arrayOfEvents});
             });
         }

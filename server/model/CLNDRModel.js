@@ -1,8 +1,9 @@
 const {db} = require('./firebase');
+const admin = require("firebase-admin");
 
 // app functions
 function createEvent(title, hostingId, start,
-    end, description, keywords, cohosts,imageURL) {
+    end, description, keywords, cohosts,imageURL,countInterest) {
 
     //image
 	const id = db.collection('events').doc().id                  
@@ -14,7 +15,9 @@ function createEvent(title, hostingId, start,
         eventDescription: description,
         eventKeywords: keywords,
         eventCohosts: cohosts,
-        imageUrl: imageURL
+        imageUrl: imageURL,
+        interest: []
+
     });
 }
 
@@ -29,7 +32,7 @@ function readEventsByHost(hostID) {
     return db.collection('events').where('hostID', '==', hostID).get();
 }
 
-function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL) {
+function updateEvent(eventId, title, start, end, description, keywords, cohosts, imageURL,interestCount) {
     return db.collection('events').doc(eventId).update({
         eventName: title,
         start: start,
@@ -51,10 +54,25 @@ function getEvent(eventId) {
     return db.collection('events').doc(eventId).get();
 }
 
+function addToInterest(eventId, accountId) {
+    return db.collection('events').doc(eventId).update({
+		interest: admin.firestore.FieldValue.arrayUnion(accountId)
+	});
+}
+
+function removeFromInterest(eventId, accountId) {
+    return db.collection('events').doc(eventId).update({
+		interest: admin.firestore.FieldValue.arrayRemove(accountId)
+	});
+}
+
 module.exports = {
     createEvent,
     updateEvent,
     deleteEvent,
     readEventsForMonth,
     readEventsByHost,
-    getEvent};
+    getEvent,
+    addToInterest,
+    removeFromInterest
+};

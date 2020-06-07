@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './styles/App.css';
+import apiHost from './config'
 class Users extends Component {
     render(){
         return(

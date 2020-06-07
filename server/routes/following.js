@@ -21,11 +21,14 @@ module.exports = function(app) {
                     following.forEach((element, index, array) => {
                         Accounts.readAccountByID(element).then(documentSnapshot => {
                             console.log(element);
+                            console.log("in here");
                             if (documentSnapshot.exists) {
                                 result.push({id: element, username: documentSnapshot.get('username'), org_name: documentSnapshot.get('org_name'), contact_email: documentSnapshot.get('contact_email')});
                             }
                             else {
+                                Accounts.unfollowHost(element,req.query.userID);
                                 wantedSize--;
+                                console.log("in here");
                             }
 
                             if (result.length === wantedSize) {

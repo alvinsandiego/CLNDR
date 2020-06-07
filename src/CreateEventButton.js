@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 /*import "./styles/CreateEventButton.css";*/
 import './styles/App.css';
+import apiHost from './config'
+
 class CreateEventButton extends Component {
     constructor(props) {
         super(props)

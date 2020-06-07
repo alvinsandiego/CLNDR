@@ -4,7 +4,7 @@ import logo from './img/Logo-Semitransparent.png';
 import Account from "./Account";
 import axios from "axios";
 import NavBar from "./NavBar"
-
+import apiHost from './config'
 class Following extends Component {
 
     constructor(props){
@@ -14,15 +14,29 @@ class Following extends Component {
         this.state = {
             userID: "user1",
             hostIDs: [],
-            hostArray: []
+            hostArray: [],
+            userID:""
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         let userToken = localStorage.getItem('jwtToken');
+        const data = await axios.get(apiHost + ':5000/accountInfo', {
+            headers: { Authorization: 'JWT ' + userToken },
+            })
+            .then(response => {
+            //console.log(response);
+            if(response.data.success){
+                this.setState({
+                     userID: response.data.id
+                })
+            }
+        }); 
+
         if (userToken !== null) {
-            axios.get("http://localhost:5000/following",
+            axios.get(apiHost + ":5000/following",
             {
+                params: {userID : this.state.userID},
                 headers: { Authorization: 'JWT ' + userToken },
             }).then(response => {
                 if (response.data.success){
@@ -93,7 +107,8 @@ const styles = {
 
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '2em'
     },
     allButton: {
         height: 40,

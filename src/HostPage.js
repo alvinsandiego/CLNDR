@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
 import './styles/App.css';
 import axios from "axios";
 import Account from "./Account";
+import moment from 'moment'
+import NavBar from './NavBar';
+import apiHost from './config'
+import FollowButton from './FollowButton';
 
 class HostPage extends Component {
     constructor(props) {
@@ -10,149 +13,126 @@ class HostPage extends Component {
 
 
         const hostID = this.props.hostID;
-
+        console.log(this.props.match.params)
 
         this.state = {
             viewForm: false,
-            followButtonColor: "#789ade",
-            followButtonText: "Follow",
-
-            hostID: "H1234",
-            hostName: "Host1",
-            hostEmail:"Host1@gmail.com",
-
+            hostID: "",
+            hostName: "",
+            hostEmail:"",
+            image:"",	
             hostedEventsList: [],
             events: []
 
         };
     }
 
-
-
-
-    //Handles the button to follow
-    handleFollow(){
-        if(this.state.followButtonColor != "#b8b8b8"){
-            this.setState({followButtonColor: "#b8b8b8"})
-            this.setState({followButtonText: "Unfollow"})
-            axios.post("http://localhost:5000/followHost?userID="+"&hostID="+this.props.hostID);
-        }
-        else{
-            this.setState({followButtonColor: "#789ade"})
-            this.setState({followButtonText: "Follow"})
-            axios.post("http://localhost:5000/unfollowHost?userID="+"&hostID="+this.props.hostID);
-        }
-
-    }
-
-
     componentDidMount = () => {
-        axios.get("http://localhost:5000/userInfo?hostID=" + this.state.hostID).then(response => {
-            this.setState({
-                hostName: response.data.username,
-                hostEmail: response.data.email,
-                hostedEventsList: response.data.hostedEventsList,
-            })
+        //hostedEventsList: response.data.hostedEventsList,
+        let userToken = localStorage.getItem('jwtToken');
+            axios.get(apiHost + ':5000/userInfo',{
+                params: {
+                   userID: this.props.match.params.id
+                },
+            }).then(response => {
+                axios.get(apiHost + ':5000/eventsForHost',{
+                    params: {
+                        hostID: this.props.match.params.id
+                    }
+                }).then(response => {
+                    if(response.data.success){
+                    this.setState({
+                        hostId: this.props.match.params.id,
+                        hostedEventsList: response.data.data
+                    }) 
+                    }
+                })
+                console.log(response);
+                console.log(response.data.data.org_name);
+                if(response.data.success){
+                    if(response.data.data.org_name != null){
+                        this.setState({
+                            hostName: response.data.data.org_name,
+                            hostEmail: response.data.data.contact_email,
+                            image: response.data.data.profile_pic_url
+                    })
+                }
+                else{
+                    this.setState({
+                        hostName: response.data.data.username,
+                        hostEmail: response.data.data.contact_email,
+                })
+                }
+            }
         });
-    };
-
-
-
-
-    componentDidMount() {
-        this.setData();
     }
-
-    setData(){
-        let newEvents = this.state.events.slice();
-        for(var i=0; i<this.state.hostedEventsList.size(); i++){
-
-            var eventInfo = axios.get("http://localhost:5000/EventInfo?eventID=" + this.state.hostedEventsList[i])
-
-
-            newEvents.push({id: eventInfo.id,
-                eventName: eventInfo.eventName,
-                eventDate: eventInfo.eventDate,
-                eventTime: eventInfo.eventTime})
-
-
-        }
-        this.setState({events : newEvents});
-
-    }
-
-
-
-
 
     renderTableData(){
-        return this.state.events.map((event, index) => {
-            const {id, eventName, hostName, eventDate, eventTime} = event
+        return (
+        <tbody>
+        {this.state.hostedEventsList.map((event, index) => {
+            const {id, eventName, hostName, start, end} = event
+            var theStartDate = moment(new Date(start*1000)).format('LLL');
+            var theEndDate = moment(new Date(end*1000)).format('LLL');
             return (
                 <tr class="events" key={id}>
-                    <td>{id}</td>
-                    <td>{eventName}</td>
-                    <td>{eventDate}</td>
-                    <td>{eventTime}</td>
+                    <td><a href={'/eventpage/'+id}>{eventName}</a></td>
+                    <td>{theStartDate}</td>
+                    <td>{theEndDate}</td>
                 </tr>
             )
-        })
+        })}
+        </tbody>
+        );
     }
-
-
-
 
 
     render() {
-
-
-
         return (
             <div>
+                <NavBar/>
 
-            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <h1>Host Page</h1>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h1>{this.state.hostName}</h1>
+                </div>
+
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <img src={this.state.image} class="centerImage" height="200"/>
+                </div>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <h3>Email: {this.state.hostEmail}</h3>
+                </div>
+                <div value="withConfirm" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <FollowButton hostID={this.props.match.params.id} />
+                </div>
+                <br />
+
+                <h2 style={{textAlign: "center"}}>{this.state.hostName}'s Events</h2>
+                <div class="events" style={styles.centerDiv}>
+                    <table class="events" id="events">
+                        <th>Event Name</th>
+                        <th>Start Date/Time</th>
+                        <th>End Date/Time</th>
+                        {this.renderTableData()}
+                    </table>
+                </div>
             </div>
-            <div style={{display: 'inline', justifyContent: 'center', alignItems: 'center'}}>
-            <h3>{this.state.hostName}</h3>
-            <h5>Email: {this.state.hostEmail}</h5>
-            <h5>Host ID: {this.state.hostId}</h5>
-            </div>
-            <div value="withConfirm"style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <button className={"button button1"}
-                        onClick={() => this.handleFollow()}
-                        style={{backgroundColor: this.state.followButtonColor}}>
-                    {this.state.followButtonText}
-                </button>
-            </div>
-            <br />
-
-                <body>
-                <h2>{this.state.hostName}'s Events</h2>
-
-                <table className="events" id="events">
-                    <th>No.</th>
-                    <th>Event</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <tbody>
-                    {this.renderTableData()}
-                    </tbody>
-                </table>
-
-                </body>
-
-            </div>
-
-
-
-
-
-    );
-
+            );
     }
 }
 
+const styles = {
+    centerDiv: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: '2em'
+    },
+    allButton: {
+        height: 40,
+        width: 175
+    }
+};
 Account.defaultProps = {hostID: new String}
 
 export default HostPage;
