@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import axios from "axios";
 import NavBar from "./NavBar";
-import moment from 'moment'
-import apiHost from './config'
-import PlanEventButton from './PlanEventButton'
+import moment from 'moment';
+import apiHost from './config';
+import PlanEventButton from './PlanEventButton';
+import EditEventButton from './EditEventButton';
 
 class EventPage extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class EventPage extends Component {
             interestCount: "",
             eventDescription: "",
             eventID: "",
-            userID: "6",
+            userID: "",
             eventHostID: "",
             image:""	
 
@@ -103,100 +104,45 @@ class EventPage extends Component {
         }
     }).catch(error => console.log(error));
     }
-}
-
-    handleEditEvent(){
-      // get event id and host id
-      const { handle } = this.props.match.params;
-        axios.get(apiHost + ':5000/getEvent',{
-            params: {
-                eventId: this.props.match.params.id
-            },
-           
-        }).then(response => {
-        this.setState({
-            eventID: this.props.match.params.id,
-            eventHostID: response.data.data.hostID
-            })
-        }).catch(error => {
-            console.log(error.data);
-        }); 
-
-// get user id
-    let userToken = localStorage.getItem('jwtToken');
-	if (userToken === null) {
-	}
-	else {
-    axios.get(apiHost + ':5000/accountInfo', {
-      headers: { Authorization: 'JWT ' + userToken },
-    })
-    .then(response => {
-      if(response.data.success){
-      this.setState({
-			userID: response.data.id,
-     });
-      }
-      else{}
-    })
-    .catch(error => {
-      console.log(error.data);
-    });
-        if(this.state.userID === this.state.eventHostID){
-          this.props.history.push('/editeventpage/'+this.state.eventID)
-
-      }
-  }
-
-
-
     }
-
 
     render() {
 
         return (
             <div style={{ backgroundColor: '#d6f3ff', height: 1500 }}>
-            <NavBar/>
-            <body>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
-            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                <NavBar/>
 
-            <div class="centerPage" >
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+                <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
-                <div class = "w3-row">
-                    <div class="center2">
+                <div class="centerPage" >
+                    <div class = "w3-row">
+                        <div class="center2">
+                            <div className="w3-card-4 w3-margin w3-white">
+                                <h6>
+                                    <img src={this.state.image} class="centerImage"/>
+                                </h6>
+                                
+                                <div className="w3-container">
+                                    <h2><b>{this.state.eventName}</b></h2>
+                                    <h4>Hosted By: <a href={'/hostpage/'+this.state.eventHostID}>{this.state.hostName}</a></h4>
+                                    <br/>
+                                    <h5><span className="w3-opacity">Start: {this.state.eventStartDate} {this.state.eventStartTime}</span></h5>
+                                    <h5><span className="w3-opacity">End: {this.state.eventEndDate} {this.state.eventEndTime}</span></h5>
+                                </div>
 
-                        <div className="w3-card-4 w3-margin w3-white">
-                            <h6>
-                                <img src={this.state.image} class="centerImage"/>
-                            </h6>
-                            <div className="w3-container">
-                                <h2><b>{this.state.eventName}</b></h2>
-                                <h4>Hosted By: <a href={'/hostpage/'+this.state.eventHostID}>{this.state.hostName}</a></h4>
-                                <br/>
-                                <h5><span className="w3-opacity">Start: {this.state.eventStartDate} {this.state.eventStartTime}</span></h5>
-                                <h5><span className="w3-opacity">End: {this.state.eventEndDate} {this.state.eventEndTime}</span></h5>
+                                <div className="w3-container">
+                                    <p>Description:</p>
+                                    <p>{this.state.eventDescription}</p>
+                                    <PlanEventButton eventID={this.props.match.params.id} />  
+                                    <EditEventButton eventID={this.props.match.params.id} /> 
+                                </div>
                             </div>
 
-                            <div className="w3-container">
-                                <p>Description:</p>
-                                <p>{this.state.eventDescription}</p>
-                                <PlanEventButton eventID={this.props.match.params.id} />  
-                            <a href={"/editeventpage/"+ this.props.match.params.id}>
-                                <button style={{marginBottom: '1em'}} class='control_button'>
-                                  Edit Event
-                                </button>
-                            </a>
-                            </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
-
-
-            </body>
             </div>
         );
     }
