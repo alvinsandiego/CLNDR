@@ -300,7 +300,7 @@ class EditEventPage extends Component {
                 </div>
 
                 <div class="form-input">
-                    <label>Pictures or Videos</label>
+                    <label>Picture</label>
 		          <input onChange={this.handleInputChange} type="text" name="imageURL" id="title" placeholder="Image URL"/>
                 </div>
 
