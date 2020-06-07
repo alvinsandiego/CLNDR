@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const {createEvent, updateEvent, deleteEvent,
        planEvent, unplanEvent, followHost, unfollowHost, getEvent} = require('./model/CLNDRModel');
 const express = require('express');
@@ -201,7 +200,6 @@ require('./routes/eventsForHost')(app);
 require('./routes/forgotPassword')(app);
 
 module.exports = app;
-=======
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -283,4 +281,3 @@ require('./routes/eventsForHost')(app);
 require('./routes/forgotPassword')(app);
 
 module.exports = app;
->>>>>>> 24fcccb3b0c2a0a99f9762cde17d9bc246a88673
