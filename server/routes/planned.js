@@ -1,5 +1,6 @@
 const Accounts = require('../model/accountsModel');
 const {getEvent} = require('../model/CLNDRModel');
+const{unplanEvent} = require('../model/accountsModel');
 const passport = require('passport');
 
 module.exports = function(app) {
@@ -24,7 +25,7 @@ module.exports = function(app) {
                             if (documentSnapshot.exists) {
                                 Accounts.readAccountByID(documentSnapshot.get('hostID')).then(hostSnapshot => {
                                     if (hostSnapshot.exists) {
-                                        console.log("here");
+                                       
                                         result.push({id: element, name: documentSnapshot.get('eventName'), hostName: hostSnapshot.get('org_name'), description: documentSnapshot.get('eventDescription'), start: documentSnapshot.get('start')._seconds, end: documentSnapshot.get('end')._seconds,hostID: documentSnapshot.get('hostID')});
                                     }
                                     else {
@@ -35,6 +36,10 @@ module.exports = function(app) {
                                         resolve();
                                     }
                                 })
+                            }
+                            else{
+                                unplanEvent(element, req.query.userID);
+                                wantedSize--;
                             }
                         });
                     });
@@ -59,6 +64,8 @@ module.exports = function(app) {
                             }
                         }
                     });
+                    console.log(result);
+                    
                     res.send({success: true, data: result});
                 });           
             }
