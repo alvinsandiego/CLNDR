@@ -72,7 +72,7 @@ class EditEventPage extends Component {
 	    });
 	}
 	else {
-    axios.get(apiHost + ':5000/userInfo', {
+    axios.get(apiHost + ':5000/accountInfo', {
       headers: { Authorization: 'JWT ' + userToken },
     })
     .then(response => {
@@ -193,11 +193,13 @@ class EditEventPage extends Component {
 
         let userToken = localStorage.getItem('jwtToken');
         /*-------------------Added Code--------------------*/
-            axios.get(apiHost + ':5000/userInfo',{
+            axios.get(apiHost + ':5000/EventPages/',{
                 params: { eventID: this.props.match.params.id }
                 
             }).then(response => {
-                var hostId = response.data.data.hostID;
+                if (response.data.success) {
+                  var hostId = response.data.data.hostID;
+                }
             });
         /*-------------------------------------------------*/
 
@@ -232,7 +234,7 @@ class EditEventPage extends Component {
 
 
         /* make the server call, which will make the database call to add the new tutor to the tutors list */
-        axios.post(apiHost + ':5000/userInfo', { 
+        axios.post(apiHost + ':5000/updateEvent', { 
             title: title,
             hostID: hostID,
             startDate: startDate,
